@@ -133,22 +133,37 @@ const bookData = {
 
     // halaman 7: GAME 2 - Teteskan sirup!
     {
-      bgColorLeft: "#F7FBFB",
-      bgColorRight: "#F7FBFB",
-      left: {
-        type: "quiz-question",
-        image: "images/kuis2.jpg",
-        question: "ibu : Yuk teteskan sirup dan hitung warnanya!"
+      type: "drag-drop-game",
+      bgColor: "#F7FBFB",
+      title: "Bantu Izan Teteskan Sirup, Yuk!",
+      subtitle: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
+      speechBubbles: [
+        {
+          text: "Bantu Izan Teteskan Sirup, Yuk!",
+          audio: "audio/halaman-7.mp3",
+          top: "9%",
+          left: "88%",
+          hideText: true
+        },
+        {
+          text: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
+          audio: "audio/halaman-7.mp3",
+          top: "20%",
+          left: "84%",
+          hideText: true
+        }
+      ],
+      draggables: [
+        { id: "botol-merah", src: "images/halaman-7/botol-merah.png", correct: true },
+        { id: "botol-hijau", src: "images/halaman-7/botol-hijau.png", correct: false },
+        { id: "botol-kuning", src: "images/halaman-7/botol-kuning.png", correct: false }
+      ],
+      dropZone: {
+        startSrc: "images/halaman-7/mangkok-merah-start.png",
+        doneSrc: "images/halaman-7/mangkok-merah-done.png"
       },
-      right: {
-        type: "quiz-options",
-        options: [
-          { text: "Air Jeruk Asam 🍊", correct: false },
-          { text: "Santan Kelapa Gurih 🥥", correct: true }
-        ],
-        feedbackCorrect: "Benar sekali! Santan diperas dari kelapa parut dan membuat opor ayam sangat gurih.",
-        feedbackIncorrect: "Kurang tepat! Air jeruk rasanya asam, tidak digunakan untuk kuah opor ayam."
-      }
+      feedbackCorrect: "Benar sekali!",
+      feedbackIncorrect: "Coba lagi!"
     },
 
     // halaman 8: Manis, legit, lengket sekali!
@@ -326,7 +341,6 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-19.jpg",
-      // text: "Misi berhasil!",
       speechBubbles: [
         {
           text: "Misi Rahasia Hari Raya, Berhasil!",
@@ -349,8 +363,7 @@ const bookData = {
       ]
     },
 
-
-    // Halaman 21: Penutup & Sampul Belakang
+    // Halaman 20: Penutup & Sampul Belakang
     {
       bgColorLeft: "#FFB26B",
       bgColorRight: "#FFDEB4",

@@ -32,10 +32,10 @@ function renderSpeechBubbles(bubbles) {
     const speechPosition = `top: ${bubble.top || '10%'}; left: ${bubble.left || '5%'}; right: ${bubble.right || 'auto'}; bottom: ${bubble.bottom || 'auto'};`;
     const balloonStyle = bubble.bgColor ? `background-color: ${bubble.bgColor};` : '';
     const btnStyle = bubble.btnColor ? `background-color: ${bubble.btnColor};` : '';
-    
+
     const isHiddenText = bubble.hideText || false;
     const btnExtraStyle = isHiddenText ? "position: relative; top: 0; left: 0;" : "";
-    
+
     const buttonHtml = `
       <button class="speech-play-btn" style="${btnStyle} ${btnExtraStyle}" onclick="playSpeechText('${bubble.text.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${bubble.audio || ''}', this)">
         <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;">
@@ -168,8 +168,6 @@ function renderSpreadHTML(spread, index) {
     `;
   }
 
-
-
   // 2. Sampul Belakang (Spread Terakhir)
   if (index === state.totalSpreads - 1) {
     return `
@@ -201,6 +199,39 @@ function renderSpreadHTML(spread, index) {
   }
 
   // 4. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
+  if (spread.type === 'drag-drop-game') {
+    const draggablesHtml = spread.draggables.map(d => `
+      <img src="${d.src}" class="draggable-item" data-id="${d.id}" data-correct="${d.correct}" 
+           draggable="false"
+           style="width: 140px; height: auto; cursor: grab; position: relative; touch-action: none; z-index: 10; transform: transition: transform 0.3s;" 
+           onerror="handleImageError(this, '${d.src}')">
+    `).join('');
+
+    const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+
+    return `
+      <div class="page-spread-container drag-drop-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 40px 60px; user-select: none; position: relative;">
+        ${speechHtml}
+        <div class="story-text-container" style="margin-bottom: 20px; width: 100%; border: none; box-shadow: none; background: transparent; padding: 0; flex-direction: column;">
+          <h2 style="font-family: var(--font-title); font-size: 2.8rem; line-height: 1.4; margin: 0; text-align: center; color: var(--color-wood); text-shadow: 0 4px 0px rgba(255, 255, 255, 0.8), 3px 6px 0px rgba(139, 90, 43, 0.15); letter-spacing: 1px;">
+            ${spread.title.replace(/\n/g, '<br>')}
+            ${spread.subtitle ? `<span style="display: block; font-size: 1.5rem; color: var(--color-text); font-family: var(--font-body); font-weight: 700; text-shadow: none; letter-spacing: normal; margin-top: 10px;">${spread.subtitle}</span>` : ''}
+          </h2>
+        </div>
+        <div style="display: flex; width: 100%; justify-content: space-between; align-items: center; flex-grow: 1; margin-top: 0px; padding: 0 40px;">
+          <div class="drag-items-container" style="display: flex; flex-direction: column; align-items: center; gap: 0px; padding-left: 20px;">
+             ${draggablesHtml}
+          </div>
+          <div class="drop-zone-container" style="position: relative; margin-right: 200px;">
+            <img src="${spread.dropZone.startSrc}" id="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" style="width: 350px; height: auto;" onerror="handleImageError(this, '${spread.dropZone.startSrc}')">
+          </div>
+        </div>
+        <div class="drag-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" style="position: absolute; bottom: 25px; left: 57%; transform: translateX(-50%); width: 400px; text-align: center; font-family: var(--font-body); font-weight: bold; background: white; padding: 15px 25px; border-radius: 25px; border: 4px solid var(--color-wood); box-shadow: 0 15px 30px rgba(0,0,0,0.2); z-index: 100; font-size: 1.4rem;"></div>
+      </div>
+    `;
+  }
+
+  // 5. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
   const leftHTML = renderColumnHTML(spread.left, 'left', index);
   const rightHTML = renderColumnHTML(spread.right, 'right', index);
   const bgStyle = `background: linear-gradient(135deg, ${spread.bgColorLeft || '#FFFDF7'} 0%, ${spread.bgColorRight || '#FFFDF7'} 100%);`;
@@ -226,6 +257,14 @@ function renderStaticSpread(index) {
   elements.btnNext.disabled = index === state.totalSpreads - 1;
 
   updateProgress(index);
+
+  if (spread.type === 'drag-drop-game') {
+    setTimeout(() => {
+      if (window.initDragDrop) {
+        window.initDragDrop(elements.pageSlotActive);
+      }
+    }, 100);
+  }
 }
 
 let currentPlayingAudio = null;
@@ -234,7 +273,7 @@ const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" heigh
 const STOP_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M6 6h12v12H6z"/></svg>`;
 
 // 9. Play Speech Text Function
-window.playSpeechText = function(text, audioSrc, btnElement) {
+window.playSpeechText = function (text, audioSrc, btnElement) {
   // Selalu hentikan suara synthesis yang sedang berjalan
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -303,7 +342,7 @@ function fallbackToSpeechSynthesis(text, onEndCallback) {
     utterance.lang = 'id-ID'; // Indonesian
     utterance.rate = 0.9; // Sedikit lambat untuk anak-anak
     utterance.pitch = 1.1;
-    
+
     if (onEndCallback) {
       utterance.onend = onEndCallback;
       utterance.onerror = onEndCallback;

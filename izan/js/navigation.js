@@ -83,6 +83,12 @@ function navigateNext() {
     } else {
       sounds.playPop();
     }
+
+    if (nextSpread.type === 'drag-drop-game') {
+      setTimeout(() => {
+        if (window.initDragDrop) window.initDragDrop(elements.pageSlotActive);
+      }, 50);
+    }
   }, 600); // Matches the CSS transform transition timing
 }
 
@@ -128,6 +134,12 @@ function navigatePrev() {
     updateProgress(state.currentSpreadIndex);
 
     sounds.playPop();
+
+    if (prevSpread.type === 'drag-drop-game') {
+      setTimeout(() => {
+        if (window.initDragDrop) window.initDragDrop(elements.pageSlotActive);
+      }, 50);
+    }
   }, 600); // Matches the CSS transform transition timing
 }
 

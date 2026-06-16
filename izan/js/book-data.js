@@ -121,6 +121,14 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-6.jpg",
+      speechBubbles: [
+        {
+          text: "Bening kenyal dingin!",
+          audio: "audio/halaman-6.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // halaman 7: GAME 2 - Teteskan sirup!
@@ -148,6 +156,14 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-8.jpg",
+      speechBubbles: [
+        {
+          text: "Manis, legit, lengket sekali!",
+          audio: "audio/halaman-8.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // halaman 9: GAME 3 - Cari yang sama!
@@ -175,6 +191,14 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-10.jpg",
+      speechBubbles: [
+        {
+          text: "Ajaib! Garis cokelat, garis emas!",
+          audio: "audio/halaman-10.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // halaman 11: GAME 4 - Tumpuk tinggi sekali!
@@ -192,11 +216,19 @@ const bookData = {
       }
     },
 
-    // halaman 12: Ayah bawa harta karun!
+    // halaman 12: Daun hijau, bungkus rapi!
     {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-12.jpg",
+      speechBubbles: [
+        {
+          text: "Burasa! Daun hijau, bungkus rapi!",
+          audio: "audio/halaman-12.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // halaman 13: GAME 5 - Selalu berdua!
@@ -234,6 +266,14 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-15.jpg",
+      speechBubbles: [
+        {
+          text: "Jaring kuning, lezat rasanya!",
+          audio: "audio/halaman-15.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // halaman 16: GAME 7 - Putar putar, coret bebas, lukis! 
@@ -256,6 +296,14 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-17.jpg",
+      speechBubbles: [
+        {
+          text: "Wah, semua sudah siap!",
+          audio: "audio/halaman-17.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // halaman 18: Nyam nyam, enak sekali!
@@ -263,6 +311,14 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-18.jpg",
+      speechBubbles: [
+        {
+          text: "Nyam-nyam, izan suka semua kue!",
+          audio: "audio/halaman-18.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
     },
 
     // Halaman 19: Misi berhasil!
@@ -270,7 +326,27 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-19.jpg",
-      text: "Misi berhasil!"
+      // text: "Misi berhasil!",
+      speechBubbles: [
+        {
+          text: "Misi Rahasia Hari Raya, Berhasil!",
+          audio: "audio/halaman-19.mp3",
+          top: "20%",
+          left: "45%",
+        },
+        {
+          text: "Besok kita coba cari makanan tradisional asli di pasar, ya!",
+          audio: "audio/halaman-19-1.mp3",
+          top: "50%",
+          left: "10%",
+        },
+        {
+          text: "Aku mau bagi kuenya juga ke teman-teman di sekolah nanti ibu",
+          audio: "audio/halaman-19-2.mp3",
+          top: "70%",
+          left: "10%",
+        }
+      ]
     },
 
 

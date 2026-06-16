@@ -100,7 +100,6 @@ function startApp() {
 // Start once DOM is ready
 document.addEventListener('DOMContentLoaded', startApp);
 
-// Preload Semua Audio (Background Lazy Preloading)
 function preloadAudio() {
   const audioToLoad = [];
 
@@ -140,7 +139,6 @@ function preloadAudio() {
   }
 }
 
-// Preload Semua Gambar (Background Lazy Preloading)
 function preloadImages() {
   const imagesToLoad = [];
 

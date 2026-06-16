@@ -40,6 +40,7 @@ const bookData = {
         speechBubbles: [
           {
             text: "Ayah, Ibu, ayo main!",
+            audio: "audio/halaman-2.mp3",
             top: "10%",
             left: "10%"
           }
@@ -82,6 +83,7 @@ const bookData = {
       speechBubbles: [
         {
           text: "Lihat... Ayah bawa harta karun!",
+          audio: "audio/halaman-4-1.mp3",
           top: "20%",
           left: "10%"
         },

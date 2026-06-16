@@ -9,14 +9,15 @@ const bookData = {
   spreads: [
     // Halaman-1: Sampul Depan & Halaman Judul Dalam
     {
-      bgColorLeft: "#FFDEB4",
-      bgColorRight: "#FFB26B",
-      right: {
-        type: "cover",
-        title: "Misi Rahasia Hari Raya",
-        subtitle: "🌟",
-        image: "images/cover.jpg"
-      }
+      type: "waving-animation",
+      bgColor: "#FFFDF7",
+      bgImage: "images/waving/badan-izan.png",
+      handImage: "images/waving/tangan-izan.png",
+      text: "Misi Rahasia Hari Raya",
+      handTop: "51%",
+      handLeft: "28%",
+      handWidth: "12%",
+      handOrigin: "bottom left"
     },
 
     // Halaman 2: Petunjuk Penggunaan
@@ -225,7 +226,8 @@ const bookData = {
       text: "Misi berhasil!"
     },
 
-    // Halaman 20: Penutup & Sampul Belakang
+
+    // Halaman 21: Penutup & Sampul Belakang
     {
       bgColorLeft: "#FFB26B",
       bgColorRight: "#FFDEB4",

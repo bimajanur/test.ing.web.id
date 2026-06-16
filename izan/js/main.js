@@ -91,9 +91,38 @@ function initTitle() {
 function startApp() {
   handleResize();
   initTitle();
-  renderStaticSpread(0);
+  jumpToSpread(0);
   initEvents();
+
+  // Mulai proses preload gambar di latar belakang setelah aplikasi siap
+  setTimeout(preloadImages, 500);
 }
 
 // Start once DOM is ready
 document.addEventListener('DOMContentLoaded', startApp);
+
+// Preload Semua Gambar (Background Lazy Preloading)
+function preloadImages() {
+  const imagesToLoad = [];
+
+  if (typeof bookData !== 'undefined' && bookData.spreads) {
+    bookData.spreads.forEach(spread => {
+      if (spread.image) imagesToLoad.push(spread.image);
+      if (spread.left && spread.left.image) imagesToLoad.push(spread.left.image);
+      if (spread.right && spread.right.image) imagesToLoad.push(spread.right.image);
+      if (spread.bgImage) imagesToLoad.push(spread.bgImage);
+      if (spread.handImage) imagesToLoad.push(spread.handImage);
+    });
+  }
+
+  // Filter nilai kosong dan hapus duplikat
+  const uniqueImages = [...new Set(imagesToLoad.filter(Boolean))];
+
+  // Fetch semua gambar ke cache browser secara asinkron
+  uniqueImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  console.log(`Preloading ${uniqueImages.length} images di latar belakang...`);
+}

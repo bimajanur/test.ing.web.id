@@ -391,31 +391,6 @@ li .icon-btn svg {
   box-sizing: border-box;
 }
 
-/* Cover Styling */
-.cover-page-unified {
-  text-align: center;
-}
-
-.cover-decor {
-  animation: bounce 3s ease-in-out infinite alternate;
-}
-
-.cover-title {
-  font-family: var(--font-title);
-  font-size: 2.8rem;
-  color: var(--color-wood);
-  line-height: 3.4rem;
-  text-shadow: 0 4px 0 #FFFFFF;
-  margin: 15px 0 5px 0;
-}
-
-.cover-subtitle {
-  font-family: var(--font-body);
-  font-size: 1.5rem;
-  color: #7E5F3F;
-  margin: 0;
-  font-weight: 700;
-}
 
 /* Back Cover Page */
 .back-cover-page-unified {
@@ -456,6 +431,24 @@ li .icon-btn svg {
   100% {
     transform: scale(1.05);
   }
+}
+
+/* Waving Hand Animation */
+@keyframes wave-hand {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
+.waving-hand-anim {
+  transform-origin: bottom center;
+  animation: wave-hand 1.5s ease-in-out infinite alternate;
 }
 
 /* Footer / Progress Bar section */

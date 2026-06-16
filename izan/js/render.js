@@ -92,17 +92,22 @@ function renderColumnHTML(colData, side, spreadIndex) {
 function renderSpreadHTML(spread, index) {
   if (!spread) return '';
 
-  // 1. Sampul Depan (Spread ke-0)
-  if (index === 0) {
+  // Handle Animasi Melambai (Waving) first so it can be used as cover or any other page
+  if (spread.type === 'waving-animation') {
     return `
-      <div class="page-content cover-page-unified" style="position: relative; background: radial-gradient(circle, #FFFDE8 0%, ${spread.bgColorRight || '#FFB26B'} 100%); width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box; padding: 0;">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
-          ${renderImageOrPlaceholder(spread.right.image, spread.right.title, 'full-bleed-image')}
+      <div class="page-spread-container waving-animation-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; box-sizing: border-box; position: relative; overflow: hidden;">
+        <div class="waving-container" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 0; box-sizing: border-box;">
+          <img src="${spread.bgImage}" class="full-bleed-image" style="position: absolute; top: 0; left: 0; z-index: 2;" onerror="handleImageError(this, '${spread.bgImage}')">
+          <img src="${spread.handImage}" class="waving-hand-anim" style="position: absolute; top: ${spread.handTop || '50%'}; left: ${spread.handLeft || '50%'}; width: ${spread.handWidth || '150px'}; z-index: 1; transform-origin: ${spread.handOrigin || 'bottom right'};" onerror="handleImageError(this, '${spread.handImage}')">
         </div>
-        <h2 class="cover-title" style="position: relative; z-index: 2; background: rgba(255,255,255,0.7); padding: 10px 30px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: ${spread.right.title ? 'block' : 'none'};">${spread.right.title}</h2>
+        <div class="full-image-text" style="position: absolute; z-index: 3; background: rgba(255, 255, 255, 0.9); padding: 20px 40px; border-radius: 20px; text-align: center; border: 4px dashed var(--color-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: ${spread.text ? 'block' : 'none'}; bottom: 50px;">
+          <h2 style="font-family: var(--font-title); font-size: 2.5rem; color: var(--color-wood); margin: 0; animation: bounce 2s infinite alternate;">${spread.text || ''}</h2>
+        </div>
       </div>
     `;
   }
+
+
 
   // 2. Sampul Belakang (Spread Terakhir)
   if (index === state.totalSpreads - 1) {

@@ -19,10 +19,17 @@ function handleResize() {
 
 // 9. Update Progress Bar & Page Number Indicator
 function updateProgress(index) {
-  const pageNumber = index + 1;
-  elements.pageNumberDisplay.textContent = `Halaman ${pageNumber} dari ${state.totalSpreads}`;
+  const isLastPage = index === state.totalSpreads - 1;
+  const totalReadableSpreads = state.totalSpreads - 1;
 
-  const percentage = (index / (state.totalSpreads - 1)) * 100;
+  if (isLastPage) {
+    elements.pageNumberDisplay.textContent = "Selesai";
+  } else {
+    const pageNumber = index + 1;
+    elements.pageNumberDisplay.textContent = `Halaman ${pageNumber} dari ${totalReadableSpreads}`;
+  }
+
+  const percentage = Math.min((index / (totalReadableSpreads - 1)) * 100, 100);
   elements.progressFill.style.width = `${percentage}%`;
   elements.progressCharacter.style.left = `${percentage}%`;
 }
@@ -124,10 +131,14 @@ function navigatePrev() {
   }, 600); // Matches the CSS transform transition timing
 }
 
-// 12. Navigasi ke Halaman Pertama (Cover)
+function jumpToSpread(spreadIndex) {
+  state.currentSpreadIndex = spreadIndex;
+  renderStaticSpread(spreadIndex);
+}
+
 function goToFirstPage() {
   if (state.isTransitioning) return;
-  state.currentSpreadIndex = 0;
-  renderStaticSpread(0);
+  jumpToSpread(0);
   sounds.playPop();
 }
+

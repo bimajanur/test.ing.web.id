@@ -25,23 +25,81 @@ window.handleImageError = function (imgElement, src) {
   }
 };
 
+// Helper: Render speech bubbles array
+function renderSpeechBubbles(bubbles) {
+  if (!bubbles || bubbles.length === 0) return '';
+  return bubbles.map(bubble => {
+    const speechPosition = `top: ${bubble.top || '10%'}; left: ${bubble.left || '5%'}; right: ${bubble.right || 'auto'}; bottom: ${bubble.bottom || 'auto'};`;
+    const balloonStyle = bubble.bgColor ? `background-color: ${bubble.bgColor};` : '';
+    const btnStyle = bubble.btnColor ? `background-color: ${bubble.btnColor};` : '';
+    
+    const isHiddenText = bubble.hideText || false;
+    const btnExtraStyle = isHiddenText ? "position: relative; top: 0; left: 0;" : "";
+    
+    const buttonHtml = `
+      <button class="speech-play-btn" style="${btnStyle} ${btnExtraStyle}" onclick="playSpeechText('${bubble.text.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${bubble.audio || ''}')">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+    `;
+
+    const contentHtml = isHiddenText ? buttonHtml : `
+      <div class="speech-balloon" style="${balloonStyle}">
+        ${buttonHtml}
+        ${bubble.text.replace(/\n/g, '<br>')}
+      </div>
+    `;
+
+    return `
+      <div class="speech-balloon-container" style="${speechPosition}">
+        ${contentHtml}
+      </div>
+    `;
+  }).join('');
+}
+
 // Helper: Render satu sisi kolom (Kiri / Kanan) untuk spread cerita/kuis
 function renderColumnHTML(colData, side, spreadIndex) {
   if (!colData) return '';
 
   switch (colData.type) {
     case 'story-image':
+      const speechHtml = renderSpeechBubbles(colData.speechBubbles);
+
       return `
-        <div class="illustration-container" style="width: 100%; height: 100%;">
+        <div class="illustration-container" style="width: 100%; height: 100%; position: relative;">
           ${renderImageOrPlaceholder(colData.image, colData.alt || "Ilustrasi cerita")}
+          ${speechHtml}
+        </div>
+      `;
+
+    case 'guide-list':
+      const listItems = colData.items.map(item => `
+        <div class="guide-item">
+          <div class="guide-icon">
+            <img src="${item.icon}" alt="Icon" onerror="handleImageError(this, '${item.icon}')" />
+          </div>
+          <span class="guide-text">${item.text}</span>
+        </div>
+      `).join('');
+
+      return `
+        <div class="story-column-content">
+          <div class="guide-container story-text-container">
+            <h3 class="guide-title">${colData.title}</h3>
+            <div class="guide-list-wrapper">
+              ${listItems}
+            </div>
+          </div>
         </div>
       `;
 
     case 'story-text':
       return `
-        <div class="story-column-content" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; align-items: center;">
-          <div class="story-text-container" style="width: 100%; margin-bottom: 20px;">
-            <div class="story-text" style="width: 100%;">${colData.text}</div>
+        <div class="story-column-content">
+          <div class="story-text-container">
+            <div class="story-text">${colData.text}</div>
           </div>
         </div>
       `;
@@ -94,12 +152,15 @@ function renderSpreadHTML(spread, index) {
 
   // Handle Animasi Melambai (Waving) first so it can be used as cover or any other page
   if (spread.type === 'waving-animation') {
+    const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+
     return `
       <div class="page-spread-container waving-animation-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; box-sizing: border-box; position: relative; overflow: hidden;">
         <div class="waving-container" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 0; box-sizing: border-box;">
           <img src="${spread.bgImage}" class="full-bleed-image" style="position: absolute; top: 0; left: 0; z-index: 2;" onerror="handleImageError(this, '${spread.bgImage}')">
           <img src="${spread.handImage}" class="waving-hand-anim" style="position: absolute; top: ${spread.handTop || '50%'}; left: ${spread.handLeft || '50%'}; width: ${spread.handWidth || '150px'}; z-index: 1; transform-origin: ${spread.handOrigin || 'bottom right'};" onerror="handleImageError(this, '${spread.handImage}')">
         </div>
+        ${speechHtml}
         <div class="full-image-text" style="position: absolute; z-index: 3; background: rgba(255, 255, 255, 0.9); padding: 20px 40px; border-radius: 20px; text-align: center; border: 4px dashed var(--color-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: ${spread.text ? 'block' : 'none'}; bottom: 50px;">
           <h2 style="font-family: var(--font-title); font-size: 2.5rem; color: var(--color-wood); margin: 0; animation: bounce 2s infinite alternate;">${spread.text || ''}</h2>
         </div>
@@ -124,12 +185,15 @@ function renderSpreadHTML(spread, index) {
 
   // 3. Halaman Full Image
   if (spread.type === 'full-image') {
+    const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+
     return `
       <div class="page-spread-container full-image-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; box-sizing: border-box; position: relative; overflow: hidden;">
         <div class="full-image-wrapper" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 0; box-sizing: border-box;">
           ${renderImageOrPlaceholder(spread.image, spread.text, 'full-bleed-image')}
         </div>
-        <div class="full-image-text" style="position: absolute; z-index: 2; background: rgba(255, 255, 255, 0.9); padding: 20px 40px; border-radius: 20px; text-align: center; border: 4px dashed var(--color-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: ${spread.text ? 'block' : 'none'};">
+        ${speechHtml}
+        <div class="full-image-text" style="position: absolute; z-index: 2; background: rgba(255, 255, 255, 0.9); padding: 20px 40px; border-radius: 20px; text-align: center; border: 4px dashed var(--color-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: ${spread.text && !spread.speechText ? 'block' : 'none'};">
           <h2 style="font-family: var(--font-title); font-size: 2.5rem; color: var(--color-wood); margin: 0; animation: bounce 2s infinite alternate;">${spread.text}</h2>
         </div>
       </div>
@@ -162,4 +226,37 @@ function renderStaticSpread(index) {
   elements.btnNext.disabled = index === state.totalSpreads - 1;
 
   updateProgress(index);
+}
+
+// 9. Play Speech Text Function
+window.playSpeechText = function(text, audioSrc) {
+  // Selalu hentikan suara synthesis yang sedang berjalan
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  // Jika ada path file audio, coba putar dulu
+  if (audioSrc) {
+    const audio = new Audio(audioSrc);
+    audio.play().catch(e => {
+      console.warn("Gagal memutar audio MP3, beralih ke SpeechSynthesis:", e);
+      fallbackToSpeechSynthesis(text);
+    });
+  } else {
+    // Jika tidak ada path audio, langsung ke fallback
+    fallbackToSpeechSynthesis(text);
+  }
+};
+
+function fallbackToSpeechSynthesis(text) {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'id-ID'; // Indonesian
+    utterance.rate = 0.9; // Sedikit lambat untuk anak-anak
+    utterance.pitch = 1.1;
+    
+    window.speechSynthesis.speak(utterance);
+  } else {
+    alert("Maaf, browsermu tidak mendukung fitur suara.");
+  }
 }

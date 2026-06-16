@@ -93,13 +93,52 @@ function startApp() {
   initTitle();
   jumpToSpread(0);
   initEvents();
-
-  // Mulai proses preload gambar di latar belakang setelah aplikasi siap
   setTimeout(preloadImages, 500);
+  setTimeout(preloadAudio, 1000);
 }
 
 // Start once DOM is ready
 document.addEventListener('DOMContentLoaded', startApp);
+
+// Preload Semua Audio (Background Lazy Preloading)
+function preloadAudio() {
+  const audioToLoad = [];
+
+  if (typeof bookData !== 'undefined' && bookData.spreads) {
+    bookData.spreads.forEach(spread => {
+      // Periksa audio di speechBubbles level spread
+      if (spread.speechBubbles) {
+        spread.speechBubbles.forEach(bubble => {
+          if (bubble.audio) audioToLoad.push(bubble.audio);
+        });
+      }
+
+      // Periksa audio di left/right jika ada yang menggunakan speechBubbles
+      if (spread.left && spread.left.speechBubbles) {
+        spread.left.speechBubbles.forEach(bubble => {
+          if (bubble.audio) audioToLoad.push(bubble.audio);
+        });
+      }
+      if (spread.right && spread.right.speechBubbles) {
+        spread.right.speechBubbles.forEach(bubble => {
+          if (bubble.audio) audioToLoad.push(bubble.audio);
+        });
+      }
+    });
+  }
+
+  const uniqueAudio = [...new Set(audioToLoad.filter(Boolean))];
+
+  uniqueAudio.forEach(src => {
+    const audio = new Audio();
+    audio.preload = 'auto'; // Menginstruksikan browser memuat data audio di background
+    audio.src = src;
+  });
+
+  if (uniqueAudio.length > 0) {
+    console.log(`Preloading ${uniqueAudio.length} file audio di latar belakang...`);
+  }
+}
 
 // Preload Semua Gambar (Background Lazy Preloading)
 function preloadImages() {
@@ -112,6 +151,12 @@ function preloadImages() {
       if (spread.right && spread.right.image) imagesToLoad.push(spread.right.image);
       if (spread.bgImage) imagesToLoad.push(spread.bgImage);
       if (spread.handImage) imagesToLoad.push(spread.handImage);
+      if (spread.left && spread.left.type === 'guide-list' && spread.left.items) {
+        spread.left.items.forEach(item => { if (item.icon) imagesToLoad.push(item.icon); });
+      }
+      if (spread.right && spread.right.type === 'guide-list' && spread.right.items) {
+        spread.right.items.forEach(item => { if (item.icon) imagesToLoad.push(item.icon); });
+      }
     });
   }
 

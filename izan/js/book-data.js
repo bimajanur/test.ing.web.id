@@ -17,7 +17,15 @@ const bookData = {
       handTop: "51%",
       handLeft: "28%",
       handWidth: "12%",
-      handOrigin: "bottom left"
+      handOrigin: "bottom left",
+      speechBubbles: [
+        {
+          text: "Misi Rahasia Hari Raya!",
+          top: "72%",
+          left: "22%",
+          hideText: true
+        }
+      ]
     },
 
     // Halaman 2: Petunjuk Penggunaan
@@ -27,43 +35,24 @@ const bookData = {
       left: {
         type: "story-image",
         image: "images/halaman-2.jpg",
-        alt: "Petunjuk Penggunaan"
+        alt: "Petunjuk Penggunaan",
+        speechBubbles: [
+          {
+            text: "Ayah, Ibu, ayo main!",
+            top: "10%",
+            left: "10%"
+          }
+        ]
       },
       right: {
-        type: "story-text",
-        text: `
-<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
-  <h3 style='color: var(--color-primary); font-family: var(--font-title); font-size: 1.9rem; margin-top: 0; margin-bottom: 15px;'>Panduan Penggunaan 📖</h3>
-    
-    <div style="display: flex; align-items: center; margin-bottom: 18px;">
-      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
-        <img src="images/halaman-2/button-prev.png" alt="Previous" style="width: 50px; height: auto;" />
-      </div>
-      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk membuka halaman sebelumnya.</span>
-    </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 18px;">
-      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
-        <img src="images/halaman-2/button-next.png" alt="Next" style="width: 50px; height: auto;" />
-      </div>
-      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk membuka halaman selanjutnya.</span>
-    </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 18px;">
-      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
-        <img src="images/halaman-2/button-sound.png" alt="Sound" style="width: 50px; height: auto;" />
-      </div>
-      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk menghidupkan/mematikan suara.</span>
-    </div>
-
-    <div style="display: flex; align-items: center;">
-      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
-        <img src="images/halaman-2/button-info.png" alt="Info" style="width: 50px; height: auto;" />
-      </div>
-      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk melihat informasi buku.</span>
-    </div>
-
-</div>`
+        type: "guide-list",
+        title: "Panduan Penggunaan 📖",
+        items: [
+          { icon: "images/halaman-2/button-prev.png", text: "Tekan untuk membuka halaman sebelumnya." },
+          { icon: "images/halaman-2/button-next.png", text: "Tekan untuk membuka halaman selanjutnya." },
+          { icon: "images/halaman-2/button-sound.png", text: "Tekan untuk menghidupkan/mematikan suara." },
+          { icon: "images/halaman-2/button-info.png", text: "Tekan untuk melihat informasi buku." }
+        ]
       }
     },
 
@@ -72,6 +61,16 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-3.jpg",
+      speechBubbles: [
+        {
+          text: "Bosan, cokelat lagi, cokelat lagi!",
+          audio: "audio/halaman-3.mp3",
+          top: "80%",
+          left: "10%",
+          bgColor: "#FFFDEB",
+          btnColor: "#83BD75"
+        }
+      ]
     },
 
     // halaman 4: Ayah bawa harta karun!
@@ -79,6 +78,22 @@ const bookData = {
       type: "full-image",
       bgColor: "#FFFDF7",
       image: "images/halaman-4.jpg",
+      speechBubbles: [
+        {
+          text: "Lihat... Ayah bawa harta karun!",
+          // audio: "audio/halaman-4-1.mp3",
+          top: "20%",
+          left: "10%"
+        },
+        {
+          text: "Wah, asyik sekali!",
+          audio: "audio/halaman-4-2.mp3",
+          top: "60%",
+          left: "60%",
+          bgColor: "#FFD56B",
+          btnColor: "#FF7B54"
+        }
+      ]
     },
 
     // halaman 5: GAME 1 - Buka buka buka!

@@ -37,7 +37,7 @@ function renderSpeechBubbles(bubbles) {
     const btnExtraStyle = isHiddenText ? "position: relative; top: 0; left: 0;" : "";
     
     const buttonHtml = `
-      <button class="speech-play-btn" style="${btnStyle} ${btnExtraStyle}" onclick="playSpeechText('${bubble.text.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${bubble.audio || ''}')">
+      <button class="speech-play-btn" style="${btnStyle} ${btnExtraStyle}" onclick="playSpeechText('${bubble.text.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${bubble.audio || ''}', this)">
         <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;">
           <path d="M8 5v14l11-7z"/>
         </svg>
@@ -228,35 +228,90 @@ function renderStaticSpread(index) {
   updateProgress(index);
 }
 
+let currentPlayingAudio = null;
+let currentPlayingBtn = null;
+const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;"><path d="M8 5v14l11-7z"/></svg>`;
+const STOP_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M6 6h12v12H6z"/></svg>`;
+
 // 9. Play Speech Text Function
-window.playSpeechText = function(text, audioSrc) {
+window.playSpeechText = function(text, audioSrc, btnElement) {
   // Selalu hentikan suara synthesis yang sedang berjalan
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
   }
 
+  // Jika ada audio MP3 yang sedang berjalan, hentikan
+  if (currentPlayingAudio) {
+    currentPlayingAudio.pause();
+    currentPlayingAudio.currentTime = 0;
+  }
+
+  // Kembalikan tombol sebelumnya ke icon play dan aktifkan navigasi
+  if (currentPlayingBtn) {
+    currentPlayingBtn.innerHTML = PLAY_ICON;
+    elements.btnPrev.disabled = state.currentSpreadIndex === 0;
+    elements.btnNext.disabled = state.currentSpreadIndex === state.totalSpreads - 1;
+  }
+
+  // Jika user menekan tombol yang sama yang sedang berjalan (untuk stop), langsung keluar
+  if (currentPlayingBtn === btnElement) {
+    currentPlayingAudio = null;
+    currentPlayingBtn = null;
+    return;
+  }
+
+  // Update status tombol baru menjadi stop dan matikan navigasi
+  if (btnElement) {
+    btnElement.innerHTML = STOP_ICON;
+    elements.btnPrev.disabled = true;
+    elements.btnNext.disabled = true;
+    currentPlayingBtn = btnElement;
+  }
+
+  const handleAudioEnd = () => {
+    if (currentPlayingBtn === btnElement && btnElement) {
+      btnElement.innerHTML = PLAY_ICON;
+      elements.btnPrev.disabled = state.currentSpreadIndex === 0;
+      elements.btnNext.disabled = state.currentSpreadIndex === state.totalSpreads - 1;
+      currentPlayingBtn = null;
+      currentPlayingAudio = null;
+    }
+  };
+
   // Jika ada path file audio, coba putar dulu
   if (audioSrc) {
     const audio = new Audio(audioSrc);
-    audio.play().catch(e => {
+    currentPlayingAudio = audio;
+    audio.onended = handleAudioEnd;
+
+    audio.play().then(() => {
+      // Pasang onerror hanya jika audio berhasil mulai diputar (bukan 404)
+      audio.onerror = handleAudioEnd;
+    }).catch(e => {
       console.warn("Gagal memutar audio MP3, beralih ke SpeechSynthesis:", e);
-      fallbackToSpeechSynthesis(text);
+      fallbackToSpeechSynthesis(text, handleAudioEnd);
     });
   } else {
     // Jika tidak ada path audio, langsung ke fallback
-    fallbackToSpeechSynthesis(text);
+    fallbackToSpeechSynthesis(text, handleAudioEnd);
   }
 };
 
-function fallbackToSpeechSynthesis(text) {
+function fallbackToSpeechSynthesis(text, onEndCallback) {
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'id-ID'; // Indonesian
     utterance.rate = 0.9; // Sedikit lambat untuk anak-anak
     utterance.pitch = 1.1;
     
+    if (onEndCallback) {
+      utterance.onend = onEndCallback;
+      utterance.onerror = onEndCallback;
+    }
+
     window.speechSynthesis.speak(utterance);
   } else {
     alert("Maaf, browsermu tidak mendukung fitur suara.");
+    if (onEndCallback) onEndCallback();
   }
 }

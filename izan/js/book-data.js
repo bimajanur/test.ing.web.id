@@ -21,6 +21,7 @@ const bookData = {
       speechBubbles: [
         {
           text: "Misi Rahasia Hari Raya!",
+          audio: "audio/halaman-1.mp3",
           top: "72%",
           left: "22%",
           hideText: true
@@ -81,7 +82,6 @@ const bookData = {
       speechBubbles: [
         {
           text: "Lihat... Ayah bawa harta karun!",
-          // audio: "audio/halaman-4-1.mp3",
           top: "20%",
           left: "10%"
         },
@@ -103,7 +103,7 @@ const bookData = {
       left: {
         type: "quiz-question",
         image: "images/kuis1.jpg",
-        question: "Yang manakah makanan Hari Raya yang dibungkus anyaman daun kelapa berbentuk jajaran genjang?"
+        question: "izan : Buka! Buka!Buka!\nibu : ayo keluarkan kuenya, nak"
       },
       right: {
         type: "quiz-options",
@@ -138,7 +138,7 @@ const bookData = {
       left: {
         type: "quiz-question",
         image: "images/kuis2.jpg",
-        question: "Opor ayam buatan Ibu terasa gurih sekali karena dicampur dengan perasan apa?"
+        question: "ibu : Yuk teteskan sirup dan hitung warnanya!"
       },
       right: {
         type: "quiz-options",
@@ -173,7 +173,7 @@ const bookData = {
       left: {
         type: "quiz-question",
         image: "images/kuis3.jpg",
-        question: "Selai buah manis apakah yang ada di dalam kue Nastar?"
+        question: "ayah : Cari yang bentuknya sama yuk!"
       },
       right: {
         type: "quiz-options",
@@ -212,7 +212,7 @@ const bookData = {
       },
       right: {
         type: "story-text",
-        text: "Kiki membagikan kue nastar manis kepada teman-teman hewan yang berkunjung ke rumahnya.<br><br>Berbagi hidangan lezat di hari raya sungguh menyenangkan. Selamat Hari Raya semuanya! 🎉"
+        text: "ibu : Bantu ibu susun lapisan kue lapis ya\nizan : Tumpuk lapis legit, tinggi sekali!\nizan : Wah, kamu hebat! Kuenya jadi tinggi sekali!"
       }
     },
 
@@ -242,7 +242,7 @@ const bookData = {
       },
       right: {
         type: "story-text",
-        text: "Kiki membagikan kue nastar manis kepada teman-teman hewan yang berkunjung ke rumahnya.<br><br>Berbagi hidangan lezat di hari raya sungguh menyenangkan. Selamat Hari Raya semuanya! 🎉"
+        text: "izan : Bantu pasangkan yuk!\nizan : Selalu berdua, tidak berpisah!"
       }
     },
 
@@ -257,7 +257,7 @@ const bookData = {
       },
       right: {
         type: "story-text",
-        text: "Kiki membagikan kue nastar manis kepada teman-teman hewan yang berkunjung ke rumahnya.<br><br>Berbagi hidangan lezat di hari raya sungguh menyenangkan. Selamat Hari Raya semuanya! 🎉"
+        text: "izan : Ikuti garisnya, ikat erat!"
       }
     },
 
@@ -282,12 +282,12 @@ const bookData = {
       bgColorRight: "#FFFDF7",
       left: {
         type: "story-image",
-        image: "images/halaman-14.jpg",
+        image: "images/halaman-16.jpg",
         alt: "Merayakan Bersama Teman"
       },
       right: {
         type: "story-text",
-        text: "Kiki membagikan kue nastar manis kepada teman-teman hewan yang berkunjung ke rumahnya.<br><br>Berbagi hidangan lezat di hari raya sungguh menyenangkan. Selamat Hari Raya semuanya! 🎉"
+        text: "izan : Putar-putar, coret bebas, seru!"
       }
     },
 

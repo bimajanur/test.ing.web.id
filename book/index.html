@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buku Interaktif Anak - Misi Rahasia Hari Raya</title>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- Reusable SVG Assets -->
+  <svg width="0" height="0" class="hidden" aria-hidden="true">
+    <defs>
+      <g id="icon-ketupat">
+        <!-- Cute Ketupat Character (Hari Raya Theme) -->
+        <!-- Top ribbons -->
+        <path d="M50,20 Q35,5 25,15 Q40,25 50,20 Z" fill="#83BD75" />
+        <path d="M50,20 Q65,5 75,15 Q60,25 50,20 Z" fill="#4E9F3D" />
+        <!-- Bottom ribbons -->
+        <path d="M50,80 Q35,95 25,85 Q40,75 50,80 Z" fill="#83BD75" />
+        <path d="M50,80 Q65,95 75,85 Q60,75 50,80 Z" fill="#4E9F3D" />
+        <!-- Woven Diamond Body -->
+        <polygon points="50,20 80,50 50,80 20,50" fill="#4E9F3D" />
+        <!-- The four woven squares -->
+        <polygon points="50,20 65,35 50,50 35,35" fill="#83BD75" />
+        <polygon points="65,35 80,50 65,65 50,50" fill="#A4D65E" />
+        <polygon points="35,35 50,50 35,65 20,50" fill="#A4D65E" />
+        <polygon points="50,50 65,65 50,80 35,65" fill="#83BD75" />
+        <!-- Cute Face Overlay -->
+        <circle cx="50" cy="50" r="14" fill="#FFFFFF" opacity="0.9" />
+        <!-- Eyes -->
+        <circle cx="45" cy="48" r="2.5" fill="#333333" />
+        <circle cx="55" cy="48" r="2.5" fill="#333333" />
+        <!-- Cheeks -->
+        <circle cx="40" cy="51" r="2.5" fill="#FF8E8E" opacity="0.8" />
+        <circle cx="60" cy="51" r="2.5" fill="#FF8E8E" opacity="0.8" />
+        <!-- Smile -->
+        <path d="M47,53 Q50,56 53,53" fill="none" stroke="#333333" stroke-width="1.5" stroke-linecap="round" />
+      </g>
+
+      <g id="icon-sun">
+        <circle cx="50" cy="50" r="30" fill="#FFE259" />
+        <path
+          d="M50,10 L50,0 M50,90 L50,100 M10,50 L0,50 M90,50 L100,50 M22,22 L15,15 M78,78 L85,85 M22,78 L15,85 M78,22 L85,15"
+          stroke="#FFE259" stroke-width="6" stroke-linecap="round" />
+      </g>
+
+      <g id="icon-cloud">
+        <path
+          d="M20,45 A15,15 0 0,1 30,20 A20,20 0 0,1 70,20 A15,15 0 0,1 80,45 A10,10 0 0,1 70,55 L30,55 A10,10 0 0,1 20,45 Z"
+          fill="#FFFFFF" />
+      </g>
+
+      <g id="icon-sound-on" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </g>
+
+      <g id="icon-sound-off" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+      </g>
+
+      <g id="icon-arrow-left" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </g>
+
+      <g id="icon-arrow-right" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </g>
+    </defs>
+  </svg>
+
+  <!-- Scale Wrapper to enforce 720p aspect ratio -->
+  <div id="app-scale-wrapper">
+    <div id="app-container">
+      <!-- Background Decorative Elements -->
+      <div class="bg-decorations" aria-hidden="true">
+        <!-- Sun -->
+        <svg class="sun" viewBox="0 0 100 100" width="80" height="80">
+          <use href="#icon-sun"></use>
+        </svg>
+
+        <!-- Clouds -->
+        <svg class="cloud cloud-1" viewBox="0 0 100 60" width="120" height="72" opacity="0.9">
+          <use href="#icon-cloud"></use>
+        </svg>
+        <svg class="cloud cloud-2" viewBox="0 0 100 60" width="160" height="96" opacity="0.8">
+          <use href="#icon-cloud"></use>
+        </svg>
+      </div>
+
+      <!-- Top Interface Header -->
+      <header class="app-header">
+        <!-- Toolbar Controls -->
+        <div class="toolbar">
+          <button id="btn-sound" class="icon-btn tooltip" aria-label="Aktifkan Suara">
+            <!-- Sound On Icon -->
+            <svg class="sound-on-icon" viewBox="0 0 24 24" width="32" height="32">
+              <use href="#icon-sound-on"></use>
+            </svg>
+            <!-- Sound Off Icon (hidden by default) -->
+            <svg class="sound-off-icon hidden" viewBox="0 0 24 24" width="32" height="32">
+              <use href="#icon-sound-off"></use>
+            </svg>
+          </button>
+
+          <button id="btn-help" class="icon-btn" aria-label="Informasi">
+            <span class="btn-text">i</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Book Section -->
+      <main id="book-viewport">
+        <!-- Left Navigation Arrow -->
+        <button id="btn-prev" class="nav-arrow-btn prev-btn" aria-label="Halaman Sebelumnya">
+          <svg viewBox="0 0 24 24" width="48" height="48">
+            <use href="#icon-arrow-left"></use>
+          </svg>
+        </button>
+
+        <!-- The Book Component (16:9 Single Screen Slider) -->
+        <div id="book">
+          <!-- Slide Track -->
+          <div id="page-track">
+            <div id="page-slot-active" class="page-slot">
+              <!-- Active page contents dynamically loaded -->
+            </div>
+            <div id="page-slot-transition" class="page-slot">
+              <!-- Transition page contents dynamically loaded -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Navigation Arrow -->
+        <button id="btn-next" class="nav-arrow-btn next-btn" aria-label="Halaman Selanjutnya">
+          <svg viewBox="0 0 24 24" width="48" height="48">
+            <use href="#icon-arrow-right"></use>
+          </svg>
+        </button>
+      </main>
+
+      <!-- Bottom Progress Bar & Navigation Info -->
+      <footer class="app-footer">
+        <!-- Progress Bar and Indicator -->
+        <div class="progress-container">
+          <div class="page-indicator" id="page-number-display">
+            Halaman 1 dari 20
+          </div>
+
+          <div class="progress-bar-wrapper">
+            <div id="progress-track">
+              <div id="progress-fill"></div>
+              <!-- Character placeholder that crawls on the progress bar -->
+              <div id="progress-character">
+                <svg viewBox="0 0 100 100" width="40" height="40">
+                  <use href="#icon-ketupat"></use>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Help/Tutorial Overlay (hidden by default) -->
+      <div id="help-overlay" class="overlay hidden">
+        <div class="overlay-card">
+          <h2>Informasi Buku 📖</h2>
+          <div class="book-info-content"
+            style="text-align: left; margin-top: 15px; font-size: 1.1rem; line-height: 1.6;">
+            <p><strong>Penulis:</strong> [Nama Penulis Placeholder]</p>
+            <p><strong>Ilustrator:</strong> [Nama Ilustrator Placeholder]</p>
+            <p><strong>Pengembang Interaktif:</strong> [Nama Pengembang Placeholder]</p>
+          </div>
+          <button id="btn-close-help" class="bouncy-btn">Mengerti!</button>
+        </div>
+      </div>
+
+      <!-- Welcome / Start Overlay -->
+      <div id="welcome-overlay" class="overlay">
+        <div class="welcome-card">
+          <div class="welcome-avatar">
+            <svg viewBox="0 0 100 100" width="100" height="100">
+              <use href="#icon-ketupat"></use>
+            </svg>
+          </div>
+          <h2>Buku Cerita Interaktif</h2>
+
+          <button id="btn-start" class="start-btn bouncy-btn">
+            Mulai Membaca ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Content Data -->
+  <script src="js/book-data.js"></script>
+  <!-- Application Scripts -->
+  <script src="js/sounds.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/elements.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -11,8 +11,8 @@ const bookData = {
     {
       type: "waving-animation",
       bgColor: "#FFFDF7",
-      bgImage: "images/waving/badan-izan.png",
-      handImage: "images/waving/tangan-izan.png",
+      bgImage: "images/halaman-1/badan-izan.png",
+      handImage: "images/halaman-1/tangan-izan.png",
       text: "Misi Rahasia Hari Raya",
       handTop: "51%",
       handLeft: "28%",
@@ -26,12 +26,44 @@ const bookData = {
       bgColorRight: "#FFFDF7",
       left: {
         type: "story-image",
-        image: "images/placeholder.jpg",
+        image: "images/halaman-2.jpg",
         alt: "Petunjuk Penggunaan"
       },
       right: {
         type: "story-text",
-        text: "<div style='display: flex; flex-direction: column; justify-content: center; align-items: center;'><h3 style='color: var(--color-primary); font-family: var(--font-title); font-size: 2rem; margin-top: 0; margin-bottom: 15px;'>Petunjuk Penggunaan 📖</h3><ul style='text-align: left; line-height: 1.6; font-size: 1.25rem; font-family: var(--font-body); padding-left: 20px; font-weight: normal; margin: 0;'><li>Tekan tombol <strong>panah kanan</strong> untuk membuka halaman berikutnya.</li><li>Tekan tombol <strong>panah kiri</strong> untuk kembali ke halaman sebelumnya.</li><li>Tekan tombol <strong>(i)</strong> di atas untuk melihat informasi buku.</li><li>Tekan tombol <strong>speaker</strong> untuk menghidupkan/mematikan suara.</li></ul></div>"
+        text: `
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+  <h3 style='color: var(--color-primary); font-family: var(--font-title); font-size: 1.9rem; margin-top: 0; margin-bottom: 15px;'>Panduan Penggunaan 📖</h3>
+    
+    <div style="display: flex; align-items: center; margin-bottom: 18px;">
+      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+        <img src="images/halaman-2/button-prev.png" alt="Previous" style="width: 50px; height: auto;" />
+      </div>
+      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk membuka halaman sebelumnya.</span>
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 18px;">
+      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+        <img src="images/halaman-2/button-next.png" alt="Next" style="width: 50px; height: auto;" />
+      </div>
+      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk membuka halaman selanjutnya.</span>
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 18px;">
+      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+        <img src="images/halaman-2/button-sound.png" alt="Sound" style="width: 50px; height: auto;" />
+      </div>
+      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk menghidupkan/mematikan suara.</span>
+    </div>
+
+    <div style="display: flex; align-items: center;">
+      <div style="width: 60px; display: flex; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+        <img src="images/halaman-2/button-info.png" alt="Info" style="width: 50px; height: auto;" />
+      </div>
+      <span style="font-family: var(--font-body); font-size: 1.3rem; color: #1A1A1A; line-height: 1.4; text-align: left;">Tekan untuk melihat informasi buku.</span>
+    </div>
+
+</div>`
       }
     },
 

@@ -2,6 +2,7 @@ window.initDragDrop = function (container) {
   const draggables = container.querySelectorAll('.draggable-item');
   const dropZone = container.querySelector('.drop-zone-container');
   const dropZoneImg = container.querySelector('#drop-zone-img');
+  const feedback = container.querySelector('.drag-feedback');
 
   if (!draggables.length || !dropZone || !dropZoneImg) return;
 
@@ -17,12 +18,15 @@ window.initDragDrop = function (container) {
       isDragging = true;
       const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
       const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+      const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      startX = clientX - currentX;
-      startY = clientY - currentY;
+      startX = clientX - (currentX * scale);
+      startY = clientY - (currentY * scale);
 
       item.style.zIndex = 1000;
       item.style.transition = 'none'; // remove transition while dragging
+      item.style.willChange = 'transform';
+      item.style.pointerEvents = 'none';
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
       item.style.cursor = 'grabbing';
     };
@@ -33,9 +37,10 @@ window.initDragDrop = function (container) {
 
       const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
       const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+      const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      currentX = clientX - startX;
-      currentY = clientY - startY;
+      currentX = (clientX - startX) / scale;
+      currentY = (clientY - startY) / scale;
 
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
     };
@@ -45,6 +50,8 @@ window.initDragDrop = function (container) {
       isDragging = false;
 
       item.style.transition = 'transform 0.3s ease';
+      item.style.willChange = 'auto';
+      item.style.pointerEvents = 'auto';
       item.style.zIndex = 10;
       item.style.cursor = 'grab';
 
@@ -71,7 +78,6 @@ window.initDragDrop = function (container) {
 
           if (typeof sounds !== 'undefined' && sounds.playChime) sounds.playChime();
 
-          const feedback = container.querySelector('.drag-feedback');
           if (feedback) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
             feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
@@ -85,7 +91,6 @@ window.initDragDrop = function (container) {
 
           if (typeof sounds !== 'undefined' && sounds.playWrong) sounds.playWrong();
 
-          const feedback = container.querySelector('.drag-feedback');
           if (feedback) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
             feedback.innerHTML = `<span style="color:#C0392B">${feedback.dataset.incorrectText}</span>`;

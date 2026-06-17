@@ -1,35 +1,28 @@
-function preloadAudio() {
-  const audioToLoad = [];
-
-  if (typeof bookData !== 'undefined' && bookData.spreads) {
-    bookData.spreads.forEach(spread => {
-      // Periksa audio di speechBubbles level spread
-      if (spread.speechBubbles) {
-        spread.speechBubbles.forEach(bubble => {
-          if (bubble.audio) audioToLoad.push(bubble.audio);
-        });
-      }
-
-      if (spread.introSpeechBubbles) {
-        spread.introSpeechBubbles.forEach(bubble => {
-          if (bubble.audio) audioToLoad.push(bubble.audio);
-        });
-      }
-
-      // Periksa audio di left/right jika ada yang menggunakan speechBubbles
-      if (spread.left && spread.left.speechBubbles) {
-        spread.left.speechBubbles.forEach(bubble => {
-          if (bubble.audio) audioToLoad.push(bubble.audio);
-        });
-      }
-      if (spread.right && spread.right.speechBubbles) {
-        spread.right.speechBubbles.forEach(bubble => {
-          if (bubble.audio) audioToLoad.push(bubble.audio);
-        });
-      }
+// Helper to recursively find asset paths in an object
+function extractAssets(obj, regex) {
+  let assets = [];
+  if (typeof obj === 'string') {
+    if (regex.test(obj)) {
+      assets.push(obj);
+    }
+  } else if (Array.isArray(obj)) {
+    obj.forEach(item => {
+      assets = assets.concat(extractAssets(item, regex));
     });
+  } else if (typeof obj === 'object' && obj !== null) {
+    for (let key in obj) {
+      assets = assets.concat(extractAssets(obj[key], regex));
+    }
   }
+  return assets;
+}
 
+function preloadAudio() {
+  if (typeof bookData === 'undefined' || !bookData.spreads) return;
+
+  const audioRegex = /\.(mp3|wav|ogg|m4a)$/i;
+  const audioToLoad = extractAssets(bookData.spreads, audioRegex);
+  
   const uniqueAudio = [...new Set(audioToLoad.filter(Boolean))];
 
   uniqueAudio.forEach(src => {
@@ -44,42 +37,19 @@ function preloadAudio() {
 }
 
 function preloadImages() {
-  const imagesToLoad = [];
+  if (typeof bookData === 'undefined' || !bookData.spreads) return;
 
-  if (typeof bookData !== 'undefined' && bookData.spreads) {
-    bookData.spreads.forEach(spread => {
-      if (spread.image) imagesToLoad.push(spread.image);
-      if (spread.introImage) imagesToLoad.push(spread.introImage);
-      if (spread.left && spread.left.image) imagesToLoad.push(spread.left.image);
-      if (spread.right && spread.right.image) imagesToLoad.push(spread.right.image);
-      if (spread.bgImage) imagesToLoad.push(spread.bgImage);
-      if (spread.handImage) imagesToLoad.push(spread.handImage);
-      if (spread.left && spread.left.type === 'guide-list' && spread.left.items) {
-        spread.left.items.forEach(item => { if (item.icon) imagesToLoad.push(item.icon); });
-      }
-      if (spread.right && spread.right.type === 'guide-list' && spread.right.items) {
-        spread.right.items.forEach(item => { if (item.icon) imagesToLoad.push(item.icon); });
-      }
-      if (spread.type === 'drag-drop-game') {
-        if (spread.dropZone) {
-          if (spread.dropZone.startSrc) imagesToLoad.push(spread.dropZone.startSrc);
-          if (spread.dropZone.doneSrc) imagesToLoad.push(spread.dropZone.doneSrc);
-        }
-        if (spread.draggables) {
-          spread.draggables.forEach(d => { if (d.src) imagesToLoad.push(d.src); });
-        }
-      }
-    });
-  }
+  const imageRegex = /\.(png|jpe?g|webp|gif|svg)$/i;
+  const imagesToLoad = extractAssets(bookData.spreads, imageRegex);
 
-  // Filter nilai kosong dan hapus duplikat
   const uniqueImages = [...new Set(imagesToLoad.filter(Boolean))];
 
-  // Fetch semua gambar ke cache browser secara asinkron
   uniqueImages.forEach(src => {
     const img = new Image();
     img.src = src;
   });
 
-  console.log(`Preloading ${uniqueImages.length} images di latar belakang...`);
+  if (uniqueImages.length > 0) {
+    console.log(`Preloading ${uniqueImages.length} images di latar belakang...`);
+  }
 }

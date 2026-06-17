@@ -152,15 +152,15 @@ const bookData = {
         {
           text: "Bantu Izan Teteskan Sirup, Yuk!",
           audio: "audio/halaman-7.mp3",
-          top: "9%",
-          left: "88%",
+          top: "6%",
+          left: "77%",
           hideText: true
         },
         {
-          text: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
+          text: "Tuang Botol Sirup Sesuai Warna Mangkok 🔴🟢🟡",
           audio: "audio/halaman-7.mp3",
-          top: "20%",
-          left: "84%",
+          top: "14%",
+          left: "74%",
           hideText: true
         }
       ],

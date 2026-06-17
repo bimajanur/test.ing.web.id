@@ -29,7 +29,7 @@ window.handleImageError = function (imgElement, src) {
 function renderSpeechBubbles(bubbles) {
   if (!bubbles || bubbles.length === 0) return '';
   return bubbles.map(bubble => {
-    const speechPosition = `top: ${bubble.top || '10%'}; left: ${bubble.left || '5%'}; right: ${bubble.right || 'auto'}; bottom: ${bubble.bottom || 'auto'};`;
+    const speechPosition = `top: ${bubble.top || '10%'}; left: ${bubble.left || '5%'}; right: ${bubble.right || 'auto'}; bottom: ${bubble.bottom || 'auto'}; z-index: 50;`;
     const balloonStyle = bubble.bgColor ? `background-color: ${bubble.bgColor};` : '';
     const btnStyle = bubble.btnColor ? `background-color: ${bubble.btnColor};` : '';
 
@@ -174,9 +174,11 @@ function renderSpreadHTML(spread, index) {
       <div class="page-content back-cover-page-unified" style="background: radial-gradient(circle, #FFFDE8 0%, ${spread.bgColorLeft || '#FFB26B'} 100%); width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box; padding: 40px; text-align: center;">
         <h2 class="back-cover-title">${spread.left.title}</h2>
         <p class="back-cover-text">${spread.left.message}</p>
-        <button class="bouncy-btn" style="margin-top: 30px; padding: 15px 30px; font-family: var(--font-title); font-size: 1.5rem; background-color: var(--color-primary); color: white; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.2), 0 10px 20px rgba(0,0,0,0.15); transition: transform 0.2s;" onclick="goToFirstPage()" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'" onmouseleave="this.style.transform='scale(1)'">
-          🏠 Baca Ulang Cerita
-        </button>
+        <div style="margin-top: 30px; animation: float-avatar 3s ease-in-out infinite alternate;">
+          <button class="start-btn bouncy-btn" onclick="goToFirstPage(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+             📙 Baca Ulang Cerita
+          </button>
+        </div>
       </div>
     `;
   }
@@ -203,7 +205,7 @@ function renderSpreadHTML(spread, index) {
     const draggablesHtml = spread.draggables.map(d => `
       <img src="${d.src}" class="draggable-item" data-id="${d.id}" data-correct="${d.correct}" 
            draggable="false"
-           style="width: 140px; height: auto; cursor: grab; position: relative; touch-action: none; z-index: 10; transform: transition: transform 0.3s;" 
+           style="width: 160px; height: auto; cursor: grab; position: relative; touch-action: none; z-index: 10; transition: transform 0.3s;" 
            onerror="handleImageError(this, '${d.src}')">
     `).join('');
 
@@ -214,29 +216,46 @@ function renderSpreadHTML(spread, index) {
       <div class="drag-drop-intro-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${spread.bgColor || '#FFFDF7'}; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
         <img src="${spread.introImage}" class="full-bleed-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${spread.introImage}')">
         ${introSpeechHtml}
-        <button class="bouncy-btn" style="position: absolute; bottom: 50px; font-size: 1.8rem; padding: 15px 40px; z-index: 51; box-shadow: 0 10px 25px rgba(0,0,0,0.3);" onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.style.display='none', 300); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Mulai Main!</button>
+        <div style="width: 15%; position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); z-index: 51;">
+          <div style="animation: float-avatar 3s ease-in-out infinite alternate;">
+            <button class="start-btn bouncy-btn" onclick="const popup = this.closest('.page-spread-container').querySelector('.game-popup-overlay'); if(popup){ document.getElementById('app-container').appendChild(popup); popup.classList.remove('hidden'); popup.style.display='flex'; } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+              Mulai Main ➔
+            </button>
+          </div>
+        </div>
       </div>
     ` : '';
 
     return `
-      <div class="page-spread-container drag-drop-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 40px 60px; user-select: none; position: relative;">
+      <div class="page-spread-container drag-drop-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 0; user-select: none; position: relative;">
         ${introHtml}
-        ${speechHtml}
-        <div class="story-text-container" style="margin-bottom: 20px; width: 100%; border: none; box-shadow: none; background: transparent; padding: 0; flex-direction: column;">
-          <h2 style="font-family: var(--font-title); font-size: 2.8rem; line-height: 1.4; margin: 0; text-align: center; color: var(--color-wood); text-shadow: 0 4px 0px rgba(255, 255, 255, 0.8), 3px 6px 0px rgba(139, 90, 43, 0.15); letter-spacing: 1px;">
-            ${spread.title.replace(/\n/g, '<br>')}
-            ${spread.subtitle ? `<span style="display: block; font-size: 1.5rem; color: var(--color-text); font-family: var(--font-body); font-weight: 700; text-shadow: none; letter-spacing: normal; margin-top: 10px;">${spread.subtitle}</span>` : ''}
-          </h2>
-        </div>
-        <div style="display: flex; width: 100%; justify-content: space-between; align-items: center; flex-grow: 1; margin-top: 0px; padding: 0 40px;">
-          <div class="drag-items-container" style="display: flex; flex-direction: column; align-items: center; gap: 0px; padding-left: 20px;">
-             ${draggablesHtml}
+        
+        <!-- The Game Popup Overlay -->
+        <div class="game-popup-overlay hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center;">
+          <!-- 16:9 Popup Container -->
+          <div class="game-popup-content" style="aspect-ratio: 16/9; width: 90%; max-height: 90%; background: ${spread.bgColor || '#FFFDF7'}; border-radius: 28px; border: 8px solid var(--color-wood); display: flex; flex-direction: column; position: relative; padding: 25px 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); box-sizing: border-box; animation: pop-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;">
+            
+            <button class="close-btn bouncy-btn" style="position: absolute; top: -15px; right: -15px; z-index: 110; width: 45px; height: 45px; padding: 0; border-radius: 50%; background: #ff4757; border: 4px solid var(--color-wood); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); const container = document.querySelector('.drag-drop-spread'); if(container) { container.appendChild(popup); } else { popup.remove(); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
+
+            ${speechHtml}
+            <div class="story-text-container" style="margin-bottom: 10px; width: 100%; border: none; box-shadow: none; background: transparent; padding: 0; flex-direction: column; z-index: 5;">
+              <h2 style="font-family: var(--font-title); font-size: 2.2rem; line-height: 1.2; margin: 0; text-align: center; color: var(--color-wood); text-shadow: 0 4px 0px rgba(255, 255, 255, 0.8), 3px 6px 0px rgba(139, 90, 43, 0.15); letter-spacing: 1px;">
+                ${spread.title.replace(/\n/g, '<br>')}
+                ${spread.subtitle ? `<span style="display: block; font-size: 1.2rem; color: var(--color-text); font-family: var(--font-body); font-weight: 700; text-shadow: none; letter-spacing: normal; margin-top: 5px;">${spread.subtitle}</span>` : ''}
+              </h2>
+            </div>
+            <div style="display: flex; width: 100%; justify-content: space-between; align-items: center; flex-grow: 1; margin-top: 0px; padding: 0 40px;">
+              <div class="drag-items-container" style="display: flex; flex-direction: column; align-items: center; gap: 0px; padding-left: 30px; z-index: 10;">
+                 ${draggablesHtml}
+              </div>
+              <div class="drop-zone-container" style="position: relative; margin-right: 30%; margin-top: 2%; z-index: 5;">
+                <img src="${spread.dropZone.startSrc}" id="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" style="width: 320px; height: auto;" onerror="handleImageError(this, '${spread.dropZone.startSrc}')">
+              </div>
+            </div>
+            <div class="drag-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" style="position: absolute; bottom: 6%; left: 59%; transform: translateX(-50%); width: 350px; text-align: center; font-family: var(--font-body); font-weight: bold; background: white; padding: 10px 20px; border-radius: 20px; border: 4px solid var(--color-wood); box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 100; font-size: 1.2rem;"></div>
           </div>
-          <div class="drop-zone-container" style="position: relative; margin-right: 200px;">
-            <img src="${spread.dropZone.startSrc}" id="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" style="width: 350px; height: auto;" onerror="handleImageError(this, '${spread.dropZone.startSrc}')">
-          </div>
         </div>
-        <div class="drag-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" style="position: absolute; bottom: 25px; left: 57%; transform: translateX(-50%); width: 400px; text-align: center; font-family: var(--font-body); font-weight: bold; background: white; padding: 15px 25px; border-radius: 25px; border: 4px solid var(--color-wood); box-shadow: 0 15px 30px rgba(0,0,0,0.2); z-index: 100; font-size: 1.4rem;"></div>
+
       </div>
     `;
   }

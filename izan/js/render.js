@@ -208,9 +208,19 @@ function renderSpreadHTML(spread, index) {
     `).join('');
 
     const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+    const introSpeechHtml = spread.introSpeechBubbles ? renderSpeechBubbles(spread.introSpeechBubbles) : '';
+
+    const introHtml = spread.introImage ? `
+      <div class="drag-drop-intro-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${spread.bgColor || '#FFFDF7'}; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
+        <img src="${spread.introImage}" class="full-bleed-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${spread.introImage}')">
+        ${introSpeechHtml}
+        <button class="bouncy-btn" style="position: absolute; bottom: 50px; font-size: 1.8rem; padding: 15px 40px; z-index: 51; box-shadow: 0 10px 25px rgba(0,0,0,0.3);" onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.style.display='none', 300); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Mulai Main!</button>
+      </div>
+    ` : '';
 
     return `
       <div class="page-spread-container drag-drop-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 40px 60px; user-select: none; position: relative;">
+        ${introHtml}
         ${speechHtml}
         <div class="story-text-container" style="margin-bottom: 20px; width: 100%; border: none; box-shadow: none; background: transparent; padding: 0; flex-direction: column;">
           <h2 style="font-family: var(--font-title); font-size: 2.8rem; line-height: 1.4; margin: 0; text-align: center; color: var(--color-wood); text-shadow: 0 4px 0px rgba(255, 255, 255, 0.8), 3px 6px 0px rgba(139, 90, 43, 0.15); letter-spacing: 1px;">

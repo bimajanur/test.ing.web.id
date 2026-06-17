@@ -99,7 +99,7 @@ window.initDragDrop = function (container) {
         // Snap back
         currentX = 0;
         currentY = 0;
-        item.style.transform = `translate(0px, 0px) scale(1) rotate(35deg)`;
+        item.style.transform = `translate(0px, 0px) scale(1) rotate(0deg)`;
       }
     };
 

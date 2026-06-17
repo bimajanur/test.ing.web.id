@@ -136,7 +136,16 @@ const bookData = {
     // halaman 7: GAME 2 - Teteskan sirup!
     {
       type: "drag-drop-game",
-      bgColor: "#F7FBFB",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-7/cerita.png",
+      introSpeechBubbles: [
+        {
+          text: "Izan siap mencampur sirup!",
+          audio: "audio/halaman-7-intro.mp3",
+          top: "10%",
+          left: "55%"
+        }
+      ],
       title: "Bantu Izan Teteskan Sirup, Yuk!",
       subtitle: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
       speechBubbles: [
@@ -185,7 +194,7 @@ const bookData = {
 
     // halaman 9: GAME 3 - Cari yang sama!
     {
-      bgColorLeft: "#FCFAF5",
+      bgColorLeft: "#FFFDF7",
       bgColorRight: "#FCFAF5",
       left: {
         type: "quiz-question",

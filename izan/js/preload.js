@@ -10,6 +10,12 @@ function preloadAudio() {
         });
       }
 
+      if (spread.introSpeechBubbles) {
+        spread.introSpeechBubbles.forEach(bubble => {
+          if (bubble.audio) audioToLoad.push(bubble.audio);
+        });
+      }
+
       // Periksa audio di left/right jika ada yang menggunakan speechBubbles
       if (spread.left && spread.left.speechBubbles) {
         spread.left.speechBubbles.forEach(bubble => {
@@ -43,6 +49,7 @@ function preloadImages() {
   if (typeof bookData !== 'undefined' && bookData.spreads) {
     bookData.spreads.forEach(spread => {
       if (spread.image) imagesToLoad.push(spread.image);
+      if (spread.introImage) imagesToLoad.push(spread.introImage);
       if (spread.left && spread.left.image) imagesToLoad.push(spread.left.image);
       if (spread.right && spread.right.image) imagesToLoad.push(spread.right.image);
       if (spread.bgImage) imagesToLoad.push(spread.bgImage);

@@ -165,16 +165,32 @@ const bookData = {
         }
       ],
       draggables: [
-        { id: "botol-merah", src: "images/halaman-7/botol-merah.png", correct: true },
-        { id: "botol-hijau", src: "images/halaman-7/botol-hijau.png", correct: false },
-        { id: "botol-kuning", src: "images/halaman-7/botol-kuning.png", correct: false }
+        { id: "botol-merah", src: "images/halaman-7/botol-merah.png", target: "merah" },
+        { id: "botol-hijau", src: "images/halaman-7/botol-hijau.png", target: "hijau" },
+        { id: "botol-kuning", src: "images/halaman-7/botol-kuning.png", target: "kuning" }
       ],
-      dropZone: {
-        startSrc: "images/halaman-7/mangkok-merah-start.png",
-        doneSrc: "images/halaman-7/mangkok-merah-done.png"
-      },
+      dropZones: [
+        {
+          id: "hijau",
+          startSrc: "images/halaman-7/mangkok-hijau-start.png",
+          doneSrc: "images/halaman-7/mangkok-hijau-done.png",
+          decoration: { src: "images/halaman-7/angka-1.png", className: "drop-zone-deco" }
+        },
+        {
+          id: "kuning",
+          startSrc: "images/halaman-7/mangkok-kuning-start.png",
+          doneSrc: "images/halaman-7/mangkok-kuning-done.png",
+          decoration: { src: "images/halaman-7/angka-2.png", className: "drop-zone-deco" }
+        },
+        {
+          id: "merah",
+          startSrc: "images/halaman-7/mangkok-merah-start.png",
+          doneSrc: "images/halaman-7/mangkok-merah-done.png",
+          decoration: { src: "images/halaman-7/angka-3.png", className: "drop-zone-deco" }
+        }
+      ],
       feedbackCorrect: "Benar sekali!",
-      feedbackIncorrect: "Coba lagi!"
+      feedbackIncorrect: "Warna sirup tidak cocok, coba lagi!"
     },
 
     // halaman 8: Manis, legit, lengket sekali!

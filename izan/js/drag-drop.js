@@ -1,20 +1,24 @@
 window.initDragDrop = function (container) {
   const draggables = container.querySelectorAll('.draggable-item');
-  const dropZone = container.querySelector('.drop-zone-container');
-  const dropZoneImg = container.querySelector('#drop-zone-img');
+  const dropZones = container.querySelectorAll('.drop-zone-container');
   const feedback = container.querySelector('.drag-feedback');
+  const nextBtn = container.querySelector('.next-level-btn');
 
-  if (!draggables.length || !dropZone || !dropZoneImg) return;
+  if (!draggables.length || !dropZones.length) return;
 
   let feedbackTimeout = null;
+  let completedZones = 0;
+  const totalZones = dropZones.length;
 
   draggables.forEach(item => {
     let isDragging = false;
     let startX, startY;
     let currentX = 0;
     let currentY = 0;
+    let hasSuccessfullyDropped = false;
 
     const handleStart = (e) => {
+      if (hasSuccessfullyDropped && item.dataset.target === "") return; // Disable if already successfully used (unless it's a multi-use or single target missing)
       isDragging = true;
       const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
       const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
@@ -55,26 +59,61 @@ window.initDragDrop = function (container) {
       item.style.zIndex = 10;
       item.style.cursor = 'grab';
 
-      // Check collision with drop zone
+      // Check collision with any drop zone
       const itemRect = item.getBoundingClientRect();
-      const dropRect = dropZone.getBoundingClientRect();
+      // Define collision area as the top-right quadrant of the item (the nozzle/tip of the bottle)
+      const itemColLeft = itemRect.left + itemRect.width * 0.5;
+      const itemColRight = itemRect.right;
+      const itemColTop = itemRect.top;
+      const itemColBottom = itemRect.top + itemRect.height * 0.5;
 
-      // Expand drop zone slightly for easier drop
-      const isColliding = !(
-        itemRect.right < dropRect.left - 20 ||
-        itemRect.left > dropRect.right + 20 ||
-        itemRect.bottom < dropRect.top - 20 ||
-        itemRect.top > dropRect.bottom + 20
-      );
+      let collidedZone = null;
+      let matchingCollidedZone = null;
 
-      if (isColliding) {
-        if (item.dataset.correct === 'true') {
+      for (const dropZone of dropZones) {
+        const dropRect = dropZone.getBoundingClientRect();
+        // Expand drop zone slightly for easier drop
+        const isColliding = !(
+          itemColRight < dropRect.left - 20 ||
+          itemColLeft > dropRect.right + 20 ||
+          itemColBottom < dropRect.top - 20 ||
+          itemColTop > dropRect.bottom + 20
+        );
+        
+        if (isColliding) {
+          if (!collidedZone) collidedZone = dropZone; // keep the first one as fallback
+          
+          if ((item.dataset.target && item.dataset.target === dropZone.dataset.target) || 
+              (!item.dataset.target && item.dataset.correct === 'true')) {
+            matchingCollidedZone = dropZone;
+            break;
+          }
+        }
+      }
+
+      // Prioritize the matching zone if overlapping multiple, otherwise just use the first collided zone to trigger the 'incorrect' feedback
+      collidedZone = matchingCollidedZone || collidedZone;
+
+      if (collidedZone) {
+        // Validation check
+        const isCorrectTarget = (item.dataset.target && item.dataset.target === collidedZone.dataset.target);
+        const isLegacyCorrect = (!item.dataset.target && item.dataset.correct === 'true');
+        
+        if (isCorrectTarget || isLegacyCorrect) {
           // Success
           currentX = 0;
           currentY = 0;
           item.style.transform = `translate(0px, 0px) scale(1)`;
 
-          dropZoneImg.src = dropZoneImg.dataset.doneSrc;
+          // Mark specific bottle as used
+          hasSuccessfullyDropped = true;
+
+          const dropZoneImg = collidedZone.querySelector('.drop-zone-img') || collidedZone.querySelector('#drop-zone-img');
+          if (dropZoneImg && !collidedZone.dataset.completed) {
+            dropZoneImg.src = dropZoneImg.dataset.doneSrc;
+            collidedZone.dataset.completed = "true";
+            completedZones++;
+          }
 
           if (typeof sounds !== 'undefined' && sounds.playChime) sounds.playChime();
 
@@ -82,7 +121,22 @@ window.initDragDrop = function (container) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
             feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
             feedback.classList.remove('hidden');
+            feedbackTimeout = setTimeout(() => {
+              feedback.classList.add('hidden');
+            }, 2000);
           }
+
+          // Check if all zones completed
+          if (completedZones >= totalZones) {
+             if (nextBtn) {
+               nextBtn.classList.remove('hidden');
+             }
+             if (feedback) {
+                feedback.innerHTML = `<span style="color:var(--color-grass-dark)">Semua warna sudah sesuai! Hebat!</span>`;
+                feedback.classList.remove('hidden');
+             }
+          }
+
         } else {
           // Incorrect
           currentX = 0;

@@ -6,12 +6,12 @@ const elements = {
   btnPrev: document.getElementById('btn-prev'),
   btnNext: document.getElementById('btn-next'),
   btnSound: document.getElementById('btn-sound'),
-  btnHelp: document.getElementById('btn-help'),
-  btnCloseHelp: document.getElementById('btn-close-help'),
+  btnInfo: document.getElementById('btn-info'),
+  btnCloseInfo: document.getElementById('btn-close-info'),
   btnStart: document.getElementById('btn-start'),
 
   welcomeOverlay: document.getElementById('welcome-overlay'),
-  helpOverlay: document.getElementById('help-overlay'),
+  infoOverlay: document.getElementById('info-overlay'),
 
   pageTrack: document.getElementById('page-track'),
   pageSlotActive: document.getElementById('page-slot-active'),

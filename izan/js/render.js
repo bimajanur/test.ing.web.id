@@ -147,134 +147,169 @@ function renderColumnHTML(colData, side, spreadIndex) {
 }
 
 // Render HTML untuk Halaman Tunggal 16:9 berdasarkan spread data
-function renderSpreadHTML(spread, index) {
-  if (!spread) return '';
+// Helper Render Functions for different spread types
 
-  // Handle Animasi Melambai (Waving) first so it can be used as cover or any other page
-  if (spread.type === 'waving-animation') {
-    const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+function renderWavingSpread(spread) {
+  const speechHtml = renderSpeechBubbles(spread.speechBubbles);
 
-    return `
-      <div class="page-spread-container waving-animation-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; box-sizing: border-box; position: relative; overflow: hidden;">
-        <div class="waving-container" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 0; box-sizing: border-box;">
-          <img src="${spread.bgImage}" class="full-bleed-image" style="position: absolute; top: 0; left: 0; z-index: 2;" onerror="handleImageError(this, '${spread.bgImage}')">
-          <img src="${spread.handImage}" class="waving-hand-anim" style="position: absolute; top: ${spread.handTop || '50%'}; left: ${spread.handLeft || '50%'}; width: ${spread.handWidth || '150px'}; z-index: 1; transform-origin: ${spread.handOrigin || 'bottom right'};" onerror="handleImageError(this, '${spread.handImage}')">
-        </div>
-        ${speechHtml}
-        <div class="full-image-text" style="position: absolute; z-index: 3; background: rgba(255, 255, 255, 0.9); padding: 20px 40px; border-radius: 20px; text-align: center; border: 4px dashed var(--color-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: ${spread.text ? 'block' : 'none'}; bottom: 50px;">
-          <h2 style="font-family: var(--font-title); font-size: 2.5rem; color: var(--color-wood); margin: 0; animation: bounce 2s infinite alternate;">${spread.text || ''}</h2>
-        </div>
+  return `
+    <div class="spread-waving" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <div class="spread-waving-bg">
+        <img src="${spread.bgImage}" class="full-bleed-image" onerror="handleImageError(this, '${spread.bgImage}')">
+        <img src="${spread.handImage}" class="spread-waving-hand waving-hand-anim" style="top: ${spread.handTop || '50%'}; left: ${spread.handLeft || '50%'}; width: ${spread.handWidth || '150px'}; transform-origin: ${spread.handOrigin || 'bottom right'};" onerror="handleImageError(this, '${spread.handImage}')">
       </div>
-    `;
-  }
+      ${speechHtml}
+      <div class="spread-text-overlay spread-text-overlay-bottom" style="display: ${spread.text ? 'block' : 'none'};">
+        <h2 class="spread-text-title">${spread.text || ''}</h2>
+      </div>
+    </div>
+  `;
+}
 
-  // 2. Sampul Belakang (Spread Terakhir)
-  if (index === state.totalSpreads - 1) {
-    return `
-      <div class="page-content back-cover-page-unified" style="background: radial-gradient(circle, #FFFDE8 0%, ${spread.bgColorLeft || '#FFB26B'} 100%); width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box; padding: 40px; text-align: center;">
-        <h2 class="back-cover-title">${spread.left.title}</h2>
-        <p class="back-cover-text">${spread.left.message}</p>
-        <div style="margin-top: 30px; animation: float-avatar 3s ease-in-out infinite alternate;">
-          <button class="start-btn bouncy-btn" onclick="goToFirstPage(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
-             📙 Baca Ulang Cerita
+function renderBackCoverSpread(spread) {
+  const bgStyle = spread.bgColorLeft ? `background: radial-gradient(circle, #FFFDE8 0%, ${spread.bgColorLeft} 100%);` : '';
+  
+  return `
+    <div class="spread-back-cover" style="${bgStyle}">
+      <h2 class="back-cover-title">${spread.left.title}</h2>
+      <p class="back-cover-text">${spread.left.message}</p>
+      <div style="margin-top: 30px; animation: float-avatar 3s ease-in-out infinite alternate;">
+        <button class="start-btn bouncy-btn" onclick="goToFirstPage(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+           📙 Baca Ulang Cerita
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderFullImageSpread(spread) {
+  const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+
+  return `
+    <div class="spread-full-image" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <div class="spread-full-image-wrapper">
+        ${renderImageOrPlaceholder(spread.image, spread.text, 'full-bleed-image')}
+      </div>
+      ${speechHtml}
+      <div class="spread-text-overlay" style="display: ${spread.text && !spread.speechText ? 'block' : 'none'};">
+        <h2 class="spread-text-title">${spread.text}</h2>
+      </div>
+    </div>
+  `;
+}
+
+function renderGameSpread(spread) {
+  const draggablesHtml = spread.draggables.map(d => `
+    <img src="${d.src}" class="draggable-item" data-id="${d.id}" data-target="${d.target || ''}" data-correct="${d.correct || false}"
+         draggable="false" onerror="handleImageError(this, '${d.src}')">
+  `).join('');
+
+  const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+  const introSpeechHtml = spread.introSpeechBubbles ? renderSpeechBubbles(spread.introSpeechBubbles) : '';
+
+  const introHtml = spread.introImage ? `
+    <div class="game-intro-overlay" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <img src="${spread.introImage}" class="game-intro-bg" onerror="handleImageError(this, '${spread.introImage}')">
+      ${introSpeechHtml}
+      <div class="game-intro-btn-wrapper">
+        <div class="game-intro-btn-anim">
+          <button class="start-btn bouncy-btn" onclick="const popup = this.closest('.spread-game').querySelector('.game-popup-overlay'); if(popup){ document.getElementById('app-container').appendChild(popup); popup.classList.remove('hidden'); popup.style.display='flex'; } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+            Mulai Main ➔
           </button>
         </div>
       </div>
-    `;
-  }
+    </div>
+  ` : '';
 
-  // 3. Halaman Full Image
-  if (spread.type === 'full-image') {
-    const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+  const dropZonesHtml = spread.dropZones ? spread.dropZones.map(dz => `
+    <div class="drop-zone-container drop-zone-item" data-target="${dz.id}">
+      ${dz.decoration ? `<img src="${dz.decoration.src}" class="${dz.decoration.className || ''}" style="${dz.decoration.style || ''}" onerror="handleImageError(this, '${dz.decoration.src}')">` : ''}
+      <img src="${dz.startSrc}" class="drop-zone-img" data-done-src="${dz.doneSrc}" onerror="handleImageError(this, '${dz.startSrc}')">
+    </div>
+  `).join('') : `
+    <div class="drop-zone-container drop-zone-item">
+      ${spread.dropZone.decoration ? `<img src="${spread.dropZone.decoration.src}" class="${spread.dropZone.decoration.className || ''}" style="${spread.dropZone.decoration.style || ''}" onerror="handleImageError(this, '${spread.dropZone.decoration.src}')">` : ''}
+      <img src="${spread.dropZone.startSrc}" class="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" onerror="handleImageError(this, '${spread.dropZone.startSrc}')">
+    </div>
+  `;
 
-    return `
-      <div class="page-spread-container full-image-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; box-sizing: border-box; position: relative; overflow: hidden;">
-        <div class="full-image-wrapper" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 0; box-sizing: border-box;">
-          ${renderImageOrPlaceholder(spread.image, spread.text, 'full-bleed-image')}
-        </div>
-        ${speechHtml}
-        <div class="full-image-text" style="position: absolute; z-index: 2; background: rgba(255, 255, 255, 0.9); padding: 20px 40px; border-radius: 20px; text-align: center; border: 4px dashed var(--color-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: ${spread.text && !spread.speechText ? 'block' : 'none'};">
-          <h2 style="font-family: var(--font-title); font-size: 2.5rem; color: var(--color-wood); margin: 0; animation: bounce 2s infinite alternate;">${spread.text}</h2>
-        </div>
-      </div>
-    `;
-  }
+  return `
+    <div class="spread-game" style="background: ${spread.bgColor || '#FFFDF7'};">
+      ${introHtml}
+      
+      <!-- The Game Popup Overlay -->
+      <div class="game-popup-overlay hidden" style="display: none;">
+        <div class="game-popup-content" style="background: ${spread.bgColor || '#FFFDF7'};">
+          
+          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); const container = document.querySelector('.spread-game'); if(container) { container.appendChild(popup); } else { popup.remove(); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
-  // 4. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
-  if (spread.type === 'drag-drop-game') {
-    const draggablesHtml = spread.draggables.map(d => `
-      <img src="${d.src}" class="draggable-item" data-id="${d.id}" data-correct="${d.correct}" 
-           draggable="false"
-           style="width: 160px; height: auto; cursor: grab; position: relative; touch-action: none; z-index: 10; transition: transform 0.3s;" 
-           onerror="handleImageError(this, '${d.src}')">
-    `).join('');
-
-    const speechHtml = renderSpeechBubbles(spread.speechBubbles);
-    const introSpeechHtml = spread.introSpeechBubbles ? renderSpeechBubbles(spread.introSpeechBubbles) : '';
-
-    const introHtml = spread.introImage ? `
-      <div class="drag-drop-intro-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${spread.bgColor || '#FFFDF7'}; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
-        <img src="${spread.introImage}" class="full-bleed-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${spread.introImage}')">
-        ${introSpeechHtml}
-        <div style="width: 15%; position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); z-index: 51;">
-          <div style="animation: float-avatar 3s ease-in-out infinite alternate;">
-            <button class="start-btn bouncy-btn" onclick="const popup = this.closest('.page-spread-container').querySelector('.game-popup-overlay'); if(popup){ document.getElementById('app-container').appendChild(popup); popup.classList.remove('hidden'); popup.style.display='flex'; } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
-              Mulai Main ➔
-            </button>
+          ${speechHtml}
+          <div class="story-text-container game-title-wrapper">
+            <h2 class="game-title">
+              ${spread.title.replace(/\n/g, '<br>')}
+              ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
+            </h2>
           </div>
-        </div>
-      </div>
-    ` : '';
-
-    return `
-      <div class="page-spread-container drag-drop-spread" style="background: ${spread.bgColor || '#FFFDF7'}; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 0; user-select: none; position: relative;">
-        ${introHtml}
-        
-        <!-- The Game Popup Overlay -->
-        <div class="game-popup-overlay hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center;">
-          <!-- 16:9 Popup Container -->
-          <div class="game-popup-content" style="aspect-ratio: 16/9; width: 90%; max-height: 90%; background: ${spread.bgColor || '#FFFDF7'}; border-radius: 28px; border: 8px solid var(--color-wood); display: flex; flex-direction: column; position: relative; padding: 25px 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); box-sizing: border-box; animation: pop-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;">
-            
-            <button class="close-btn bouncy-btn" style="position: absolute; top: -15px; right: -15px; z-index: 110; width: 45px; height: 45px; padding: 0; border-radius: 50%; background: #ff4757; border: 4px solid var(--color-wood); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); const container = document.querySelector('.drag-drop-spread'); if(container) { container.appendChild(popup); } else { popup.remove(); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
-
-            ${speechHtml}
-            <div class="story-text-container" style="margin-bottom: 10px; width: 100%; border: none; box-shadow: none; background: transparent; padding: 0; flex-direction: column; z-index: 5;">
-              <h2 style="font-family: var(--font-title); font-size: 2.2rem; line-height: 1.2; margin: 0; text-align: center; color: var(--color-wood); text-shadow: 0 4px 0px rgba(255, 255, 255, 0.8), 3px 6px 0px rgba(139, 90, 43, 0.15); letter-spacing: 1px;">
-                ${spread.title.replace(/\n/g, '<br>')}
-                ${spread.subtitle ? `<span style="display: block; font-size: 1.2rem; color: var(--color-text); font-family: var(--font-body); font-weight: 700; text-shadow: none; letter-spacing: normal; margin-top: 5px;">${spread.subtitle}</span>` : ''}
-              </h2>
+          <div class="game-layout">
+            <div class="drag-items-container drag-items-list">
+               ${draggablesHtml}
             </div>
-            <div style="display: flex; width: 100%; justify-content: space-between; align-items: center; flex-grow: 1; margin-top: 0px; padding: 0 40px;">
-              <div class="drag-items-container" style="display: flex; flex-direction: column; align-items: center; gap: 0px; padding-left: 30px; z-index: 10;">
-                 ${draggablesHtml}
-              </div>
-              <div class="drop-zone-container" style="position: relative; margin-right: 30%; margin-top: 2%; z-index: 5;">
-                <img src="${spread.dropZone.startSrc}" id="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" style="width: 320px; height: auto;" onerror="handleImageError(this, '${spread.dropZone.startSrc}')">
-              </div>
+            <div class="drop-zones-wrapper drop-zones-list">
+              ${dropZonesHtml}
             </div>
-            <div class="drag-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" style="position: absolute; bottom: 6%; left: 59%; transform: translateX(-50%); width: 350px; text-align: center; font-family: var(--font-body); font-weight: bold; background: white; padding: 10px 20px; border-radius: 20px; border: 4px solid var(--color-wood); box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 100; font-size: 1.2rem;"></div>
           </div>
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
+          
+          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
-
       </div>
-    `;
-  }
+    </div>
+  `;
+}
 
-  // 5. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
+function renderStandardSpread(spread, index) {
   const leftHTML = renderColumnHTML(spread.left, 'left', index);
   const rightHTML = renderColumnHTML(spread.right, 'right', index);
   const bgStyle = `background: linear-gradient(135deg, ${spread.bgColorLeft || '#FFFDF7'} 0%, ${spread.bgColorRight || '#FFFDF7'} 100%);`;
 
   return `
-    <div class="page-spread-container" style="${bgStyle} width: 100%; height: 100%; display: flex; box-sizing: border-box; position: relative;">
-      <div class="page-column page-column-left" style="width: 50%; height: 100%; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px;">
+    <div class="spread-split" style="${bgStyle}">
+      <div class="page-column page-column-left spread-split-col">
         ${leftHTML}
       </div>
-      <div class="page-column page-column-right" style="width: 50%; height: 100%; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px; border-left: 4px dashed rgba(139, 90, 43, 0.15);">
+      <div class="page-column page-column-right spread-split-col spread-split-col-right">
         ${rightHTML}
       </div>
     </div>
   `;
+}
+
+// Render HTML untuk Halaman Tunggal 16:9 berdasarkan spread data
+function renderSpreadHTML(spread, index) {
+  if (!spread) return '';
+
+  // 1. Sampul Depan / Waving Animation
+  if (spread.type === 'waving-animation') {
+    return renderWavingSpread(spread);
+  }
+
+  // 2. Sampul Belakang (Spread Terakhir)
+  if (index === state.totalSpreads - 1) {
+    return renderBackCoverSpread(spread);
+  }
+
+  // 3. Halaman Full Image
+  if (spread.type === 'full-image') {
+    return renderFullImageSpread(spread);
+  }
+
+  // 4. Halaman Game Drag Drop
+  if (spread.type === 'drag-drop-game') {
+    return renderGameSpread(spread);
+  }
+
+  // 5. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
+  return renderStandardSpread(spread, index);
 }
 
 // 8. Render Static Spread

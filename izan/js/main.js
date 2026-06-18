@@ -36,14 +36,14 @@ function initEvents() {
     handleSoundToggle();
   });
 
-  elements.btnHelp.addEventListener('click', () => {
+  elements.btnInfo.addEventListener('click', () => {
     sounds.playPop();
-    elements.helpOverlay.classList.remove('hidden');
+    elements.infoOverlay.classList.remove('hidden');
   });
 
-  elements.btnCloseHelp.addEventListener('click', () => {
+  elements.btnCloseInfo.addEventListener('click', () => {
     sounds.playPop();
-    elements.helpOverlay.classList.add('hidden');
+    elements.infoOverlay.classList.add('hidden');
   });
 
   // Welcome screen Start button

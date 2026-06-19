@@ -988,6 +988,7 @@ li .icon-btn svg {
 /* Speech Balloon Styles */
 .speech-balloon-container {
   position: absolute;
+  margin-right: 10px;
   /* Top and left diposisikan via inline style di render.js */
   z-index: 4;
   max-width: 80%;
@@ -1192,7 +1193,7 @@ li .icon-btn svg {
 .game-intro-btn-wrapper {
   width: 15%;
   position: absolute;
-  bottom: 50px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 51;

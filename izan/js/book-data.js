@@ -101,14 +101,14 @@ const bookData = {
         {
           text: "Buka! Buka! Buka!",
           audio: "audio/halaman-5-intro.mp3",
-          top: "15%",
-          left: "10%"
+          top: "7%",
+          left: "3%"
         },
         {
           text: "ayo keluarkan kuenya, nak",
           audio: "audio/halaman-5-intro2.mp3",
-          top: "50%",
-          left: "58%"
+          top: "30%",
+          left: "78%"
         }
       ],
       title: "Keluarkan kuenya yuk!",
@@ -372,7 +372,13 @@ const bookData = {
       panImage: "images/halaman-16/wajan.png",
       plateImage: "images/halaman-16/piring.png",
       maxDraws: 5,
-      drawColors: ["#F3C550", "#83BD75", "#FF7B54", "#995707", "#f178b1"], // Warna adonan untuk masing-masing giliran (kuning, hijau, jingga)
+      drawColors: [
+        "#F3C550",
+        "#83BD75",
+        "#FF7B54",
+        "#995707",
+        "#f178b1"
+      ],
       feedbackCorrect: "Kue jalamu terlihat lezat sekali!",
       feedbackIncorrect: "Coba lagi!"
     },

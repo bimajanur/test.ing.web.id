@@ -253,17 +253,30 @@ const bookData = {
 
     // halaman 11: GAME 4 - Tumpuk tinggi sekali!
     {
-      bgColorLeft: "#FFFDF7",
-      bgColorRight: "#FFFDF7",
-      left: {
-        type: "story-image",
-        image: "images/halaman-11/cerita.jpg",
-        alt: "Merayakan Bersama Teman"
-      },
-      right: {
-        type: "story-text",
-        text: "ibu : Bantu ibu susun lapisan kue lapis ya\nizan : Tumpuk lapis legit, tinggi sekali!\nizan : Wah, kamu hebat! Kuenya jadi tinggi sekali!"
-      }
+      type: "drag-drop-game",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-13/intro.jpg",
+      introSpeechBubbles: [
+        {
+          text: "Bantu pasangkan yuk!",
+          audio: "audio/halaman-13-intro.mp3",
+          top: "10%",
+          left: "10%"
+        },
+        {
+          text: "Selalu berdua, tidak berpisah!",
+          audio: "audio/halaman-13-intro2.mp3",
+          top: "25%",
+          left: "10%"
+        }
+      ],
+      title: "Pasangkan Kue",
+      subtitle: "",
+      speechBubbles: [],
+      draggables: [],
+      dropZones: [],
+      feedbackCorrect: "Bagus!",
+      feedbackIncorrect: "Coba lagi!"
     },
 
     // halaman 12: Daun hijau, bungkus rapi!

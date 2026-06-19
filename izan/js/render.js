@@ -111,7 +111,7 @@ function renderColumnHTML(colData, side, spreadIndex) {
             <span class="quiz-badge">KUIS HARI RAYA 🤔</span>
             <p class="quiz-question-text" style="font-size: 1.4rem; line-height: 2rem;">${colData.question}</p>
           </div>
-          <div class="illustration-container quiz-image-holder" style="width: 100%; height: 210px; margin-top: 15px;">
+          <div class="illustration-container quiz-image-holder" style="width: 100%; height: 256px; margin-top: 15px;">
             ${renderImageOrPlaceholder(colData.image, "Pertanyaan Kuis")}
           </div>
         </div>
@@ -168,7 +168,7 @@ function renderWavingSpread(spread) {
 
 function renderBackCoverSpread(spread) {
   const bgStyle = spread.bgColorLeft ? `background: radial-gradient(circle, #FFFDE8 0%, ${spread.bgColorLeft} 100%);` : '';
-  
+
   return `
     <div class="spread-back-cover" style="${bgStyle}">
       <h2 class="back-cover-title">${spread.left.title}</h2>
@@ -267,6 +267,69 @@ function renderGameSpread(spread) {
   `;
 }
 
+function renderDrawingGameSpread(spread) {
+  const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+  const introSpeechHtml = spread.introSpeechBubbles ? renderSpeechBubbles(spread.introSpeechBubbles) : '';
+
+  const introHtml = spread.introImage ? `
+    <div class="game-intro-overlay" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <img src="${spread.introImage}" class="game-intro-bg" onerror="handleImageError(this, '${spread.introImage}')">
+      ${introSpeechHtml}
+      <div class="game-intro-btn-wrapper">
+        <div class="game-intro-btn-anim">
+          <button class="start-btn bouncy-btn" onclick="const popup = this.closest('.spread-game').querySelector('.game-popup-overlay'); if(popup){ document.getElementById('app-container').appendChild(popup); popup.classList.remove('hidden'); popup.style.display='flex'; } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+            Mulai Main ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  ` : '';
+
+  return `
+    <div class="spread-game spread-drawing-game" style="background: ${spread.bgColor || '#FFFDF7'};">
+      ${introHtml}
+      
+      <!-- The Game Popup Overlay -->
+      <div class="game-popup-overlay hidden" style="display: none;">
+        <div class="game-popup-content" style="background: ${spread.bgColor || '#FFFDF7'};">
+          
+          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); const container = document.querySelector('.spread-game'); if(container) { container.appendChild(popup); } else { popup.remove(); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
+
+          ${speechHtml}
+          <div class="story-text-container game-title-wrapper">
+            <h2 class="game-title">
+              ${spread.title.replace(/\n/g, '<br>')}
+              ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
+            </h2>
+          </div>
+          
+          <div class="drawing-game-layout">
+            <!-- Left: Drawing Area (Pan) -->
+            <div class="drawing-area-container">
+              <div class="drawing-pan" style="background-image: url('${spread.panImage}');">
+                <canvas class="drawing-canvas"></canvas>
+              </div>
+            </div>
+            
+            <!-- Right: Plate Area -->
+            <div class="plate-area-container">
+              <div style="position: relative;">
+                <img src="${spread.plateImage}" class="drawing-plate" onerror="handleImageError(this, '${spread.plateImage}')">
+                <div class="plate-stack"></div>
+              </div>
+              <button class="drawing-btn-finish bouncy-btn hidden">Pindahkan ke Piring ➔</button>
+            </div>
+          </div>
+          
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
+          
+          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderStandardSpread(spread, index) {
   const leftHTML = renderColumnHTML(spread.left, 'left', index);
   const rightHTML = renderColumnHTML(spread.right, 'right', index);
@@ -308,6 +371,11 @@ function renderSpreadHTML(spread, index) {
     return renderGameSpread(spread);
   }
 
+  // 4.5. Halaman Game Menggambar Bebas
+  if (spread.type === 'drawing-game') {
+    return renderDrawingGameSpread(spread);
+  }
+
   // 5. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
   return renderStandardSpread(spread, index);
 }
@@ -326,6 +394,12 @@ function renderStaticSpread(index) {
     setTimeout(() => {
       if (window.initDragDrop) {
         window.initDragDrop(elements.pageSlotActive);
+      }
+    }, 100);
+  } else if (spread.type === 'drawing-game') {
+    setTimeout(() => {
+      if (window.initDrawingGame) {
+        window.initDrawingGame(elements.pageSlotActive, spread);
       }
     }, 100);
   }

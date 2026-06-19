@@ -88,6 +88,10 @@ function navigateNext() {
       setTimeout(() => {
         if (window.initDragDrop) window.initDragDrop(elements.pageSlotActive);
       }, 50);
+    } else if (nextSpread.type === 'drawing-game') {
+      setTimeout(() => {
+        if (window.initDrawingGame) window.initDrawingGame(elements.pageSlotActive, nextSpread);
+      }, 50);
     }
   }, 600); // Matches the CSS transform transition timing
 }
@@ -138,6 +142,10 @@ function navigatePrev() {
     if (prevSpread.type === 'drag-drop-game') {
       setTimeout(() => {
         if (window.initDragDrop) window.initDragDrop(elements.pageSlotActive);
+      }, 50);
+    } else if (prevSpread.type === 'drawing-game') {
+      setTimeout(() => {
+        if (window.initDrawingGame) window.initDrawingGame(elements.pageSlotActive, prevSpread);
       }, 50);
     }
   }, 600); // Matches the CSS transform transition timing

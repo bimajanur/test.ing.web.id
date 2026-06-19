@@ -222,7 +222,7 @@ const bookData = {
       bgColorRight: "#FCFAF5",
       left: {
         type: "quiz-question",
-        image: "images/kuis3.jpg",
+        image: "images/halaman-9/intro.jpg",
         question: "ayah : Cari yang bentuknya sama yuk!"
       },
       right: {
@@ -255,19 +255,19 @@ const bookData = {
     {
       type: "drag-drop-game",
       bgColor: "#FFFDF7",
-      introImage: "images/halaman-13/intro.jpg",
+      introImage: "images/halaman-11/intro.jpg",
       introSpeechBubbles: [
         {
-          text: "Bantu pasangkan yuk!",
-          audio: "audio/halaman-13-intro.mp3",
+          text: "Bantu ibu susun lapisan kue lapis ya",
+          audio: "audio/halaman-11-intro.mp3",
           top: "10%",
           left: "10%"
         },
         {
-          text: "Selalu berdua, tidak berpisah!",
-          audio: "audio/halaman-13-intro2.mp3",
-          top: "25%",
-          left: "10%"
+          text: "Tumpuk lapis legit, tinggi sekali!",
+          audio: "audio/halaman-11-intro2.mp3",
+          top: "30%",
+          left: "30%"
         }
       ],
       title: "Pasangkan Kue",
@@ -275,7 +275,7 @@ const bookData = {
       speechBubbles: [],
       draggables: [],
       dropZones: [],
-      feedbackCorrect: "Bagus!",
+      feedbackCorrect: "Wah, kamu hebat! Kuenya jadi tinggi sekali!",
       feedbackIncorrect: "Coba lagi!"
     },
 
@@ -361,7 +361,7 @@ const bookData = {
 
     // halaman 16: GAME 7 - Putar putar, coret bebas, lukis! 
     {
-      type: "drag-drop-game",
+      type: "drawing-game",
       bgColor: "#FFFDF7",
       introImage: "images/halaman-16/intro.jpg",
       introSpeechBubbles: [
@@ -372,12 +372,14 @@ const bookData = {
           left: "10%"
         }
       ],
-      title: "Lukis Kue Jaring",
+      title: "Lukis Kue Jala",
       subtitle: "",
       speechBubbles: [],
-      draggables: [],
-      dropZones: [],
-      feedbackCorrect: "Bagus!",
+      panImage: "images/halaman-16/wajan.png",
+      plateImage: "images/halaman-16/piring.png",
+      maxDraws: 5,
+      drawColors: ["#F3C550", "#83BD75", "#FF7B54", "#995707", "#f178b1"], // Warna adonan untuk masing-masing giliran (kuning, hijau, jingga)
+      feedbackCorrect: "Kue jalamu terlihat lezat sekali!",
       feedbackIncorrect: "Coba lagi!"
     },
 

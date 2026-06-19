@@ -35,7 +35,7 @@ const bookData = {
       bgColorRight: "#FFFDF7",
       left: {
         type: "story-image",
-        image: "images/halaman-2.jpg",
+        image: "images/halaman-2/cerita.jpg",
         alt: "Petunjuk Penggunaan",
         speechBubbles: [
           {
@@ -62,7 +62,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-3.jpg",
+      image: "images/halaman-3/cerita.jpg",
       speechBubbles: [
         {
           text: "Bosan, cokelat lagi, cokelat lagi!",
@@ -79,7 +79,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-4.jpg",
+      image: "images/halaman-4/cerita.jpg",
       speechBubbles: [
         {
           text: "Lihat... Ayah bawa harta karun!",
@@ -100,29 +100,37 @@ const bookData = {
 
     // halaman 5: GAME 1 - Buka buka buka!
     {
-      bgColorLeft: "#F9FBF7",
-      bgColorRight: "#F9FBF7",
-      left: {
-        type: "quiz-question",
-        image: "images/kuis1.jpg",
-        question: "izan : Buka! Buka!Buka!\nibu : ayo keluarkan kuenya, nak"
-      },
-      right: {
-        type: "quiz-options",
-        options: [
-          { text: "Ketupat 🍙", correct: true },
-          { text: "Roti Pizza 🍕", correct: false }
-        ],
-        feedbackCorrect: "Hebat! Kamu benar! Ketupat dibungkus anyaman daun janur kuning kelapa.",
-        feedbackIncorrect: "Ayo coba lagi! Ketupat dibungkus daun kelapa muda yang dianyam."
-      }
+      type: "drag-drop-game",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-5/intro.jpg",
+      introSpeechBubbles: [
+        {
+          text: "Buka! Buka! Buka!",
+          audio: "audio/halaman-5-intro.mp3",
+          top: "15%",
+          left: "10%"
+        },
+        {
+          text: "ayo keluarkan kuenya, nak",
+          audio: "audio/halaman-5-intro2.mp3",
+          top: "50%",
+          left: "58%"
+        }
+      ],
+      title: "Keluarkan kuenya yuk!",
+      subtitle: "",
+      speechBubbles: [],
+      draggables: [],
+      dropZones: [],
+      feedbackCorrect: "Benar sekali!",
+      feedbackIncorrect: "Coba lagi!"
     },
 
     // halaman 6: bening kenyal dingin!
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-6.jpg",
+      image: "images/halaman-6/cerita.jpg",
       speechBubbles: [
         {
           text: "Bening kenyal dingin!",
@@ -137,7 +145,7 @@ const bookData = {
     {
       type: "drag-drop-game",
       bgColor: "#FFFDF7",
-      introImage: "images/halaman-7/cerita.png",
+      introImage: "images/halaman-7/intro.jpg",
       introSpeechBubbles: [
         {
           text: "Izan siap mencampur sirup!",
@@ -197,7 +205,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-8.jpg",
+      image: "images/halaman-8/cerita.jpg",
       speechBubbles: [
         {
           text: "Manis, legit, lengket sekali!",
@@ -232,7 +240,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-10.jpg",
+      image: "images/halaman-10/cerita.jpg",
       speechBubbles: [
         {
           text: "Ajaib! Garis cokelat, garis emas!",
@@ -249,7 +257,7 @@ const bookData = {
       bgColorRight: "#FFFDF7",
       left: {
         type: "story-image",
-        image: "images/halaman-11.jpg",
+        image: "images/halaman-11/cerita.jpg",
         alt: "Merayakan Bersama Teman"
       },
       right: {
@@ -262,7 +270,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-12.jpg",
+      image: "images/halaman-12/cerita.jpg",
       speechBubbles: [
         {
           text: "Burasa! Daun hijau, bungkus rapi!",
@@ -275,39 +283,59 @@ const bookData = {
 
     // halaman 13: GAME 5 - Selalu berdua!
     {
-      bgColorLeft: "#FFFDF7",
-      bgColorRight: "#FFFDF7",
-      left: {
-        type: "story-image",
-        image: "images/halaman-13.jpg",
-        alt: "Merayakan Bersama Teman"
-      },
-      right: {
-        type: "story-text",
-        text: "izan : Bantu pasangkan yuk!\nizan : Selalu berdua, tidak berpisah!"
-      }
+      type: "drag-drop-game",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-13/intro.jpg",
+      introSpeechBubbles: [
+        {
+          text: "Bantu pasangkan yuk!",
+          audio: "audio/halaman-13-intro.mp3",
+          top: "10%",
+          left: "10%"
+        },
+        {
+          text: "Selalu berdua, tidak berpisah!",
+          audio: "audio/halaman-13-intro2.mp3",
+          top: "25%",
+          left: "10%"
+        }
+      ],
+      title: "Pasangkan Kue",
+      subtitle: "",
+      speechBubbles: [],
+      draggables: [],
+      dropZones: [],
+      feedbackCorrect: "Bagus!",
+      feedbackIncorrect: "Coba lagi!"
     },
 
     // halaman 14: GAME 6 - Ikut garis, ikat erat!
     {
-      bgColorLeft: "#FFFDF7",
-      bgColorRight: "#FFFDF7",
-      left: {
-        type: "story-image",
-        image: "images/halaman-14.jpg",
-        alt: "Merayakan Bersama Teman"
-      },
-      right: {
-        type: "story-text",
-        text: "izan : Ikuti garisnya, ikat erat!"
-      }
+      type: "drag-drop-game",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-14/intro.jpg",
+      introSpeechBubbles: [
+        {
+          text: "Ikuti garisnya, ikat erat!",
+          audio: "audio/halaman-14-intro.mp3",
+          top: "10%",
+          left: "10%"
+        }
+      ],
+      title: "Ikat Kue Jaring",
+      subtitle: "",
+      speechBubbles: [],
+      draggables: [],
+      dropZones: [],
+      feedbackCorrect: "Bagus!",
+      feedbackIncorrect: "Coba lagi!"
     },
 
     // halaman 15: Jaring kuning, jaring ajaib
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-15.jpg",
+      image: "images/halaman-15/cerita.jpg",
       speechBubbles: [
         {
           text: "Jaring kuning, lezat rasanya!",
@@ -320,24 +348,31 @@ const bookData = {
 
     // halaman 16: GAME 7 - Putar putar, coret bebas, lukis! 
     {
-      bgColorLeft: "#FFFDF7",
-      bgColorRight: "#FFFDF7",
-      left: {
-        type: "story-image",
-        image: "images/halaman-16.jpg",
-        alt: "Merayakan Bersama Teman"
-      },
-      right: {
-        type: "story-text",
-        text: "izan : Putar-putar, coret bebas, seru!"
-      }
+      type: "drag-drop-game",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-16/intro.jpg",
+      introSpeechBubbles: [
+        {
+          text: "Putar-putar, coret bebas, seru!",
+          audio: "audio/halaman-16-intro.mp3",
+          top: "10%",
+          left: "10%"
+        }
+      ],
+      title: "Lukis Kue Jaring",
+      subtitle: "",
+      speechBubbles: [],
+      draggables: [],
+      dropZones: [],
+      feedbackCorrect: "Bagus!",
+      feedbackIncorrect: "Coba lagi!"
     },
 
     // halaman 17: Semua sudah siap!
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-17.jpg",
+      image: "images/halaman-17/cerita.jpg",
       speechBubbles: [
         {
           text: "Wah, semua sudah siap!",
@@ -352,7 +387,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-18.jpg",
+      image: "images/halaman-18/cerita.jpg",
       speechBubbles: [
         {
           text: "Nyam-nyam, izan suka semua kue!",
@@ -367,7 +402,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-19.jpg",
+      image: "images/halaman-19/cerita.jpg",
       speechBubbles: [
         {
           text: "Misi Rahasia Hari Raya, Berhasil!",

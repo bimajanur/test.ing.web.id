@@ -1,8 +1,4 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - QUIZ EVALUATION
- */
-
-// 6. Evaluasi Kuis Interaktif
+// Evaluasi Kuis Interaktif
 window.handleQuizAnswer = function (isCorrect, buttonElement, pageIndex) {
   const container = buttonElement.closest('.quiz-options-page');
   const feedbackBox = container.querySelector(`#quiz-feedback-${pageIndex}`);

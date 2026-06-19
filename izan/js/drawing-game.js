@@ -1,9 +1,4 @@
-/**
- * DRAWING GAME LOGIC
- * Mengelola interaksi menggambar di atas canvas untuk game mencetak adonan kue.
- */
-
-window.initDrawingGame = function(container, config) {
+window.initDrawingGame = function (container, config) {
   const canvas = container.querySelector('.drawing-canvas');
   const pan = container.querySelector('.drawing-pan');
   const btnFinish = container.querySelector('.drawing-btn-finish');
@@ -19,32 +14,38 @@ window.initDrawingGame = function(container, config) {
   const maxDraws = config.maxDraws || 3;
   let hasDrawnCurrent = false;
   let points = [];
-  let strokeSnapshot = null;
+  
+  // Gunakan offscreen canvas untuk snapshot hardware-accelerated
+  let offscreenCanvas = document.createElement('canvas');
+  let offCtx = offscreenCanvas.getContext('2d');
 
   // Fungsi untuk menyesuaikan ukuran canvas dengan container (pan)
   function resizeCanvas() {
     const rect = pan.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return; // Abaikan jika masih hidden
-    
+
     // Simpan gambar canvas sebelum resize (karena resize akan mereset context & gambar)
     let tempImage = null;
     if (hasDrawnCurrent) {
-        tempImage = new Image();
-        tempImage.src = canvas.toDataURL();
+      tempImage = new Image();
+      tempImage.src = canvas.toDataURL();
     }
 
     // Beri ukuran internal canvas yang sama dengan ukuran tampilannya
     canvas.width = rect.width;
     canvas.height = rect.height;
+    
+    offscreenCanvas.width = rect.width;
+    offscreenCanvas.height = rect.height;
 
     // Reset style garis setiap resize
     setupContext();
-    
+
     // Kembalikan gambar jika ada
     if (tempImage && tempImage.src) {
-        tempImage.onload = () => {
-            ctx.drawImage(tempImage, 0, 0, canvas.width, canvas.height);
-        };
+      tempImage.onload = () => {
+        ctx.drawImage(tempImage, 0, 0, canvas.width, canvas.height);
+      };
     }
   }
 
@@ -52,12 +53,12 @@ window.initDrawingGame = function(container, config) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.lineWidth = 15; // Garis agak tebal agar terlihat jelas di wajan yang lebih besar
-    
+
     // Gunakan warna dari config berdasarkan hitungan (atau default kuning keemasan)
     const colors = config.drawColors || ['#F3C550'];
     const currentColor = colors[drawCount % colors.length];
-    
-    ctx.strokeStyle = currentColor; 
+
+    ctx.strokeStyle = currentColor;
     ctx.shadowBlur = 4;
     ctx.shadowColor = 'rgba(0,0,0,0.2)';
   }
@@ -92,15 +93,16 @@ window.initDrawingGame = function(container, config) {
   function startDrawing(e) {
     e.preventDefault(); // Mencegah scrolling saat menggambar
     if (drawCount >= maxDraws) return;
-    
+
     isDrawing = true;
     hasDrawnCurrent = true;
     btnFinish.classList.remove('hidden');
 
     points = [getMousePos(e)];
-    
-    // Simpan status canvas sebelum coretan baru ini dimulai
-    strokeSnapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    // Simpan status canvas (snapshot) ke offscreen canvas dengan cepat
+    offCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
+    offCtx.drawImage(canvas, 0, 0);
   }
 
   function draw(e) {
@@ -109,8 +111,9 @@ window.initDrawingGame = function(container, config) {
 
     points.push(getMousePos(e));
 
-    // Kembalikan ke snapshot sebelum coretan ini agar bayangan tidak tumpang tindih
-    ctx.putImageData(strokeSnapshot, 0, 0);
+    // Bersihkan canvas dan kembalikan ke snapshot dengan drawImage
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(offscreenCanvas, 0, 0);
 
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);

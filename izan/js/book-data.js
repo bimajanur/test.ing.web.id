@@ -1,9 +1,3 @@
-/**
- * DATA KONTEN BUKU INTERAKTIF - MISI RAHASIA HARI RAYA
- * Berisi data halaman buku, teks cerita, berkas gambar JPG, dan kuis interaktif.
- * Anda dapat mengedit teks, nama file gambar, atau pertanyaan kuis dengan mudah di sini.
- */
-
 const bookData = {
   title: "Misi Rahasia Hari Raya",
   spreads: [

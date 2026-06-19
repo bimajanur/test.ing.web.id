@@ -1,6 +1,3 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - DOM ELEMENTS
- */
 const elements = {
   scaleWrapper: document.getElementById('app-scale-wrapper'),
   btnPrev: document.getElementById('btn-prev'),

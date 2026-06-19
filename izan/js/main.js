@@ -1,8 +1,3 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - MAIN
- */
-
-// 12. Sound Toolbar Controller
 function handleSoundToggle() {
   const isMuted = sounds.toggleMute();
 

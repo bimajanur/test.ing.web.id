@@ -1,6 +1,3 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - SOUND SYNTHESIZER
- */
 const sounds = {
   ctx: null,
   muted: true, // Default to muted until user turns on sound or clicks Start

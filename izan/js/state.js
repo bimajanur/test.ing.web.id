@@ -1,6 +1,3 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - STATE
- */
 const state = {
   currentSpreadIndex: 0,
   totalSpreads: bookData.spreads.length,

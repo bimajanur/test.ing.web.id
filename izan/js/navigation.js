@@ -1,8 +1,4 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - NAVIGATION & UI
- */
-
-// 7. Penskalaan Otomatis (720p Scale Lock)
+// Penskalaan Otomatis (720p Scale Lock)
 function handleResize() {
   const targetWidth = 1280;
   const targetHeight = 720;

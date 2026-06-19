@@ -1,7 +1,3 @@
-/**
- * INTERACTIVE CHILDREN'S BOOK - RENDER FUNCTIONS
- */
-
 // Helper: Membuat penampung gambar JPG. Jika file gambar gagal dimuat (belum diletakkan di folder),
 // tampilkan placeholder kartu lucu dengan instruksi meletakkan file gambar.
 function renderImageOrPlaceholder(imageSrc, altText, customClass = 'page-jpg-image') {

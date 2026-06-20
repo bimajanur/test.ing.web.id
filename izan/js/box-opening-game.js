@@ -6,6 +6,13 @@ window.initBoxOpeningGame = function (container) {
   const boxBgOpened = container.querySelector('#box-bg-opened');
   const feedback = container.querySelector('.drag-feedback');
   const nextBtn = container.querySelector('.next-level-btn');
+  const boxItems = container.querySelectorAll('.box-item');
+  const boxContainer = container.querySelector('.box-container');
+  const nampah = container.querySelector('#nampah-container');
+  const zoomOverlay = container.querySelector('#zoom-overlay');
+  const zoomImage = container.querySelector('#zoom-image');
+
+  const gameCloseBtn = container.querySelector('#game-btn-close');
 
   if (!tapeContainer || !track) return;
 
@@ -13,7 +20,7 @@ window.initBoxOpeningGame = function (container) {
   let startX = 0;
   let currentX = 0;
   // Use a smaller ratio to make it easier to reach the end
-  let maxX = track.offsetWidth * 0.4;
+  let maxX = track.offsetWidth * 0.8; // require 80% drag
   let isOpened = false;
 
   const handleStart = (e) => {
@@ -23,7 +30,7 @@ window.initBoxOpeningGame = function (container) {
     startX = clientX - currentX;
 
     track.style.transition = 'none';
-    maxX = track.offsetWidth * 0.5; // require 50% drag
+    maxX = track.offsetWidth * 0.8; // require 80% drag
   };
 
   const handleMove = (e) => {
@@ -78,25 +85,163 @@ window.initBoxOpeningGame = function (container) {
     boxBgOpened.style.opacity = '0';
     boxBgOpened.style.transition = 'opacity 0.8s ease';
 
+    // Show box items
+    boxItems.forEach(item => {
+      item.classList.remove('hidden');
+      item.style.opacity = '0';
+    });
+
     setTimeout(() => {
       boxBgOpened.style.opacity = '1';
-    }, 200);
+      boxItems.forEach(item => {
+        item.style.opacity = '1';
+      });
 
-    // Show feedback and next button
+      // Slide box to the left and slide nampah in
+      setTimeout(() => {
+        if (boxContainer) boxContainer.classList.add('box-move-left');
+        if (nampah) nampah.classList.add('nampah-moved');
+
+        // Initialize Phase 2 after animations
+        setTimeout(() => {
+          initDragItems();
+        }, 1600);
+      }, 600);
+    }, 200);
+  };
+
+  const initDragItems = () => {
     if (feedback) {
-      feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
+      feedback.innerHTML = `<span style="color:var(--color-wood-dark)">${feedback.dataset.dragInstruction || 'Keluarkan oleh-oleh ke nampah'}</span>`;
       feedback.classList.remove('hidden');
     }
-    if (nextBtn) {
-      nextBtn.classList.remove('hidden');
-    }
+
+    let droppedCount = 0;
+    const totalItems = boxItems.length;
+
+    boxItems.forEach((item, index) => {
+      item.classList.add('draggable');
+      let isItemDragging = false;
+      let startX = 0, startY = 0;
+      let currentX = 0, currentY = 0;
+      let isDropped = false;
+
+      const onStart = (e) => {
+        if (isDropped || e.target !== item) return;
+        isItemDragging = true;
+
+        item.style.zIndex = 1000 + index;
+
+        const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
+
+        startX = clientX - currentX * scale;
+        startY = clientY - currentY * scale;
+
+        item.style.transition = 'none';
+        item.style.willChange = 'transform';
+        item.style.pointerEvents = 'none';
+        item.style.cursor = 'grabbing';
+        item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(10deg)`;
+      };
+
+      const onMove = (e) => {
+        if (!isItemDragging) return;
+        e.preventDefault();
+
+        const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
+
+        currentX = (clientX - startX) / scale;
+        currentY = (clientY - startY) / scale;
+
+        item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(10deg)`;
+      };
+
+      const onEnd = (e) => {
+        if (!isItemDragging) return;
+        isItemDragging = false;
+        item.style.transition = 'transform 0.3s ease';
+        item.style.willChange = 'auto';
+        item.style.pointerEvents = 'auto';
+        item.style.cursor = 'grab';
+
+        if (!nampah) return;
+        const itemRect = item.getBoundingClientRect();
+        const nampahRect = nampah.getBoundingClientRect();
+
+        const itemCenter = { x: itemRect.left + itemRect.width / 2, y: itemRect.top + itemRect.height / 2 };
+        const nampahCenter = { x: nampahRect.left + nampahRect.width / 2, y: nampahRect.top + nampahRect.height / 2 };
+
+        const dx = itemCenter.x - nampahCenter.x;
+        const dy = itemCenter.y - nampahCenter.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxRadius = nampahRect.width / 2.5;
+
+        if (distance <= maxRadius) {
+          isDropped = true;
+          droppedCount++;
+
+          if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();
+
+          // Snap to a natural non-overlapping position
+          const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
+          const angle = (index * (360 / totalItems)) * (Math.PI / 180);
+          const arrangeRadius = nampahRect.width * 0.25;
+
+          const targetX = nampahCenter.x + Math.cos(angle) * arrangeRadius;
+          const targetY = nampahCenter.y + Math.sin(angle) * arrangeRadius;
+
+          currentX += (targetX - itemCenter.x) / scale;
+          currentY += (targetY - itemCenter.y) / scale;
+          item.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+          item.classList.remove('draggable');
+          item.style.pointerEvents = 'auto';
+          item.style.cursor = 'pointer';
+
+          item.addEventListener('click', () => {
+            const fullImage = item.dataset.fullImage;
+            if (fullImage) {
+              zoomImage.src = fullImage;
+              zoomOverlay.classList.remove('hidden');
+              if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();
+            }
+          });
+
+          if (droppedCount === totalItems) {
+            if (feedback) {
+              feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
+            }
+            if (nextBtn) {
+              nextBtn.classList.remove('hidden');
+            }
+            if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+          }
+        } else {
+          currentX = 0;
+          currentY = 0;
+          item.style.transform = `translate(0px, 0px)`;
+        }
+      };
+
+      item.addEventListener('mousedown', onStart);
+      item.addEventListener('touchstart', onStart, { passive: false });
+
+      document.addEventListener('mousemove', onMove, { passive: false });
+      document.addEventListener('touchmove', onMove, { passive: false });
+
+      document.addEventListener('mouseup', onEnd);
+      document.addEventListener('touchend', onEnd);
+    });
   };
 
   tapeContainer.addEventListener('mousedown', handleStart);
-  document.addEventListener('mousemove', handleMove, { passive: false });
-  document.addEventListener('mouseup', handleEnd);
-
   tapeContainer.addEventListener('touchstart', handleStart, { passive: false });
+  document.addEventListener('mousemove', handleMove, { passive: false });
   document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('mouseup', handleEnd);
   document.addEventListener('touchend', handleEnd);
 };

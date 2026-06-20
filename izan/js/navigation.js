@@ -13,7 +13,7 @@ function handleResize() {
   elements.scaleWrapper.style.transform = `scale(${scale})`;
 }
 
-// 9. Update Progress Bar & Page Number Indicator
+// Update Progress Bar & Page Number Indicator
 function updateProgress(index) {
   const isLastPage = index === state.totalSpreads - 1;
   const totalReadableSpreads = state.totalSpreads - 1;
@@ -37,7 +37,7 @@ function triggerCharacterBounce() {
   elements.progressCharacter.classList.add('walk-animation');
 }
 
-// 10. Navigasi Halaman Selanjutnya (Geser Kiri / Slide to Left)
+// Navigasi Halaman Selanjutnya (Geser Kiri / Slide to Left)
 function navigateNext() {
   if (state.isTransitioning || state.currentSpreadIndex >= state.totalSpreads - 1) return;
 
@@ -96,7 +96,7 @@ function navigateNext() {
   }, 600); // Matches the CSS transform transition timing
 }
 
-// 11. Navigasi Halaman Sebelumnya (Geser Kanan / Slide to Right)
+// Navigasi Halaman Sebelumnya (Geser Kanan / Slide to Right)
 function navigatePrev() {
   if (state.isTransitioning || state.currentSpreadIndex <= 0) return;
 

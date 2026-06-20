@@ -306,13 +306,32 @@ function renderBoxOpeningGameSpread(spread) {
           </div>
           
           <div class="box-opening-layout">
+            ${spread.nampah ? `
+              <img src="${spread.nampah.image}" class="nampah-container" id="nampah-container" draggable="false" onerror="handleImageError(this, '${spread.nampah.image}')" style="
+                ${spread.nampah.width ? `width: ${spread.nampah.width};` : ''}
+                ${spread.nampah.top ? `top: ${spread.nampah.top};` : ''}
+                ${spread.nampah.aspectRatio ? `aspect-ratio: ${spread.nampah.aspectRatio};` : ''}
+              ">
+            ` : ''}
+
             <div class="box-container" id="box-container" style="
               ${spread.mainBox?.width ? `width: ${spread.mainBox.width};` : ''}
               ${spread.mainBox?.top ? `top: ${spread.mainBox.top};` : ''}
               ${spread.mainBox?.left ? `left: ${spread.mainBox.left};` : ''}
               ${spread.mainBox?.aspectRatio ? `aspect-ratio: ${spread.mainBox.aspectRatio};` : ''}
             ">
-              <img src="${spread.mainBox.image}" class="box-bg hidden" id="box-bg-opened" onerror="handleImageError(this, '${spread.mainBox.image}')">
+              <img src="${spread.mainBox.image}" class="box-bg hidden" id="box-bg-opened" draggable="false" onerror="handleImageError(this, '${spread.mainBox.image}')">
+              
+              <!-- Items inside the box -->
+              ${spread.boxItems ? spread.boxItems.map((item, i) => `
+                <img src="${item.image}" class="box-item hidden" id="box-item-${i}" data-full-image="${item.fullImage || ''}" draggable="false" onerror="handleImageError(this, '${item.image}')" style="
+                  ${item.width ? `width: ${item.width};` : ''}
+                  ${item.height ? `height: ${item.height};` : ''}
+                  ${item.top ? `top: ${item.top};` : ''}
+                  ${item.left ? `left: ${item.left};` : ''}
+                  ${item.zIndex ? `z-index: ${item.zIndex};` : ''}
+                ">
+              `).join('') : ''}
               
               <div class="box-flap box-flap-top" id="box-flap-top" style="${spread.flapTop?.height ? `height: ${spread.flapTop.height};` : ''}">
                 <img src="${spread.flapTop.image}" onerror="handleImageError(this, '${spread.flapTop.image}')">
@@ -339,9 +358,15 @@ function renderBoxOpeningGameSpread(spread) {
             </div>
           </div>
           
-          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-drag-instruction="${spread.dragInstruction || ''}"></div>
           
           <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
+          
+          <!-- Zoom Overlay -->
+          <div class="zoom-overlay hidden" id="zoom-overlay" onclick="this.classList.add('hidden'); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+            <button class="zoom-close-btn bouncy-btn">X</button>
+            <img src="" class="zoom-image" id="zoom-image" alt="Zoomed item" onclick="event.stopPropagation();">
+          </div>
         </div>
       </div>
     </div>

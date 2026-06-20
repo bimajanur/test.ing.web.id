@@ -1,7 +1,7 @@
 const bookData = {
   title: "Misi Rahasia Hari Raya",
   spreads: [
-    // Halaman-1: Sampul Depan & Halaman Judul Dalam
+    // Halaman 1: Sampul Depan & Halaman Judul Dalam
     {
       type: "waving-animation",
       bgColor: "#FFFDF7",
@@ -130,9 +130,9 @@ const bookData = {
       },
       arrow: {
         image: "images/halaman-5/arah-panah.png",
-        height: "80%",
+        height: "60%",
         top: "50%",
-        left: "5%",
+        left: "3%",
       },
       flapTop: {
         image: "images/halaman-5/kardus-atas-atas.png",
@@ -142,7 +142,21 @@ const bookData = {
         image: "images/halaman-5/kardus-atas-bawah.png",
         height: "50%",
       },
-      feedbackCorrect: "Wah, kardus berhasil dibuka! Saatnya mengambil kue!",
+      nampah: {
+        image: "images/halaman-5/nampah.png",
+        width: "55%",
+        top: "50%",
+        aspectRatio: "1/1",
+      },
+      boxItems: [
+        { image: "images/halaman-5/burasa-atas.png", fullImage: "images/halaman-5/burasa-full.png", width: "25%", top: "30%", left: "20%", zIndex: 1 },
+        { image: "images/halaman-5/kolang-kaling-atas.png", fullImage: "images/halaman-5/kolang-kaling-full.png", width: "25%", top: "35%", left: "55%", zIndex: 1 },
+        { image: "images/halaman-5/roti-jala-atas.png", fullImage: "images/halaman-5/roti-jala-full.png", width: "25%", top: "50%", left: "15%", zIndex: 2 },
+        { image: "images/halaman-5/lapis-legit-atas.png", fullImage: "images/halaman-5/lapis-legit-full.png", width: "25%", top: "55%", left: "60%", zIndex: 2 },
+        { image: "images/halaman-5/burasa-atas.png", fullImage: "images/halaman-5/burasa-full.png", width: "30%", top: "45%", left: "35%", zIndex: 3 }
+      ],
+      dragInstruction: "Keluarkan oleh-oleh ke nampah!",
+      feedbackCorrect: "Semua oleh-oleh sudah dikeluarkan! Klik kue untuk melihatnya.",
       feedbackIncorrect: "Geser panah ke kiri sampai ujung!"
     },
 

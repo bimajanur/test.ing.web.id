@@ -300,20 +300,34 @@ function renderBoxOpeningGameSpread(spread) {
           </div>
           
           <div class="box-opening-layout">
-            <div class="box-container" id="box-container">
+            <div class="box-container" id="box-container" style="
+              ${spread.boxConfig?.boxWidth ? `width: ${spread.boxConfig.boxWidth};` : ''}
+              ${spread.boxConfig?.boxTop ? `top: ${spread.boxConfig.boxTop};` : ''}
+              ${spread.boxConfig?.boxLeft ? `left: ${spread.boxConfig.boxLeft};` : ''}
+              ${spread.boxConfig?.boxAspectRatio ? `aspect-ratio: ${spread.boxConfig.boxAspectRatio};` : ''}
+            ">
               <img src="${spread.boxBgImage}" class="box-bg hidden" id="box-bg-opened" onerror="handleImageError(this, '${spread.boxBgImage}')">
               
-              <div class="box-flap box-flap-top" id="box-flap-top">
+              <div class="box-flap box-flap-top" id="box-flap-top" style="${spread.boxConfig?.flapTopHeight ? `height: ${spread.boxConfig.flapTopHeight};` : ''}">
                 <img src="${spread.flapTopImage}" onerror="handleImageError(this, '${spread.flapTopImage}')">
               </div>
-              <div class="box-flap box-flap-bottom" id="box-flap-bottom">
+              <div class="box-flap box-flap-bottom" id="box-flap-bottom" style="${spread.boxConfig?.flapBottomHeight ? `height: ${spread.boxConfig.flapBottomHeight};` : ''}">
                 <img src="${spread.flapBottomImage}" onerror="handleImageError(this, '${spread.flapBottomImage}')">
               </div>
               
-              <div class="box-tape-container" id="box-tape-container">
+              <div class="box-tape-container" id="box-tape-container" style="
+                ${spread.boxConfig?.tapeWidth ? `width: ${spread.boxConfig.tapeWidth};` : ''}
+                ${spread.boxConfig?.tapeTop ? `top: ${spread.boxConfig.tapeTop};` : ''}
+                ${spread.boxConfig?.tapeLeft ? `left: ${spread.boxConfig.tapeLeft};` : ''}
+                ${spread.boxConfig?.tapeAspectRatio ? `aspect-ratio: ${spread.boxConfig.tapeAspectRatio};` : ''}
+              ">
                 <img src="${spread.tapeImage}" class="box-tape-img" draggable="false" onerror="handleImageError(this, '${spread.tapeImage}')">
                 <div class="box-slider-track" id="box-slider-track">
-                  <img src="${spread.arrowImage}" class="box-slider-arrow" id="box-slider-arrow" draggable="false" onerror="handleImageError(this, '${spread.arrowImage}')">
+                  <img src="${spread.arrowImage}" class="box-slider-arrow" id="box-slider-arrow" draggable="false" onerror="handleImageError(this, '${spread.arrowImage}')" style="
+                    ${spread.boxConfig?.arrowHeight ? `height: ${spread.boxConfig.arrowHeight};` : ''}
+                    ${spread.boxConfig?.arrowTop ? `top: ${spread.boxConfig.arrowTop};` : ''}
+                    ${spread.boxConfig?.arrowLeft ? `left: ${spread.boxConfig.arrowLeft};` : ''}
+                  ">
                 </div>
               </div>
             </div>

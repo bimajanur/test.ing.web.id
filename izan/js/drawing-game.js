@@ -14,7 +14,7 @@ window.initDrawingGame = function (container, config) {
   const maxDraws = config.maxDraws || 3;
   let hasDrawnCurrent = false;
   let points = [];
-  
+
   // Gunakan offscreen canvas untuk snapshot hardware-accelerated
   let offscreenCanvas = document.createElement('canvas');
   let offCtx = offscreenCanvas.getContext('2d');
@@ -34,7 +34,7 @@ window.initDrawingGame = function (container, config) {
     // Beri ukuran internal canvas yang sama dengan ukuran tampilannya
     canvas.width = rect.width;
     canvas.height = rect.height;
-    
+
     offscreenCanvas.width = rect.width;
     offscreenCanvas.height = rect.height;
 
@@ -52,7 +52,8 @@ window.initDrawingGame = function (container, config) {
   function setupContext() {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.lineWidth = 15; // Garis agak tebal agar terlihat jelas di wajan yang lebih besar
+    // Buat ketebalan garis relatif terhadap ukuran layar/kanvas (sekitar 1.5% dari lebar wajan)
+    ctx.lineWidth = Math.max(3, canvas.width * 0.015);
 
     // Gunakan warna dari config berdasarkan hitungan (atau default kuning keemasan)
     const colors = config.drawColors || ['#F3C550'];

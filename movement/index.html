@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animasi Pindah Gambar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 100px;
+            margin-bottom: 30px;
+        }
+
+        /* Area Posisi A dan B */
+        .box {
+            width: 150px;
+            height: 150px;
+            border: 3px dashed #aaa;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .box::before {
+            position: absolute;
+            bottom: -25px;
+            font-weight: bold;
+            color: #666;
+        }
+        .posisi-a::before { content: "Posisi A"; }
+        .posisi-b::before { content: "Posisi B"; }
+
+        /* Gaya Gambar */
+        .gambar-animasi {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            /* Transisi untuk animasi yang mulus */
+            transition: transform 0.5s ease-in-out; 
+            z-index: 10;
+        }
+
+        /* Tombol Pemicu */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div id="boxA" class="box posisi-a">
+            <img id="foto" class="gambar-animasi" src="https://picsum.photos/120" alt="Gambar">
+        </div>
+
+        <div id="boxB" class="box posisi-b"></div>
+    </div>
+
+    <button onclick="pindahkanGambar()">Pindahkan Gambar</button>
+
+    <script>
+        function pindahkanGambar() {
+            const img = document.getElementById('foto');
+            const boxA = document.getElementById('boxA');
+            const boxB = document.getElementById('boxB');
+            
+            // 1. Tentukan target box berikutnya (jika di A pindah ke B, dan sebaliknya)
+            const currentParent = img.parentElement;
+            const nextParent = currentParent === boxA ? boxB : boxA;
+
+            // FIRST: Catat posisi awal gambar di layar
+            const firstRect = img.getBoundingClientRect();
+
+            // LAST: Pindahkan gambar ke parent baru secara instan di DOM
+            nextParent.appendChild(img);
+
+            // Catat posisi akhir gambar setelah dipindah
+            const lastRect = img.getBoundingClientRect();
+
+            // INVERT: Hitung perbedaan posisi (jarak X dan Y)
+            const invertX = firstRect.left - lastRect.left;
+            const invertY = firstRect.top - lastRect.top;
+
+            // Kembalikan gambar ke posisi asal secara visual menggunakan transform (tanpa animasi dulu)
+            img.style.transition = 'none';
+            img.style.transform = `translate(${invertX}px, ${invertY}px)`;
+
+            // PLAY: Paksa browser untuk mendeteksi perubahan gaya, lalu jalankan animasi ke posisi baru
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    img.style.transition = 'transform 0.5s ease-in';
+                    img.style.transform = 'none'; // Menghapus transform membuat gambar meluncur ke posisi aslinya
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>

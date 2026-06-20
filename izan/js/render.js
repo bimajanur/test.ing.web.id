@@ -301,32 +301,32 @@ function renderBoxOpeningGameSpread(spread) {
           
           <div class="box-opening-layout">
             <div class="box-container" id="box-container" style="
-              ${spread.boxConfig?.boxWidth ? `width: ${spread.boxConfig.boxWidth};` : ''}
-              ${spread.boxConfig?.boxTop ? `top: ${spread.boxConfig.boxTop};` : ''}
-              ${spread.boxConfig?.boxLeft ? `left: ${spread.boxConfig.boxLeft};` : ''}
-              ${spread.boxConfig?.boxAspectRatio ? `aspect-ratio: ${spread.boxConfig.boxAspectRatio};` : ''}
+              ${spread.mainBox?.width ? `width: ${spread.mainBox.width};` : ''}
+              ${spread.mainBox?.top ? `top: ${spread.mainBox.top};` : ''}
+              ${spread.mainBox?.left ? `left: ${spread.mainBox.left};` : ''}
+              ${spread.mainBox?.aspectRatio ? `aspect-ratio: ${spread.mainBox.aspectRatio};` : ''}
             ">
-              <img src="${spread.boxBgImage}" class="box-bg hidden" id="box-bg-opened" onerror="handleImageError(this, '${spread.boxBgImage}')">
+              <img src="${spread.mainBox.image}" class="box-bg hidden" id="box-bg-opened" onerror="handleImageError(this, '${spread.mainBox.image}')">
               
-              <div class="box-flap box-flap-top" id="box-flap-top" style="${spread.boxConfig?.flapTopHeight ? `height: ${spread.boxConfig.flapTopHeight};` : ''}">
-                <img src="${spread.flapTopImage}" onerror="handleImageError(this, '${spread.flapTopImage}')">
+              <div class="box-flap box-flap-top" id="box-flap-top" style="${spread.flapTop?.height ? `height: ${spread.flapTop.height};` : ''}">
+                <img src="${spread.flapTop.image}" onerror="handleImageError(this, '${spread.flapTop.image}')">
               </div>
-              <div class="box-flap box-flap-bottom" id="box-flap-bottom" style="${spread.boxConfig?.flapBottomHeight ? `height: ${spread.boxConfig.flapBottomHeight};` : ''}">
-                <img src="${spread.flapBottomImage}" onerror="handleImageError(this, '${spread.flapBottomImage}')">
+              <div class="box-flap box-flap-bottom" id="box-flap-bottom" style="${spread.flapBottom?.height ? `height: ${spread.flapBottom.height};` : ''}">
+                <img src="${spread.flapBottom.image}" onerror="handleImageError(this, '${spread.flapBottom.image}')">
               </div>
               
               <div class="box-tape-container" id="box-tape-container" style="
-                ${spread.boxConfig?.tapeWidth ? `width: ${spread.boxConfig.tapeWidth};` : ''}
-                ${spread.boxConfig?.tapeTop ? `top: ${spread.boxConfig.tapeTop};` : ''}
-                ${spread.boxConfig?.tapeLeft ? `left: ${spread.boxConfig.tapeLeft};` : ''}
-                ${spread.boxConfig?.tapeAspectRatio ? `aspect-ratio: ${spread.boxConfig.tapeAspectRatio};` : ''}
+                ${spread.tape?.width ? `width: ${spread.tape.width};` : ''}
+                ${spread.tape?.top ? `top: ${spread.tape.top};` : ''}
+                ${spread.tape?.left ? `left: ${spread.tape.left};` : ''}
+                ${spread.tape?.aspectRatio ? `aspect-ratio: ${spread.tape.aspectRatio};` : ''}
               ">
-                <img src="${spread.tapeImage}" class="box-tape-img" draggable="false" onerror="handleImageError(this, '${spread.tapeImage}')">
+                <img src="${spread.tape.image}" class="box-tape-img" draggable="false" onerror="handleImageError(this, '${spread.tape.image}')">
                 <div class="box-slider-track" id="box-slider-track">
-                  <img src="${spread.arrowImage}" class="box-slider-arrow" id="box-slider-arrow" draggable="false" onerror="handleImageError(this, '${spread.arrowImage}')" style="
-                    ${spread.boxConfig?.arrowHeight ? `height: ${spread.boxConfig.arrowHeight};` : ''}
-                    ${spread.boxConfig?.arrowTop ? `top: ${spread.boxConfig.arrowTop};` : ''}
-                    ${spread.boxConfig?.arrowLeft ? `left: ${spread.boxConfig.arrowLeft};` : ''}
+                  <img src="${spread.arrow.image}" class="box-slider-arrow" id="box-slider-arrow" draggable="false" onerror="handleImageError(this, '${spread.arrow.image}')" style="
+                    ${spread.arrow?.height ? `height: ${spread.arrow.height};` : ''}
+                    ${spread.arrow?.top ? `top: ${spread.arrow.top};` : ''}
+                    ${spread.arrow?.left ? `left: ${spread.arrow.left};` : ''}
                   ">
                 </div>
               </div>
@@ -563,9 +563,9 @@ function fallbackToSpeechSynthesis(text, onEndCallback) {
   }
 }
 
-window.initActiveGame = function(spread, container) {
+window.initActiveGame = function (spread, container) {
   if (!spread || !container) return;
-  
+
   if (spread.type === 'drag-drop-game') {
     if (window.initDragDrop) window.initDragDrop(container);
   } else if (spread.type === 'drawing-game') {

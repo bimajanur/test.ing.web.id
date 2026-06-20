@@ -17,7 +17,6 @@ window.initBoxOpeningGame = function (container) {
   let isOpened = false;
 
   const handleStart = (e) => {
-    console.log('kepencet')
     if (isOpened) return;
     isDragging = true;
     const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;

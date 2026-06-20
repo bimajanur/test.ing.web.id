@@ -114,32 +114,36 @@ const bookData = {
       title: "Keluarkan kuenya yuk!",
       subtitle: "",
       speechBubbles: [],
-      boxBgImage: "images/halaman-5/kardus-buka-atas.png",
-      flapTopImage: "images/halaman-5/kardus-atas-atas.png",
-      flapBottomImage: "images/halaman-5/kardus-atas-bawah.png",
-      tapeImage: "images/halaman-5/selotip.png",
-      arrowImage: "images/halaman-5/arah-panah.png",
-      boxConfig: {
-        boxWidth: "75%",
-        boxTop: "55%",
-        boxLeft: "50%",
-        boxAspectRatio: "1300 / 864",
-        tapeWidth: "100%",
-        tapeTop: "50%",
-        tapeLeft: "50%",
-        tapeAspectRatio: "1300 / 240",
-        arrowHeight: "80%",
-        arrowTop: "50%",
-        arrowLeft: "5%",
-        handleWidth: "30%",
-        handleHeight: "140%",
-        handleTop: "-20%",
-        handleLeft: "0%",
-        flapTopHeight: "50%",
-        flapBottomHeight: "50%"
+      mainBox: {
+        image: "images/halaman-5/kardus-buka-atas.png",
+        width: "75%",
+        top: "55%",
+        left: "50%",
+        aspectRatio: "1300 / 864",
       },
-      feedbackCorrect: "Kardus berhasil dibuka!",
-      feedbackIncorrect: "Geser panah sampai ujung!"
+      tape: {
+        image: "images/halaman-5/selotip.png",
+        width: "100%",
+        top: "50%",
+        left: "50%",
+        aspectRatio: "1300 / 240",
+      },
+      arrow: {
+        image: "images/halaman-5/arah-panah.png",
+        height: "80%",
+        top: "50%",
+        left: "5%",
+      },
+      flapTop: {
+        image: "images/halaman-5/kardus-atas-atas.png",
+        height: "50%",
+      },
+      flapBottom: {
+        image: "images/halaman-5/kardus-atas-bawah.png",
+        height: "50%",
+      },
+      feedbackCorrect: "Wah, kardus berhasil dibuka! Saatnya mengambil kue!",
+      feedbackIncorrect: "Geser panah ke kiri sampai ujung!"
     },
 
     // halaman 6: bening kenyal dingin!

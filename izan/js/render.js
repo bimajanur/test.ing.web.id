@@ -240,7 +240,7 @@ function renderGameSpread(spread) {
           <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
-          <div class="story-text-container game-title-wrapper">
+          <div class="game-title-wrapper">
             <h2 class="game-title">
               ${spread.title.replace(/\n/g, '<br>')}
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
@@ -292,7 +292,7 @@ function renderBoxOpeningGameSpread(spread) {
           <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
-          <div class="story-text-container game-title-wrapper">
+          <div class="game-title-wrapper">
             <h2 class="game-title">
               ${spread.title.replace(/\n/g, '<br>')}
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
@@ -371,7 +371,7 @@ function renderDrawingGameSpread(spread) {
           <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
-          <div class="story-text-container game-title-wrapper">
+          <div class="game-title-wrapper">
             <h2 class="game-title">
               ${spread.title.replace(/\n/g, '<br>')}
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}

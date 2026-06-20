@@ -116,8 +116,8 @@ const bookData = {
       speechBubbles: [],
       mainBox: {
         image: "images/halaman-5/kardus-buka-atas.png",
-        width: "75%",
-        top: "55%",
+        width: "64%",
+        top: "50%",
         left: "50%",
         aspectRatio: "1300 / 864",
       },

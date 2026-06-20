@@ -104,7 +104,7 @@ function renderColumnHTML(colData, side, spreadIndex) {
       return `
         <div class="quiz-question-column" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; align-items: center;">
           <div class="quiz-question-container" style="width: 100%;">
-            <span class="quiz-badge">KUIS HARI RAYA 🤔</span>
+            <span class="quiz-badge">WAKTUNYA BERMAIN! 🎮</span>
             <p class="quiz-question-text" style="font-size: 1.4rem; line-height: 2rem;">${colData.question}</p>
           </div>
           <div class="illustration-container quiz-image-holder" style="width: 100%; height: 256px; margin-top: 15px;">
@@ -205,6 +205,9 @@ function renderGameSpread(spread) {
 
   const introHtml = spread.introImage ? `
     <div class="game-intro-overlay" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 52;">
+        <span class="quiz-badge">WAKTUNYA BERMAIN! 🎮</span>
+      </div>
       <img src="${spread.introImage}" class="game-intro-bg" onerror="handleImageError(this, '${spread.introImage}')">
       ${introSpeechHtml}
       <div class="game-intro-btn-wrapper">
@@ -269,6 +272,9 @@ function renderBoxOpeningGameSpread(spread) {
 
   const introHtml = spread.introImage ? `
     <div class="game-intro-overlay" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 52;">
+        <span class="quiz-badge">WAKTUNYA BERMAIN! 🎮</span>
+      </div>
       <img src="${spread.introImage}" class="game-intro-bg" onerror="handleImageError(this, '${spread.introImage}')">
       ${introSpeechHtml}
       <div class="game-intro-btn-wrapper">
@@ -348,6 +354,9 @@ function renderDrawingGameSpread(spread) {
 
   const introHtml = spread.introImage ? `
     <div class="game-intro-overlay" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 52;">
+        <span class="quiz-badge">WAKTUNYA BERMAIN! 🎮</span>
+      </div>
       <img src="${spread.introImage}" class="game-intro-bg" onerror="handleImageError(this, '${spread.introImage}')">
       ${introSpeechHtml}
       <div class="game-intro-btn-wrapper">

@@ -53,9 +53,8 @@ window.initDrawingGame = function (container, config) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     // Buat ketebalan garis relatif terhadap ukuran layar/kanvas (sekitar 1.5% dari lebar wajan)
-    ctx.lineWidth = Math.max(3, canvas.width * 0.015);
+    ctx.lineWidth = Math.max(3, canvas.width * 0.01);
 
-    // Gunakan warna dari config berdasarkan hitungan (atau default kuning keemasan)
     const colors = config.drawColors || ['#F3C550'];
     const currentColor = colors[drawCount % colors.length];
 

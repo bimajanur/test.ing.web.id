@@ -237,7 +237,7 @@ function renderGameSpread(spread) {
       <div class="game-popup-overlay hidden" style="display: none;">
         <div class="game-popup-content" style="background: ${spread.bgColor || '#FFFDF7'};">
           
-          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); const container = document.querySelector('.spread-game'); if(container) { container.appendChild(popup); } else { popup.remove(); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
+          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
           <div class="story-text-container game-title-wrapper">
@@ -256,7 +256,72 @@ function renderGameSpread(spread) {
           </div>
           <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
           
-          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
+          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderBoxOpeningGameSpread(spread) {
+  const speechHtml = renderSpeechBubbles(spread.speechBubbles);
+  const introSpeechHtml = spread.introSpeechBubbles ? renderSpeechBubbles(spread.introSpeechBubbles) : '';
+
+  const introHtml = spread.introImage ? `
+    <div class="game-intro-overlay" style="background: ${spread.bgColor || '#FFFDF7'};">
+      <img src="${spread.introImage}" class="game-intro-bg" onerror="handleImageError(this, '${spread.introImage}')">
+      ${introSpeechHtml}
+      <div class="game-intro-btn-wrapper">
+        <div class="game-intro-btn-anim">
+          <button class="start-btn bouncy-btn" onclick="const popup = this.closest('.spread-game').querySelector('.game-popup-overlay'); if(popup){ document.getElementById('app-container').appendChild(popup); popup.classList.remove('hidden'); popup.style.display='flex'; } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+            Mulai Main ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  ` : '';
+
+  return `
+    <div class="spread-game spread-box-opening" style="background: ${spread.bgColor || '#FFFDF7'};">
+      ${introHtml}
+      
+      <!-- The Game Popup Overlay -->
+      <div class="game-popup-overlay hidden" style="display: none;">
+        <div class="game-popup-content" style="background: ${spread.bgColor || '#FFFDF7'};">
+          
+          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
+
+          ${speechHtml}
+          <div class="story-text-container game-title-wrapper">
+            <h2 class="game-title">
+              ${spread.title.replace(/\n/g, '<br>')}
+              ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
+            </h2>
+          </div>
+          
+          <div class="box-opening-layout">
+            <div class="box-container" id="box-container">
+              <img src="${spread.boxBgImage}" class="box-bg hidden" id="box-bg-opened" onerror="handleImageError(this, '${spread.boxBgImage}')">
+              
+              <div class="box-flap box-flap-top" id="box-flap-top">
+                <img src="${spread.flapTopImage}" onerror="handleImageError(this, '${spread.flapTopImage}')">
+              </div>
+              <div class="box-flap box-flap-bottom" id="box-flap-bottom">
+                <img src="${spread.flapBottomImage}" onerror="handleImageError(this, '${spread.flapBottomImage}')">
+              </div>
+              
+              <div class="box-tape-container" id="box-tape-container">
+                <img src="${spread.tapeImage}" class="box-tape-img" draggable="false" onerror="handleImageError(this, '${spread.tapeImage}')">
+                <div class="box-slider-track" id="box-slider-track">
+                  <img src="${spread.arrowImage}" class="box-slider-arrow" id="box-slider-arrow" draggable="false" onerror="handleImageError(this, '${spread.arrowImage}')">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
+          
+          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
       </div>
     </div>
@@ -289,7 +354,7 @@ function renderDrawingGameSpread(spread) {
       <div class="game-popup-overlay hidden" style="display: none;">
         <div class="game-popup-content" style="background: ${spread.bgColor || '#FFFDF7'};">
           
-          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); const container = document.querySelector('.spread-game'); if(container) { container.appendChild(popup); } else { popup.remove(); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
+          <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
           <div class="story-text-container game-title-wrapper">
@@ -319,7 +384,7 @@ function renderDrawingGameSpread(spread) {
           
           <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
           
-          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.style.display='none'; popup.classList.add('hidden'); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
+          <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
       </div>
     </div>
@@ -372,6 +437,11 @@ function renderSpreadHTML(spread, index) {
     return renderDrawingGameSpread(spread);
   }
 
+  // 4.6. Halaman Game Buka Kardus
+  if (spread.type === 'box-opening-game') {
+    return renderBoxOpeningGameSpread(spread);
+  }
+
   // 5. Halaman Cerita / Kuis Standar (Tata letak kolom 50/50)
   return renderStandardSpread(spread, index);
 }
@@ -386,19 +456,9 @@ function renderStaticSpread(index) {
 
   updateProgress(index);
 
-  if (spread.type === 'drag-drop-game') {
-    setTimeout(() => {
-      if (window.initDragDrop) {
-        window.initDragDrop(elements.pageSlotActive);
-      }
-    }, 100);
-  } else if (spread.type === 'drawing-game') {
-    setTimeout(() => {
-      if (window.initDrawingGame) {
-        window.initDrawingGame(elements.pageSlotActive, spread);
-      }
-    }, 100);
-  }
+  setTimeout(() => {
+    if (window.initActiveGame) window.initActiveGame(spread, elements.pageSlotActive);
+  }, 100);
 }
 
 let currentPlayingAudio = null;
@@ -488,3 +548,15 @@ function fallbackToSpeechSynthesis(text, onEndCallback) {
     if (onEndCallback) onEndCallback();
   }
 }
+
+window.initActiveGame = function(spread, container) {
+  if (!spread || !container) return;
+  
+  if (spread.type === 'drag-drop-game') {
+    if (window.initDragDrop) window.initDragDrop(container);
+  } else if (spread.type === 'drawing-game') {
+    if (window.initDrawingGame) window.initDrawingGame(container, spread);
+  } else if (spread.type === 'box-opening-game') {
+    if (window.initBoxOpeningGame) window.initBoxOpeningGame(container);
+  }
+};

@@ -94,7 +94,7 @@ const bookData = {
 
     // halaman 5: GAME 1 - Buka buka buka!
     {
-      type: "drag-drop-game",
+      type: "box-opening-game",
       bgColor: "#FFFDF7",
       introImage: "images/halaman-5/intro.jpg",
       introSpeechBubbles: [
@@ -114,10 +114,13 @@ const bookData = {
       title: "Keluarkan kuenya yuk!",
       subtitle: "",
       speechBubbles: [],
-      draggables: [],
-      dropZones: [],
-      feedbackCorrect: "Benar sekali!",
-      feedbackIncorrect: "Coba lagi!"
+      boxBgImage: "images/halaman-5/kardus-buka-atas.png",
+      flapTopImage: "images/halaman-5/kardus-atas-atas.png",
+      flapBottomImage: "images/halaman-5/kardus-atas-bawah.png",
+      tapeImage: "images/halaman-5/selotip.png",
+      arrowImage: "images/halaman-5/arah-panah.png",
+      feedbackCorrect: "Kardus berhasil dibuka!",
+      feedbackIncorrect: "Geser panah sampai ujung!"
     },
 
     // halaman 6: bening kenyal dingin!

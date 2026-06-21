@@ -166,12 +166,12 @@ const bookData = {
           zIndex: 4
         },
         {
-          image: "images/halaman-5/burasa-atas.png",
-          fullImage: "images/halaman-5/burasa-full.png",
+          image: "images/halaman-5/wajik-atas.png",
+          fullImage: "images/halaman-5/wajik-full.png",
           width: "35%",
-          top: "34%",
-          left: "52%",
-          zIndex: 1
+          top: "22%",
+          left: "51%",
+          zIndex: 2
         },
         {
           image: "images/halaman-5/roti-jala-atas.png",
@@ -187,7 +187,7 @@ const bookData = {
           width: "40%",
           top: "56%",
           left: "43%",
-          zIndex: 2
+          zIndex: 1
         }
       ],
       dragInstruction: "Keluarkan oleh-oleh ke nampah!",

@@ -171,8 +171,9 @@ window.initBoxOpeningGame = function (container) {
         if (!nampah) return;
         const itemRect = item.getBoundingClientRect();
         const nampahRect = nampah.getBoundingClientRect();
+        const itemScale = 0.8;
 
-        const itemCenter = { x: itemRect.left + itemRect.width / 2, y: itemRect.top + itemRect.height / 2 };
+        const itemCenter = { x: itemRect.left + itemRect.width / 2 * itemScale, y: itemRect.top + itemRect.height / 2 * itemScale };
         const nampahCenter = { x: nampahRect.left + nampahRect.width / 2, y: nampahRect.top + nampahRect.height / 2 };
 
         const dx = itemCenter.x - nampahCenter.x;
@@ -199,7 +200,7 @@ window.initBoxOpeningGame = function (container) {
           currentX += (targetX - itemCenter.x) / scale;
           currentY += (targetY - itemCenter.y) / scale;
           item.style.transform = `translate(${currentX}px, ${currentY}px)`;
-
+          item.style.width = `${itemRect.width * itemScale}px`;
           item.classList.remove('draggable');
           item.style.pointerEvents = 'auto';
           item.style.cursor = 'pointer';

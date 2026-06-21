@@ -1507,27 +1507,25 @@ li .icon-btn svg {
   width: 75%;
   aspect-ratio: 1300 / 864;
   display: block;
-  transition: all 1s ease-in-out;
+  transition: transform 1s ease-in-out;
 }
 
 .box-move-left {
-  left: 28% !important;
-  transform: translate(-50%, -50%) scale(0.85) !important;
+  transform: translate(calc(-50% - 16vw), -50%) scale(0.85) !important;
 }
 
 .nampah-container {
   position: absolute;
-  left: 125%;
+  left: 76%;
   /* Start outside the right edge */
-  transform: translate(-50%, -50%) scale(0.75);
+  transform: translate(calc(-50% + 50vw), -50%) scale(0.75);
   object-fit: contain;
-  transition: left 1.6s ease-in-out;
+  transition: transform 1.6s ease-in-out;
   z-index: 0;
 }
 
 .nampah-moved {
-  left: 77% !important;
-  /* transform: translate(-50%, -50%) scale(0.85) !important; */
+  transform: translate(-50%, -50%) scale(0.75) !important;
 }
 
 .box-bg {

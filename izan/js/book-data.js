@@ -168,10 +168,10 @@ const bookData = {
         {
           image: "images/halaman-5/burasa-atas.png",
           fullImage: "images/halaman-5/burasa-full.png",
-          width: "40%",
-          top: "56%",
-          left: "43%",
-          zIndex: 2
+          width: "35%",
+          top: "34%",
+          left: "52%",
+          zIndex: 1
         },
         {
           image: "images/halaman-5/roti-jala-atas.png",
@@ -184,10 +184,10 @@ const bookData = {
         {
           image: "images/halaman-5/burasa-atas.png",
           fullImage: "images/halaman-5/burasa-full.png",
-          width: "35%",
-          top: "34%",
-          left: "52%",
-          zIndex: 1
+          width: "40%",
+          top: "56%",
+          left: "43%",
+          zIndex: 2
         }
       ],
       dragInstruction: "Keluarkan oleh-oleh ke nampah!",

@@ -1517,7 +1517,7 @@ li .icon-btn svg {
 
 .nampah-container {
   position: absolute;
-  left: 120%;
+  left: 125%;
   /* Start outside the right edge */
   transform: translate(-50%, -50%) scale(0.75);
   object-fit: contain;

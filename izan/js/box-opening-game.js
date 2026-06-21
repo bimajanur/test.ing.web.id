@@ -186,10 +186,12 @@ window.initBoxOpeningGame = function (container) {
 
           if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();
 
+          item.style.zIndex = 10 + droppedCount;
+
           // Snap to a natural non-overlapping position
           const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
           const angle = (index * (360 / totalItems)) * (Math.PI / 180);
-          const arrangeRadius = nampahRect.width * 0.25;
+          const arrangeRadius = nampahRect.width * 0.26;
 
           const targetX = nampahCenter.x + Math.cos(angle) * arrangeRadius;
           const targetY = nampahCenter.y + Math.sin(angle) * arrangeRadius;

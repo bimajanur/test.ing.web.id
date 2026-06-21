@@ -144,19 +144,54 @@ const bookData = {
       },
       nampah: {
         image: "images/halaman-5/nampah.png",
-        width: "55%",
+        width: "65%",
         top: "50%",
         aspectRatio: "1/1",
       },
       boxItems: [
-        { image: "images/halaman-5/burasa-atas.png", fullImage: "images/halaman-5/burasa-full.png", width: "25%", top: "30%", left: "20%", zIndex: 1 },
-        { image: "images/halaman-5/kolang-kaling-atas.png", fullImage: "images/halaman-5/kolang-kaling-full.png", width: "25%", top: "35%", left: "55%", zIndex: 1 },
-        { image: "images/halaman-5/roti-jala-atas.png", fullImage: "images/halaman-5/roti-jala-full.png", width: "25%", top: "50%", left: "15%", zIndex: 2 },
-        { image: "images/halaman-5/lapis-legit-atas.png", fullImage: "images/halaman-5/lapis-legit-full.png", width: "25%", top: "55%", left: "60%", zIndex: 2 },
-        { image: "images/halaman-5/burasa-atas.png", fullImage: "images/halaman-5/burasa-full.png", width: "30%", top: "45%", left: "35%", zIndex: 3 }
+        {
+          image: "images/halaman-5/lapis-legit-atas.png",
+          fullImage: "images/halaman-5/lapis-legit-full.png",
+          width: "35%",
+          top: "7%",
+          left: "14%",
+          zIndex: 5
+        },
+        {
+          image: "images/halaman-5/kolang-kaling-atas.png",
+          fullImage: "images/halaman-5/kolang-kaling-full.png",
+          width: "40%",
+          top: "6%",
+          left: "38%",
+          zIndex: 4
+        },
+        {
+          image: "images/halaman-5/burasa-atas.png",
+          fullImage: "images/halaman-5/burasa-full.png",
+          width: "40%",
+          top: "56%",
+          left: "43%",
+          zIndex: 2
+        },
+        {
+          image: "images/halaman-5/roti-jala-atas.png",
+          fullImage: "images/halaman-5/roti-jala-full.png",
+          width: "35%",
+          top: "29%",
+          left: "19%",
+          zIndex: 3
+        },
+        {
+          image: "images/halaman-5/burasa-atas.png",
+          fullImage: "images/halaman-5/burasa-full.png",
+          width: "35%",
+          top: "34%",
+          left: "52%",
+          zIndex: 1
+        }
       ],
       dragInstruction: "Keluarkan oleh-oleh ke nampah!",
-      feedbackCorrect: "Semua oleh-oleh sudah dikeluarkan! Klik kue untuk melihatnya.",
+      feedbackCorrect: "Hore selesai! Klik oleh-oleh untuk melihatnya.",
       feedbackIncorrect: "Geser panah ke kiri sampai ujung!"
     },
 

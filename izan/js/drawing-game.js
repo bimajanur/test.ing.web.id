@@ -195,11 +195,6 @@ window.initDrawingGame = function (container, config) {
   });
 
   function endGame() {
-    // Tampilkan feedback benar
-    feedback.textContent = feedback.getAttribute('data-correct-text');
-    feedback.classList.remove('hidden');
-    feedback.classList.add('feedback-correct');
-
     // Sembunyikan pan dan tombol selesai
     pan.style.opacity = '0.5';
     pan.style.pointerEvents = 'none'; // Matikan interaksi canvas
@@ -207,7 +202,16 @@ window.initDrawingGame = function (container, config) {
     // Tampilkan tombol lanjut
     btnNext.classList.remove('hidden');
 
-    // Mainkan suara sukses
-    if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+    if (window.triggerGameWinCelebration) {
+      window.triggerGameWinCelebration(feedback, feedback.getAttribute('data-correct-text'));
+    } else {
+      // Tampilkan feedback benar
+      feedback.textContent = feedback.getAttribute('data-correct-text');
+      feedback.classList.remove('hidden');
+      feedback.classList.add('feedback-correct');
+
+      // Mainkan suara sukses
+      if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+    }
   }
 };

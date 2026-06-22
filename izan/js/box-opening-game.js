@@ -12,9 +12,12 @@ window.initBoxOpeningGame = function (container, spread = {}) {
   const zoomOverlay = container.querySelector('#zoom-overlay');
   const zoomImage = container.querySelector('#zoom-image');
 
-  const gameCloseBtn = container.querySelector('#game-btn-close');
-
   if (!tapeContainer || !track) return;
+
+  if (feedback && spread.startInstruction) {
+    feedback.innerHTML = `<span style="color:var(--color-wood-dark)">${spread.startInstruction}</span>`;
+    feedback.classList.remove('hidden');
+  }
 
   let isDragging = false;
   let startX = 0;
@@ -23,9 +26,16 @@ window.initBoxOpeningGame = function (container, spread = {}) {
   let maxX = track.offsetWidth * 0.8; // require 80% drag
   let isOpened = false;
 
+  const arrow = container.querySelector('#box-slider-arrow');
+  if (arrow) {
+    arrow.classList.add('hint-animation');
+  }
+
   const handleStart = (e) => {
     if (isOpened) return;
     isDragging = true;
+
+    if (arrow) arrow.classList.remove('hint-animation');
     const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
     startX = clientX - currentX * scale;
@@ -68,6 +78,8 @@ window.initBoxOpeningGame = function (container, spread = {}) {
   const openBox = () => {
     isOpened = true;
     isDragging = false;
+
+    if (feedback) feedback.classList.add('hidden');
 
     // Play sound if available
     if (typeof sounds !== 'undefined' && sounds.playChime) sounds.playChime();
@@ -227,13 +239,17 @@ window.initBoxOpeningGame = function (container, spread = {}) {
           });
 
           if (droppedCount === totalItems) {
-            if (feedback) {
-              feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
-            }
             if (nextBtn) {
               nextBtn.classList.remove('hidden');
             }
-            if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+            if (window.triggerGameWinCelebration) {
+              window.triggerGameWinCelebration(feedback, feedback.dataset.correctText);
+            } else {
+              if (feedback) {
+                feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
+              }
+              if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+            }
           }
         } else {
           currentX = 0;

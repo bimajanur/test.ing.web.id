@@ -131,7 +131,9 @@ window.initDragDrop = function (container) {
              if (nextBtn) {
                nextBtn.classList.remove('hidden');
              }
-             if (feedback) {
+             if (window.triggerGameWinCelebration) {
+               window.triggerGameWinCelebration(feedback, "Semua sudah sesuai! Hebat!");
+             } else if (feedback) {
                 feedback.innerHTML = `<span style="color:var(--color-grass-dark)">Semua warna sudah sesuai! Hebat!</span>`;
                 feedback.classList.remove('hidden');
              }

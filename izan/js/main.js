@@ -97,3 +97,45 @@ document.addEventListener('DOMContentLoaded', startApp);
 
 // Preload functions have been moved to preload.js
 // Drag and Drop logic has been moved to drag-drop.js
+
+window.triggerGameWinCelebration = function (feedbackElement, feedbackText) {
+  if (feedbackElement) {
+    feedbackElement.innerHTML = `
+      <div style="color: var(--color-grass-dark); animation: bounce 1s infinite alternate;">🎉 ${feedbackText}</div>
+    `;
+    feedbackElement.classList.remove('hidden');
+    feedbackElement.classList.add('feedback-celebration-anim');
+  }
+
+  if (typeof sounds !== 'undefined' && sounds.playChime) {
+    sounds.playChime();
+  } else if (typeof sounds !== 'undefined' && sounds.playSuccess) {
+    sounds.playSuccess();
+  }
+
+  if (typeof confetti === 'function') {
+    var duration = 4 * 1000;
+    var end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#4E9F3D', '#FFD700', '#FF8E8E', '#83BD75']
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#4E9F3D', '#FFD700', '#FF8E8E', '#83BD75']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  }
+};

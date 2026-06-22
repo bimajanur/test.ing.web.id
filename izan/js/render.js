@@ -244,7 +244,12 @@ function renderGameSpread(spread) {
           <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
-          <div class="game-title-wrapper">
+          <div class="game-title-wrapper" style="position: relative;">
+            <button class="speech-play-btn game-title-play-btn" onclick="playSpeechText('${spread.title.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${spread.titleAudio || ''}', this)">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
             <h2 class="game-title">
               ${spread.title.replace(/\n/g, '<br>')}
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
@@ -299,7 +304,12 @@ function renderBoxOpeningGameSpread(spread) {
           <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
-          <div class="game-title-wrapper">
+          <div class="game-title-wrapper" style="position: relative;">
+            <button class="speech-play-btn game-title-play-btn" onclick="playSpeechText('${spread.title.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${spread.titleAudio || ''}', this)">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
             <h2 class="game-title">
               ${spread.title.replace(/\n/g, '<br>')}
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
@@ -363,12 +373,12 @@ function renderBoxOpeningGameSpread(spread) {
           <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-drag-instruction="${spread.dragInstruction || ''}"></div>
           
           <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
-          
-          <!-- Zoom Overlay -->
-          <div class="zoom-overlay hidden" id="zoom-overlay" onclick="this.classList.add('hidden'); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
-            <button class="zoom-close-btn bouncy-btn">X</button>
-            <img src="" class="zoom-image" id="zoom-image" alt="Zoomed item" onclick="event.stopPropagation();">
-          </div>
+        </div>
+        
+        <!-- Zoom Overlay -->
+        <div class="zoom-overlay hidden" id="zoom-overlay" onclick="this.classList.add('hidden'); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">
+          <button class="zoom-close-btn bouncy-btn">X</button>
+          <img src="" class="zoom-image" id="zoom-image" alt="Zoomed item" onclick="event.stopPropagation();">
         </div>
       </div>
     </div>
@@ -407,7 +417,12 @@ function renderDrawingGameSpread(spread) {
           <button class="game-btn-close bouncy-btn" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); if (typeof jumpToSpread !== 'undefined') { jumpToSpread(state.currentSpreadIndex); } if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">X</button>
 
           ${speechHtml}
-          <div class="game-title-wrapper">
+          <div class="game-title-wrapper" style="position: relative;">
+            <button class="speech-play-btn game-title-play-btn" onclick="playSpeechText('${spread.title.replace(/'/g, "\\'").replace(/\n/g, " ")}', '${spread.titleAudio || ''}', this)">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" style="margin-left: 2px;">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
             <h2 class="game-title">
               ${spread.title.replace(/\n/g, '<br>')}
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}

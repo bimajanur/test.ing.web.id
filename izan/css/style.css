@@ -1292,6 +1292,12 @@ li .icon-btn svg {
   pointer-events: none;
 }
 
+.game-title-play-btn {
+  left: auto;
+  right: -15px;
+  pointer-events: auto;
+}
+
 .game-title {
   font-family: var(--font-title);
   font-size: 2.2rem;
@@ -1374,7 +1380,7 @@ li .icon-btn svg {
 .game-feedback {
   position: absolute;
   bottom: 6%;
-  left: 59%;
+  left: 50%;
   transform: translateX(-50%);
   width: 350px;
   text-align: center;
@@ -1387,6 +1393,34 @@ li .icon-btn svg {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   z-index: 91;
   font-size: 1.2rem;
+}
+
+.feedback-celebration-anim {
+  bottom: -10%;
+  animation: pop-up-celebration 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  padding: 30px 40px;
+  border-width: 8px;
+  font-size: 1.5rem;
+  background: #FFFDE8;
+  z-index: 1000;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pop-up-celebration {
+  0% {
+    transform: translate(-50%, 50%) scale(0.1);
+    opacity: 0;
+  }
+
+  60% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .game-btn-next {
@@ -1568,17 +1602,13 @@ li .icon-btn svg {
 
 /* Zoom Overlay */
 .zoom-overlay {
-  position: fixed;
-  /* top: 0;
+  position: absolute;
+  top: 0;
   left: 0;
-  width: 74vw;
-  height: 88vh; */
-  top: -40px;
-  left: -70px;
-  width: 83vw;
-  height: 101vh;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 99;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1697,4 +1727,20 @@ li .icon-btn svg {
   transform: translateY(-50%);
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
   pointer-events: none;
+}
+
+.hint-animation {
+  animation: hint-slide 1.5s ease-in-out infinite;
+}
+
+@keyframes hint-slide {
+
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-50%) translateX(25px);
+  }
 }

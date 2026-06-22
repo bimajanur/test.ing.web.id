@@ -215,12 +215,13 @@ const bookData = {
         {
           image: "images/halaman-5/burasa-atas.png",
           fullImage: "images/halaman-5/burasa-full.png",
-          width: "40%",
+          width: "42%",
           top: "56%",
-          left: "43%",
+          left: "42%",
           zIndex: 1
         }
       ],
+      startInstruction: "Geser panah ke kanan!",
       itemScale: 0.8,
       dragInstruction: "Keluarkan oleh-oleh ke nampah!",
       feedbackCorrect: "Hore selesai! Klik oleh-oleh untuk melihatnya.",
@@ -258,13 +259,6 @@ const bookData = {
       title: "Bantu Izan Teteskan Sirup, Yuk!",
       subtitle: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
       speechBubbles: [
-        {
-          text: "Bantu Izan Teteskan Sirup, Yuk!",
-          audio: "audio/halaman-7.mp3",
-          top: "6%",
-          left: "77%",
-          hideText: true
-        },
         {
           text: "Tuang Botol Sirup Sesuai Warna Mangkok 🔴🟢🟡",
           audio: "audio/halaman-7.mp3",

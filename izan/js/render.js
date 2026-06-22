@@ -142,7 +142,6 @@ function renderColumnHTML(colData, side, spreadIndex) {
   }
 }
 
-// Render HTML untuk Halaman Tunggal 16:9 berdasarkan spread data
 // Helper Render Functions for different spread types
 
 function renderWavingSpread(spread) {
@@ -151,13 +150,15 @@ function renderWavingSpread(spread) {
   return `
     <div class="spread-waving" style="background: ${spread.bgColor || '#FFFDF7'};">
       <div class="spread-waving-bg">
-        <img src="${spread.bgImage}" class="full-bleed-image" onerror="handleImageError(this, '${spread.bgImage}')">
-        <img src="${spread.handImage}" class="spread-waving-hand waving-hand-anim" style="top: ${spread.handTop || '50%'}; left: ${spread.handLeft || '50%'}; width: ${spread.handWidth || '150px'}; transform-origin: ${spread.handOrigin || 'bottom right'};" onerror="handleImageError(this, '${spread.handImage}')">
+        ${spread.background.image ? `<img src="${spread.background.image}" style="top: ${spread.background.top || '50%'}; left: ${spread.background.left || '50%'}; width: ${spread.background.width || '150px'}; z-index: ${spread.background.zIndex || '3'};" onerror="handleImageError(this, '${spread.background.image}')">` : ''}
+        ${spread.badan.image ? `<img src="${spread.badan.image}" class="spread-waving-position" style="top: ${spread.badan.top || '50%'}; left: ${spread.badan.left || '50%'}; width: ${spread.badan.width || '150px'}; z-index: ${spread.badan.zIndex || '3'};" onerror="handleImageError(this, '${spread.badan.image}')">` : ''}
+        ${spread.leftHand.image ? `<img src="${spread.leftHand.image}" class="spread-waving-position waving-left-hand-anim" style="top: ${spread.leftHand.top || '50%'}; left: ${spread.leftHand.left || '50%'}; width: ${spread.leftHand.width || '150px'}; transform-origin: ${spread.leftHand.origin || 'bottom right'}; z-index: ${spread.leftHand.zIndex || '3'};" onerror="handleImageError(this, '${spread.leftHand.image}')">` : ''}
+        ${spread.rightHand.image ? `<img src="${spread.rightHand.image}" class="spread-waving-position waving-right-hand-anim" style="top: ${spread.rightHand.top || '50%'}; left: ${spread.rightHand.left || '50%'}; width: ${spread.rightHand.width || '150px'}; transform-origin: ${spread.rightHand.origin || 'bottom right'}; z-index: ${spread.rightHand.zIndex || '2'};" onerror="handleImageError(this, '${spread.rightHand.image}')">` : ''}
       </div>
       ${speechHtml}
-      <div class="spread-text-overlay spread-text-overlay-bottom" style="display: ${spread.text ? 'block' : 'none'};">
-        <h2 class="spread-text-title">${spread.text || ''}</h2>
-      </div>
+      ${spread.title ? `<div class="spread-text-overlay" style="display: ${spread.title ? 'block' : 'none'}; top: ${spread.title.top || '50px'}; left: ${spread.title.left || '50px'};">
+        <h2 class="spread-text-title">${spread.title.text || ''}</h2>
+      </div>` : ''}
     </div>
   `;
 }
@@ -310,6 +311,7 @@ function renderBoxOpeningGameSpread(spread) {
               <img src="${spread.nampah.image}" class="nampah-container" id="nampah-container" draggable="false" onerror="handleImageError(this, '${spread.nampah.image}')" style="
                 ${spread.nampah.width ? `width: ${spread.nampah.width};` : ''}
                 ${spread.nampah.top ? `top: ${spread.nampah.top};` : ''}
+                ${spread.nampah.left ? `left: ${spread.nampah.left};` : ''}
                 ${spread.nampah.aspectRatio ? `aspect-ratio: ${spread.nampah.aspectRatio};` : ''}
               ">
             ` : ''}
@@ -605,6 +607,6 @@ window.initActiveGame = function (spread, container) {
   } else if (spread.type === 'drawing-game') {
     if (window.initDrawingGame) window.initDrawingGame(container, spread);
   } else if (spread.type === 'box-opening-game') {
-    if (window.initBoxOpeningGame) window.initBoxOpeningGame(container);
+    if (window.initBoxOpeningGame) window.initBoxOpeningGame(container, spread);
   }
 };

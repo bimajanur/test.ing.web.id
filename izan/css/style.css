@@ -440,7 +440,7 @@ li .icon-btn svg {
 }
 
 /* Waving Hand Animation */
-@keyframes wave-hand {
+@keyframes wave-left-hand {
   0% {
     transform: rotate(0deg);
   }
@@ -454,9 +454,28 @@ li .icon-btn svg {
   }
 }
 
-.waving-hand-anim {
-  transform-origin: bottom center;
-  animation: wave-hand 1.5s ease-in-out infinite alternate;
+@keyframes wave-right-hand {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
+.waving-left-hand-anim {
+  transform-origin: bottom left;
+  animation: wave-left-hand 1.5s ease-in-out infinite alternate;
+}
+
+.waving-right-hand-anim {
+  transform-origin: bottom left;
+  animation: wave-right-hand 2s ease-in infinite alternate;
 }
 
 /* Footer / Progress Bar section */
@@ -1081,16 +1100,8 @@ li .icon-btn svg {
   box-sizing: border-box;
 }
 
-.spread-waving-bg img.full-bleed-image {
+.spread-waving-position {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
-
-.spread-waving-hand {
-  position: absolute;
-  z-index: 1;
 }
 
 .spread-text-overlay {
@@ -1102,10 +1113,6 @@ li .icon-btn svg {
   text-align: center;
   border: 4px dashed var(--color-primary);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.spread-text-overlay-bottom {
-  bottom: 50px;
 }
 
 .spread-text-title {

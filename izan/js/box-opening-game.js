@@ -1,4 +1,4 @@
-window.initBoxOpeningGame = function (container) {
+window.initBoxOpeningGame = function (container, spread = {}) {
   const track = container.querySelector('#box-slider-track');
   const tapeContainer = container.querySelector('#box-tape-container');
   const flapTop = container.querySelector('#box-flap-top');
@@ -27,7 +27,8 @@ window.initBoxOpeningGame = function (container) {
     if (isOpened) return;
     isDragging = true;
     const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-    startX = clientX - currentX;
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
+    startX = clientX - currentX * scale;
 
     track.style.transition = 'none';
     maxX = track.offsetWidth * 0.8; // require 80% drag
@@ -38,7 +39,8 @@ window.initBoxOpeningGame = function (container) {
     e.preventDefault();
 
     const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-    currentX = clientX - startX;
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
+    currentX = (clientX - startX) / scale;
 
     // Constrain movement
     if (currentX < 0) currentX = 0;
@@ -99,8 +101,18 @@ window.initBoxOpeningGame = function (container) {
 
       // Slide box to the left and slide nampah in
       setTimeout(() => {
-        if (boxContainer) boxContainer.classList.add('box-move-left');
-        if (nampah) nampah.classList.add('nampah-moved');
+        if (boxContainer) {
+          boxContainer.classList.add('box-move-left');
+          if (spread.mainBox && spread.mainBox.movedBoxTransform) {
+            boxContainer.style.setProperty('transform', spread.mainBox.movedBoxTransform, 'important');
+          }
+        }
+        if (nampah) {
+          nampah.classList.add('nampah-moved');
+          if (spread.nampah && spread.nampah.movedNampahTransform) {
+            nampah.style.setProperty('transform', spread.nampah.movedNampahTransform, 'important');
+          }
+        }
 
         // Initialize Phase 2 after animations
         setTimeout(() => {
@@ -171,9 +183,9 @@ window.initBoxOpeningGame = function (container) {
         if (!nampah) return;
         const itemRect = item.getBoundingClientRect();
         const nampahRect = nampah.getBoundingClientRect();
-        const itemScale = 0.8;
+        const itemScale = spread.itemScale !== undefined ? spread.itemScale : 1;
 
-        const itemCenter = { x: itemRect.left + itemRect.width / 2 * itemScale, y: itemRect.top + itemRect.height / 2 * itemScale };
+        const itemCenter = { x: itemRect.left + itemRect.width / 2, y: itemRect.top + itemRect.height / 2 };
         const nampahCenter = { x: nampahRect.left + nampahRect.width / 2, y: nampahRect.top + nampahRect.height / 2 };
 
         const dx = itemCenter.x - nampahCenter.x;
@@ -197,10 +209,10 @@ window.initBoxOpeningGame = function (container) {
           const targetX = nampahCenter.x + Math.cos(angle) * arrangeRadius;
           const targetY = nampahCenter.y + Math.sin(angle) * arrangeRadius;
 
-          currentX += (targetX - itemCenter.x) / scale;
-          currentY += (targetY - itemCenter.y) / scale;
+          currentX += (targetX - itemCenter.x) / scale - (itemRect.width * (itemScale - 1) / 2) / scale;
+          currentY += (targetY - itemCenter.y) / scale - (itemRect.height * (itemScale - 1) / 2) / scale;
           item.style.transform = `translate(${currentX}px, ${currentY}px)`;
-          item.style.width = `${itemRect.width * itemScale}px`;
+          item.style.width = `${(itemRect.width / scale) * itemScale}px`;
           item.classList.remove('draggable');
           item.style.pointerEvents = 'auto';
           item.style.cursor = 'pointer';

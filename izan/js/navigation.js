@@ -90,7 +90,7 @@ function navigateNext() {
       }, 50);
     } else if (nextSpread.type === 'box-opening-game') {
       setTimeout(() => {
-        if (window.initBoxOpeningGame) window.initBoxOpeningGame(elements.pageSlotActive);
+        if (window.initBoxOpeningGame) window.initBoxOpeningGame(elements.pageSlotActive, nextSpread);
       }, 50);
     }
   }, 600); // Matches the CSS transform transition timing
@@ -149,7 +149,7 @@ function navigatePrev() {
       }, 50);
     } else if (prevSpread.type === 'box-opening-game') {
       setTimeout(() => {
-        if (window.initBoxOpeningGame) window.initBoxOpeningGame(elements.pageSlotActive);
+        if (window.initBoxOpeningGame) window.initBoxOpeningGame(elements.pageSlotActive, prevSpread);
       }, 50);
     }
   }, 600); // Matches the CSS transform transition timing

@@ -5,19 +5,47 @@ const bookData = {
     {
       type: "waving-animation",
       bgColor: "#FFFDF7",
-      bgImage: "images/halaman-1/badan-izan.png",
-      handImage: "images/halaman-1/tangan-izan.png",
-      text: "Misi Rahasia Hari Raya",
-      handTop: "51%",
-      handLeft: "28%",
-      handWidth: "12%",
-      handOrigin: "bottom left",
+      // title: {
+      //   text: "Misi Rahasia Hari Raya",
+      //   top: '50px',
+      //   left: '400px'
+      // },
+      background: {
+        image: "images/halaman-1/latar.png",
+        top: "0%",
+        left: "0%",
+        width: "100%",
+        zIndex: 0
+      },
+      badan: {
+        image: "images/halaman-1/badan-izan.png",
+        top: "12%",
+        left: "9%",
+        width: "34%",
+        zIndex: 2
+      },
+      leftHand: {
+        image: "images/halaman-1/tangan-kiri.png",
+        top: "52%",
+        left: "28%",
+        width: "12%",
+        origin: "bottom left",
+        zIndex: 1
+      },
+      rightHand: {
+        image: "images/halaman-1/tangan-kanan.png",
+        top: "62%",
+        left: "18%",
+        width: "11%",
+        origin: "0 75px",
+        zIndex: 2
+      },
       speechBubbles: [
         {
           text: "Misi Rahasia Hari Raya!",
           audio: "audio/halaman-1.mp3",
-          top: "72%",
-          left: "22%",
+          top: "5%",
+          left: "30%",
           hideText: true
         }
       ]
@@ -120,6 +148,7 @@ const bookData = {
         top: "50%",
         left: "50%",
         aspectRatio: "1300 / 864",
+        movedBoxTransform: "translate(calc(-50% - 28vw), -50%) scale(0.85)",
       },
       tape: {
         image: "images/halaman-5/selotip.png",
@@ -146,7 +175,9 @@ const bookData = {
         image: "images/halaman-5/nampah.png",
         width: "65%",
         top: "50%",
+        left: "85%",
         aspectRatio: "1/1",
+        movedNampahTransform: "translate(-63%, -50%) scale(0.75)",
       },
       boxItems: [
         {
@@ -190,9 +221,10 @@ const bookData = {
           zIndex: 1
         }
       ],
+      itemScale: 0.8,
       dragInstruction: "Keluarkan oleh-oleh ke nampah!",
       feedbackCorrect: "Hore selesai! Klik oleh-oleh untuk melihatnya.",
-      feedbackIncorrect: "Geser panah ke kiri sampai ujung!"
+      feedbackIncorrect: "Geser panah ke kiri sampai ujung!",
     },
 
     // halaman 6: bening kenyal dingin!

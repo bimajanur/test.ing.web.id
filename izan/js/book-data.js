@@ -11,7 +11,7 @@ const bookData = {
       //   left: '400px'
       // },
       background: {
-        image: "images/halaman-1/latar.png",
+        image: "images/halaman-1/latar.jpg",
         top: "0%",
         left: "0%",
         width: "100%",
@@ -140,6 +140,7 @@ const bookData = {
         }
       ],
       title: "Keluarkan kuenya yuk!",
+      titleAudio: "audio/halaman-5-title.mp3",
       subtitle: "",
       speechBubbles: [],
       mainBox: {
@@ -214,7 +215,7 @@ const bookData = {
         },
         {
           image: "images/halaman-5/burasa-atas.png",
-          fullImage: "images/halaman-5/burasa-full.png",
+          fullImage: "images/halaman-5/burasa-full.webp",
           width: "42%",
           top: "56%",
           left: "42%",
@@ -257,6 +258,7 @@ const bookData = {
         }
       ],
       title: "Bantu Izan Teteskan Sirup, Yuk!",
+      titleAudio: "audio/halaman-7-title.mp3",
       subtitle: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
       speechBubbles: [
         {
@@ -366,6 +368,7 @@ const bookData = {
         }
       ],
       title: "Pasangkan Kue",
+      titleAudio: "audio/halaman-11-title.mp3",
       subtitle: "",
       speechBubbles: [],
       draggables: [],
@@ -409,6 +412,7 @@ const bookData = {
         }
       ],
       title: "Pasangkan Kue",
+      titleAudio: "audio/halaman-13-title.mp3",
       subtitle: "",
       speechBubbles: [],
       draggables: [],
@@ -431,6 +435,7 @@ const bookData = {
         }
       ],
       title: "Ikat Kue Jaring",
+      titleAudio: "audio/halaman-14-title.mp3",
       subtitle: "",
       speechBubbles: [],
       draggables: [],
@@ -468,6 +473,7 @@ const bookData = {
         }
       ],
       title: "Lukis Kue Jala",
+      titleAudio: "audio/halaman-16-title.mp3",
       subtitle: "",
       speechBubbles: [],
       panImage: "images/halaman-16/wajan.png",

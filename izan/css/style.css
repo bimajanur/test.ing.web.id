@@ -1225,7 +1225,18 @@ li .icon-btn svg {
 }
 
 .game-intro-btn-anim {
-  animation: float-avatar 3s ease-in-out infinite alternate;
+  animation: pulse-entice 2.5s infinite;
+  transform-origin: center;
+}
+
+@keyframes pulse-entice {
+  0% { transform: scale(1); }
+  10% { transform: scale(1.1) rotate(3deg); }
+  20% { transform: scale(1.1) rotate(-3deg); }
+  30% { transform: scale(1.1) rotate(3deg); }
+  40% { transform: scale(1.1) rotate(-3deg); }
+  50% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
 .game-popup-overlay {

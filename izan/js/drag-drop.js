@@ -113,6 +113,11 @@ window.initDragDrop = function (container) {
             dropZoneImg.src = dropZoneImg.dataset.doneSrc;
             collidedZone.dataset.completed = "true";
             completedZones++;
+            
+            if (item.dataset.hideOnDrop === "true") {
+              item.style.opacity = '0';
+              item.style.pointerEvents = 'none';
+            }
           }
 
           if (typeof sounds !== 'undefined' && sounds.playChime) sounds.playChime();

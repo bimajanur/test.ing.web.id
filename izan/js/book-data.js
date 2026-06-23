@@ -44,8 +44,8 @@ const bookData = {
         {
           text: "Misi Rahasia Hari Raya!",
           audio: "audio/halaman-1.mp3",
-          top: "5%",
-          left: "30%",
+          top: "7%",
+          left: "74%",
           hideText: true
         }
       ]
@@ -71,12 +71,21 @@ const bookData = {
       right: {
         type: "guide-list",
         title: "Panduan Penggunaan 📖",
+        speechBubbles: [
+          {
+            text: "Petunjuk!",
+            audio: "audio/halaman-2-petunjuk.mp3",
+            top: "3%",
+            left: "50%",
+            hideText: true
+          }
+        ],
         items: [
           { icon: "images/halaman-2/button-prev.png", text: "Tekan untuk membuka halaman sebelumnya." },
           { icon: "images/halaman-2/button-next.png", text: "Tekan untuk membuka halaman selanjutnya." },
           { icon: "images/halaman-2/button-sound.png", text: "Tekan untuk menghidupkan/mematikan suara." },
           { icon: "images/halaman-2/button-info.png", text: "Tekan untuk melihat informasi buku." }
-        ]
+        ],
       }
     },
 
@@ -236,7 +245,7 @@ const bookData = {
       image: "images/halaman-6/cerita.jpg",
       speechBubbles: [
         {
-          text: "Bening kenyal dingin!",
+          text: "Apa ini? Bening, kenyal, dingin!",
           audio: "audio/halaman-6.mp3",
           top: "80%",
           left: "10%",
@@ -313,24 +322,73 @@ const bookData = {
       ]
     },
 
-    // halaman 9: GAME 3 - Cari yang sama!
+    // halaman 9: GAME 3 - Pindahkan wajik!
     {
-      bgColorLeft: "#FFFDF7",
-      bgColorRight: "#FCFAF5",
-      left: {
-        type: "quiz-question",
-        image: "images/halaman-9/intro.jpg",
-        question: "ayah : Cari yang bentuknya sama yuk!"
-      },
-      right: {
-        type: "quiz-options",
-        options: [
-          { text: "Selai Nanas 🍍", correct: true },
-          { text: "Selai Cokelat 🍫", correct: false }
-        ],
-        feedbackCorrect: "Luar biasa! Kue Nastar diisi dengan selai buah nanas asam manis yang lezat.",
-        feedbackIncorrect: "Ayo tebak lagi! Nastar klasik khas hari raya menggunakan selai buah nanas berserat."
-      }
+      type: "drag-drop-game",
+      bgColor: "#FFFDF7",
+      introImage: "images/halaman-9/intro.jpg",
+      introSpeechBubbles: [
+        {
+          text: "pindahkan wajik sesuai bentuknya",
+          audio: "audio/halaman-9-intro.mp3",
+          top: "10%",
+          left: "10%"
+        }
+      ],
+      title: "Pindahkan Wajik",
+      titleAudio: "audio/halaman-9-title.mp3",
+      subtitle: "Pindahkan wajik sesuai bentuknya",
+      speechBubbles: [],
+      layoutBgImage: "images/halaman-9/kotak-makan.png",
+      layoutStyle: "width: 80%; height: 70%; margin: auto; margin-top: -10px;",
+      dragItemsStyle: "",
+      dropZonesStyle: "",
+      draggables: [
+        { id: "wajik-segitiga", src: "images/halaman-9/wajik-segitiga.png", target: "wadah-segitiga", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "33%", left: "17%" },
+        { id: "wajik-persegi-panjang", src: "images/halaman-9/wajik-persegi-panjang.png", target: "wadah-persegi-panjang", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "33%", left: "32.5%" },
+        { id: "wajik-lingkaran", src: "images/halaman-9/wajik-lingkaran.png", target: "wadah-lingkaran", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "58%", left: "17%" },
+        { id: "wajik-persegi", src: "images/halaman-9/wajik-persegi.png", target: "wadah-persegi", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "58%", left: "32.5%" }
+      ],
+      dropZones: [
+        {
+          id: "wadah-persegi",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          doneSrc: "images/halaman-9/wajik-persegi.png",
+          imgStyle: "width: 130px; height: 130px; object-fit: contain;",
+          style: "margin: 0;",
+          top: "33%",
+          left: "52.5%"
+        },
+        {
+          id: "wadah-segitiga",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          doneSrc: "images/halaman-9/wajik-segitiga.png",
+          imgStyle: "width: 130px; height: 130px; object-fit: contain;",
+          style: "margin: 0;",
+          top: "33%",
+          left: "67%"
+        },
+        {
+          id: "wadah-persegi-panjang",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          doneSrc: "images/halaman-9/wajik-persegi-panjang.png",
+          imgStyle: "width: 130px; height: 130px; object-fit: contain;",
+          style: "margin: 0;",
+          top: "58%",
+          left: "53%"
+        },
+        {
+          id: "wadah-lingkaran",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          doneSrc: "images/halaman-9/wajik-lingkaran.png",
+          imgStyle: "width: 130px; height: 130px; object-fit: contain;",
+          style: "margin: 0;",
+          top: "58%",
+          left: "68%"
+        }
+      ],
+      feedbackCorrect: "Wah, kamu hebat! Semua wajik sudah pada tempatnya!",
+      feedbackIncorrect: "Bentuknya tidak sama, coba lagi!"
     },
 
     // halaman 10: Garis cokelat, garis emas

@@ -60,7 +60,7 @@ function renderColumnHTML(colData, side, spreadIndex) {
   if (!colData) return '';
 
   switch (colData.type) {
-    case 'story-image':
+    case 'story-image': {
       const speechHtml = renderSpeechBubbles(colData.speechBubbles);
 
       return `
@@ -69,8 +69,10 @@ function renderColumnHTML(colData, side, spreadIndex) {
           ${speechHtml}
         </div>
       `;
+    }
 
-    case 'guide-list':
+    case 'guide-list': {
+      const speechHtml = renderSpeechBubbles(colData.speechBubbles);
       const listItems = colData.items.map(item => `
         <div class="guide-item">
           <div class="guide-icon">
@@ -82,14 +84,16 @@ function renderColumnHTML(colData, side, spreadIndex) {
 
       return `
         <div class="story-column-content">
-          <div class="guide-container story-text-container">
+          <div class="guide-container story-text-container" style="position: relative;">
             <h3 class="guide-title">${colData.title}</h3>
             <div class="guide-list-wrapper">
               ${listItems}
             </div>
+            ${speechHtml}
           </div>
         </div>
       `;
+    }
 
     case 'story-text':
       return `
@@ -196,10 +200,16 @@ function renderFullImageSpread(spread) {
 }
 
 function renderGameSpread(spread) {
-  const draggablesHtml = spread.draggables.map(d => `
-    <img src="${d.src}" class="draggable-item" data-id="${d.id}" data-target="${d.target || ''}" data-correct="${d.correct || false}"
-         draggable="false" onerror="handleImageError(this, '${d.src}')">
-  `).join('');
+  const draggablesHtml = spread.draggables.map(d => {
+    let positionStyle = '';
+    if (d.top || d.left || d.right || d.bottom || d.position) {
+      positionStyle = `position: ${d.position || 'absolute'}; top: ${d.top || 'auto'}; left: ${d.left || 'auto'}; right: ${d.right || 'auto'}; bottom: ${d.bottom || 'auto'}; z-index: ${d.zIndex || 10};`;
+    }
+    return `
+    <img src="${d.src}" class="draggable-item" data-id="${d.id}" data-target="${d.target || ''}" data-correct="${d.correct || false}" data-hide-on-drop="${d.hideOnDrop || false}"
+         draggable="false" onerror="handleImageError(this, '${d.src}')" style="${positionStyle} ${d.style || ''}">
+  `;
+  }).join('');
 
   const speechHtml = renderSpeechBubbles(spread.speechBubbles);
   const introSpeechHtml = spread.introSpeechBubbles ? renderSpeechBubbles(spread.introSpeechBubbles) : '';
@@ -221,15 +231,21 @@ function renderGameSpread(spread) {
     </div>
   ` : '';
 
-  const dropZonesHtml = spread.dropZones ? spread.dropZones.map(dz => `
-    <div class="drop-zone-container drop-zone-item" data-target="${dz.id}">
+  const dropZonesHtml = spread.dropZones ? spread.dropZones.map(dz => {
+    let positionStyle = '';
+    if (dz.top || dz.left || dz.right || dz.bottom || dz.position) {
+      positionStyle = `position: ${dz.position || 'absolute'}; top: ${dz.top || 'auto'}; left: ${dz.left || 'auto'}; right: ${dz.right || 'auto'}; bottom: ${dz.bottom || 'auto'}; z-index: ${dz.zIndex || 5};`;
+    }
+    return `
+    <div class="drop-zone-container drop-zone-item" style="${positionStyle} ${dz.style || ''}" data-target="${dz.id}">
       ${dz.decoration ? `<img src="${dz.decoration.src}" class="${dz.decoration.className || ''}" style="${dz.decoration.style || ''}" onerror="handleImageError(this, '${dz.decoration.src}')">` : ''}
-      <img src="${dz.startSrc}" class="drop-zone-img" data-done-src="${dz.doneSrc}" onerror="handleImageError(this, '${dz.startSrc}')">
+      <img src="${dz.startSrc}" class="drop-zone-img" data-done-src="${dz.doneSrc}" onerror="handleImageError(this, '${dz.startSrc}')" style="${dz.imgStyle || ''}">
     </div>
-  `).join('') : `
-    <div class="drop-zone-container drop-zone-item">
+  `;
+  }).join('') : `
+    <div class="drop-zone-container drop-zone-item" style="${spread.dropZone.style || ''}">
       ${spread.dropZone.decoration ? `<img src="${spread.dropZone.decoration.src}" class="${spread.dropZone.decoration.className || ''}" style="${spread.dropZone.decoration.style || ''}" onerror="handleImageError(this, '${spread.dropZone.decoration.src}')">` : ''}
-      <img src="${spread.dropZone.startSrc}" class="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" onerror="handleImageError(this, '${spread.dropZone.startSrc}')">
+      <img src="${spread.dropZone.startSrc}" class="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" onerror="handleImageError(this, '${spread.dropZone.startSrc}')" style="${spread.dropZone.imgStyle || ''}">
     </div>
   `;
 
@@ -255,11 +271,11 @@ function renderGameSpread(spread) {
               ${spread.subtitle ? `<span class="game-subtitle">${spread.subtitle}</span>` : ''}
             </h2>
           </div>
-          <div class="game-layout">
-            <div class="drag-items-container drag-items-list">
+          <div class="game-layout" style="position: relative; ${spread.layoutBgImage ? `background-image: url('${spread.layoutBgImage}'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat;` : ''} ${spread.layoutStyle || ''}">
+            <div class="drag-items-container drag-items-list" style="${spread.dragItemsStyle || ''}">
                ${draggablesHtml}
             </div>
-            <div class="drop-zones-wrapper drop-zones-list">
+            <div class="drop-zones-wrapper drop-zones-list" style="${spread.dropZonesStyle || ''}">
               ${dropZonesHtml}
             </div>
           </div>

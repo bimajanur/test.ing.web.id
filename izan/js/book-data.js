@@ -135,7 +135,7 @@ const bookData = {
     {
       type: "box-opening-game",
       bgColor: "#FFFDF7",
-      introImage: "images/halaman-5/intro.jpg",
+      introImage: "images/halaman-5/intro.webp",
       introSpeechBubbles: [
         {
           text: "Buka! Buka! Buka!",
@@ -155,7 +155,7 @@ const bookData = {
       subtitle: "",
       speechBubbles: [],
       mainBox: {
-        image: "images/halaman-5/kardus-buka-atas.png",
+        image: "images/halaman-5/kardus-buka-atas.webp",
         width: "64%",
         top: "50%",
         left: "50%",
@@ -163,28 +163,28 @@ const bookData = {
         movedBoxTransform: "translate(calc(-50% - 28vw), -50%) scale(0.85)",
       },
       tape: {
-        image: "images/halaman-5/selotip.png",
+        image: "images/halaman-5/selotip.webp",
         width: "100%",
         top: "50%",
         left: "50%",
         aspectRatio: "1300 / 240",
       },
       arrow: {
-        image: "images/halaman-5/arah-panah.png",
+        image: "images/halaman-5/arah-panah.webp",
         height: "60%",
         top: "50%",
         left: "3%",
       },
       flapTop: {
-        image: "images/halaman-5/kardus-atas-atas.png",
+        image: "images/halaman-5/kardus-atas-atas.webp",
         height: "50%",
       },
       flapBottom: {
-        image: "images/halaman-5/kardus-atas-bawah.png",
+        image: "images/halaman-5/kardus-atas-bawah.webp",
         height: "50%",
       },
       nampah: {
-        image: "images/halaman-5/nampah.png",
+        image: "images/halaman-5/nampah.webp",
         width: "65%",
         top: "50%",
         left: "85%",
@@ -193,39 +193,39 @@ const bookData = {
       },
       boxItems: [
         {
-          image: "images/halaman-5/lapis-legit-atas.png",
-          fullImage: "images/halaman-5/lapis-legit-full.png",
+          image: "images/halaman-5/lapis-legit-atas.webp",
+          fullImage: "images/halaman-5/lapis-legit-full.webp",
           width: "35%",
           top: "7%",
           left: "14%",
           zIndex: 5
         },
         {
-          image: "images/halaman-5/kolang-kaling-atas.png",
-          fullImage: "images/halaman-5/kolang-kaling-full.png",
+          image: "images/halaman-5/kolang-kaling-atas.webp",
+          fullImage: "images/halaman-5/kolang-kaling-full.webp",
           width: "40%",
           top: "6%",
           left: "38%",
           zIndex: 4
         },
         {
-          image: "images/halaman-5/wajik-atas.png",
-          fullImage: "images/halaman-5/wajik-full.png",
+          image: "images/halaman-5/wajik-atas.webp",
+          fullImage: "images/halaman-5/wajik-full.webp",
           width: "35%",
           top: "22%",
           left: "51%",
           zIndex: 2
         },
         {
-          image: "images/halaman-5/roti-jala-atas.png",
-          fullImage: "images/halaman-5/roti-jala-full.png",
+          image: "images/halaman-5/roti-jala-atas.webp",
+          fullImage: "images/halaman-5/roti-jala-full.webp",
           width: "35%",
           top: "29%",
           left: "19%",
           zIndex: 3
         },
         {
-          image: "images/halaman-5/burasa-atas.png",
+          image: "images/halaman-5/burasa-atas.webp",
           fullImage: "images/halaman-5/burasa-full.webp",
           width: "42%",
           top: "56%",
@@ -259,7 +259,7 @@ const bookData = {
     {
       type: "drag-drop-game",
       bgColor: "#FFFDF7",
-      introImage: "images/halaman-7/intro.jpg",
+      introImage: "images/halaman-7/intro.webp",
       introSpeechBubbles: [
         {
           text: "Izan siap mencampur sirup!",
@@ -281,28 +281,28 @@ const bookData = {
         }
       ],
       draggables: [
-        { id: "botol-merah", src: "images/halaman-7/botol-merah.png", target: "merah" },
-        { id: "botol-kuning", src: "images/halaman-7/botol-kuning.png", target: "kuning" },
-        { id: "botol-hijau", src: "images/halaman-7/botol-hijau.png", target: "hijau" }
+        { id: "botol-merah", src: "images/halaman-7/botol-merah.webp", target: "merah" },
+        { id: "botol-kuning", src: "images/halaman-7/botol-kuning.webp", target: "kuning" },
+        { id: "botol-hijau", src: "images/halaman-7/botol-hijau.webp", target: "hijau" }
       ],
       dropZones: [
         {
           id: "merah",
-          startSrc: "images/halaman-7/mangkok-merah-start.png",
-          doneSrc: "images/halaman-7/mangkok-merah-done.png",
-          decoration: { src: "images/halaman-7/angka-1.png", className: "drop-zone-deco" }
+          startSrc: "images/halaman-7/mangkok-merah-start.webp",
+          doneSrc: "images/halaman-7/mangkok-merah-done.webp",
+          decoration: { src: "images/halaman-7/angka-1.webp", className: "drop-zone-deco" }
         },
         {
           id: "kuning",
-          startSrc: "images/halaman-7/mangkok-kuning-start.png",
-          doneSrc: "images/halaman-7/mangkok-kuning-done.png",
-          decoration: { src: "images/halaman-7/angka-2.png", className: "drop-zone-deco" }
+          startSrc: "images/halaman-7/mangkok-kuning-start.webp",
+          doneSrc: "images/halaman-7/mangkok-kuning-done.webp",
+          decoration: { src: "images/halaman-7/angka-2.webp", className: "drop-zone-deco" }
         },
         {
           id: "hijau",
-          startSrc: "images/halaman-7/mangkok-hijau-start.png",
-          doneSrc: "images/halaman-7/mangkok-hijau-done.png",
-          decoration: { src: "images/halaman-7/angka-3.png", className: "drop-zone-deco" }
+          startSrc: "images/halaman-7/mangkok-hijau-start.webp",
+          doneSrc: "images/halaman-7/mangkok-hijau-done.webp",
+          decoration: { src: "images/halaman-7/angka-3.webp", className: "drop-zone-deco" }
         }
       ],
       feedbackCorrect: "Benar sekali!",
@@ -341,21 +341,21 @@ const bookData = {
       titleAudio: "audio/halaman-9-title.mp3",
       subtitle: "Pindahkan wajik dari kiri ke kanan",
       speechBubbles: [],
-      layoutBgImage: "images/halaman-9/kotak-makan.png",
+      layoutBgImage: "images/halaman-9/kotak-makan.webp",
       layoutStyle: "width: 80%; height: 70%; margin: auto; margin-top: -10px;",
       dragItemsStyle: "",
       dropZonesStyle: "",
       draggables: [
-        { id: "wajik-segitiga", src: "images/halaman-9/wajik-segitiga.png", target: "wadah-segitiga", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "33%", left: "17%" },
-        { id: "wajik-persegi-panjang", src: "images/halaman-9/wajik-persegi-panjang.png", target: "wadah-persegi-panjang", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "33%", left: "32.5%" },
-        { id: "wajik-lingkaran", src: "images/halaman-9/wajik-lingkaran.png", target: "wadah-lingkaran", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "58%", left: "17%" },
-        { id: "wajik-persegi", src: "images/halaman-9/wajik-persegi.png", target: "wadah-persegi", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "58%", left: "32.5%" }
+        { id: "wajik-segitiga", src: "images/halaman-9/wajik-segitiga.webp", target: "wadah-segitiga", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "33%", left: "17%" },
+        { id: "wajik-persegi-panjang", src: "images/halaman-9/wajik-persegi-panjang.webp", target: "wadah-persegi-panjang", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "33%", left: "32.5%" },
+        { id: "wajik-lingkaran", src: "images/halaman-9/wajik-lingkaran.webp", target: "wadah-lingkaran", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "58%", left: "17%" },
+        { id: "wajik-persegi", src: "images/halaman-9/wajik-persegi.webp", target: "wadah-persegi", hideOnDrop: true, style: "width: 130px; height: 130px; object-fit: contain;", top: "58%", left: "32.5%" }
       ],
       dropZones: [
         {
           id: "wadah-persegi",
           startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-          doneSrc: "images/halaman-9/wajik-persegi.png",
+          doneSrc: "images/halaman-9/wajik-persegi.webp",
           imgStyle: "width: 130px; height: 130px; object-fit: contain;",
           style: "margin: 0;",
           top: "33%",
@@ -364,7 +364,7 @@ const bookData = {
         {
           id: "wadah-segitiga",
           startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-          doneSrc: "images/halaman-9/wajik-segitiga.png",
+          doneSrc: "images/halaman-9/wajik-segitiga.webp",
           imgStyle: "width: 130px; height: 130px; object-fit: contain;",
           style: "margin: 0;",
           top: "33%",
@@ -373,7 +373,7 @@ const bookData = {
         {
           id: "wadah-persegi-panjang",
           startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-          doneSrc: "images/halaman-9/wajik-persegi-panjang.png",
+          doneSrc: "images/halaman-9/wajik-persegi-panjang.webp",
           imgStyle: "width: 130px; height: 130px; object-fit: contain;",
           style: "margin: 0;",
           top: "58%",
@@ -382,7 +382,7 @@ const bookData = {
         {
           id: "wadah-lingkaran",
           startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-          doneSrc: "images/halaman-9/wajik-lingkaran.png",
+          doneSrc: "images/halaman-9/wajik-lingkaran.webp",
           imgStyle: "width: 130px; height: 130px; object-fit: contain;",
           style: "margin: 0;",
           top: "58%",

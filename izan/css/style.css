@@ -971,7 +971,7 @@ li .icon-btn svg {
 .guide-item {
   display: flex;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 5px;
 }
 
 .guide-item:last-child {
@@ -979,7 +979,7 @@ li .icon-btn svg {
 }
 
 .guide-icon {
-  width: 60px;
+  width: 72px;
   display: flex;
   justify-content: center;
   margin-right: 15px;
@@ -987,13 +987,13 @@ li .icon-btn svg {
 }
 
 .guide-icon img {
-  width: 50px;
+  width: 61px;
   height: auto;
 }
 
 .guide-text {
   font-family: var(--font-body);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #1A1A1A;
   line-height: 1.4;
@@ -1230,13 +1230,33 @@ li .icon-btn svg {
 }
 
 @keyframes pulse-entice {
-  0% { transform: scale(1); }
-  10% { transform: scale(1.1) rotate(3deg); }
-  20% { transform: scale(1.1) rotate(-3deg); }
-  30% { transform: scale(1.1) rotate(3deg); }
-  40% { transform: scale(1.1) rotate(-3deg); }
-  50% { transform: scale(1) rotate(0deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0% {
+    transform: scale(1);
+  }
+
+  10% {
+    transform: scale(1.1) rotate(3deg);
+  }
+
+  20% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+
+  30% {
+    transform: scale(1.1) rotate(3deg);
+  }
+
+  40% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 .game-popup-overlay {

@@ -18,14 +18,14 @@ const bookData = {
         zIndex: 0
       },
       badan: {
-        image: "images/halaman-1/badan-izan.png",
+        image: "images/halaman-1/badan-izan.webp",
         top: "12%",
         left: "9%",
         width: "34%",
         zIndex: 2
       },
       leftHand: {
-        image: "images/halaman-1/tangan-kiri.png",
+        image: "images/halaman-1/tangan-kiri.webp",
         top: "52%",
         left: "28%",
         width: "12%",
@@ -33,7 +33,7 @@ const bookData = {
         zIndex: 1
       },
       rightHand: {
-        image: "images/halaman-1/tangan-kanan.png",
+        image: "images/halaman-1/tangan-kanan.webp",
         top: "62%",
         left: "18%",
         width: "11%",
@@ -57,14 +57,14 @@ const bookData = {
       bgColorRight: "#FFFDF7",
       left: {
         type: "story-image",
-        image: "images/halaman-2/cerita.jpg",
+        image: "images/halaman-2/cerita.webp",
         alt: "Petunjuk Penggunaan",
         speechBubbles: [
           {
             text: "Ayah, Ibu, ayo main!",
             audio: "audio/halaman-2.mp3",
-            top: "10%",
-            left: "10%"
+            top: "14%",
+            left: "15%"
           }
         ]
       },
@@ -75,16 +75,18 @@ const bookData = {
           {
             text: "Petunjuk!",
             audio: "audio/halaman-2-petunjuk.mp3",
-            top: "3%",
-            left: "50%",
+            top: "-1%",
+            left: "-6%",
             hideText: true
           }
         ],
         items: [
-          { icon: "images/halaman-2/button-prev.png", text: "Tekan untuk membuka halaman sebelumnya." },
-          { icon: "images/halaman-2/button-next.png", text: "Tekan untuk membuka halaman selanjutnya." },
-          { icon: "images/halaman-2/button-sound.png", text: "Tekan untuk menghidupkan/mematikan suara." },
-          { icon: "images/halaman-2/button-info.png", text: "Tekan untuk melihat informasi buku." }
+          { icon: "images/halaman-2/button-prev.webp", text: "Tekan untuk membuka halaman sebelumnya." },
+          { icon: "images/halaman-2/button-next.webp", text: "Tekan untuk membuka halaman selanjutnya." },
+          { icon: "images/halaman-2/button-play.webp", text: "Tekan untuk mendengarkan suara narasi." },
+          { icon: "images/halaman-2/button-sound.webp", text: "Tekan untuk menghidupkan atau mematikan suara latar." },
+          { icon: "images/halaman-2/button-mulai-main.webp", text: "Tekan untuk memainkan permainan interaktif." },
+          { icon: "images/halaman-2/button-info.webp", text: "Tekan untuk melihat informasi buku." }
         ],
       }
     },
@@ -93,13 +95,13 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-3/cerita.jpg",
+      image: "images/halaman-3/cerita.webp",
       speechBubbles: [
         {
           text: "Bosan, cokelat lagi, cokelat lagi!",
           audio: "audio/halaman-3.mp3",
-          top: "80%",
-          left: "10%",
+          top: "15%",
+          left: "32%",
           bgColor: "#FFFDEB",
           btnColor: "#83BD75"
         }
@@ -335,9 +337,9 @@ const bookData = {
           left: "10%"
         }
       ],
-      title: "Pindahkan Wajik",
+      title: "Cari yang bentuknya sama, yuk!",
       titleAudio: "audio/halaman-9-title.mp3",
-      subtitle: "Pindahkan wajik sesuai bentuknya",
+      subtitle: "Pindahkan wajik dari kiri ke kanan",
       speechBubbles: [],
       layoutBgImage: "images/halaman-9/kotak-makan.png",
       layoutStyle: "width: 80%; height: 70%; margin: auto; margin-top: -10px;",

@@ -530,9 +530,15 @@ const bookData = {
       speechBubbles: [
         {
           text: "Jaring kuning, lezat rasanya!",
-          audio: "audio/halaman-15.mp3",
+          audio: "audio/halaman-15-1.mp3",
           top: "80%",
           left: "10%",
+        },
+        {
+          text: "buat kue jala bareng ibu yuk!",
+          audio: "audio/halaman-15-2.mp3",
+          top: "60%",
+          left: "52%",
         }
       ]
     },
@@ -580,7 +586,7 @@ const bookData = {
       feedbackIncorrect: "Coba lagi!"
     },
 
-    // halaman 17: Semua sudah siap!
+    // halaman 17: Lukis, lipat, dan gulung!
     {
       type: "full-image",
       bgColor: "#FFFDF7",
@@ -595,7 +601,22 @@ const bookData = {
       ]
     },
 
-    // halaman 18: Nyam nyam, enak sekali!
+    // halaman 18: Semua sudah siap!
+    {
+      type: "full-image",
+      bgColor: "#FFFDF7",
+      image: "images/halaman-18/cerita.jpg",
+      speechBubbles: [
+        {
+          text: "Wah, semua sudah siap!",
+          audio: "audio/halaman-17.mp3",
+          top: "80%",
+          left: "10%",
+        }
+      ]
+    },
+
+    // halaman 19: Nyam nyam, enak sekali!
     {
       type: "full-image",
       bgColor: "#FFFDF7",
@@ -610,7 +631,7 @@ const bookData = {
       ]
     },
 
-    // Halaman 19: Misi berhasil!
+    // Halaman 20: Misi berhasil!
     {
       type: "full-image",
       bgColor: "#FFFDF7",

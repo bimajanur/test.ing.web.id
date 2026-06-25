@@ -244,7 +244,7 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-6/cerita.jpg",
+      image: "images/halaman-6/cerita.webp",
       speechBubbles: [
         {
           text: "Apa ini? Bening, kenyal, dingin!",
@@ -538,8 +538,10 @@ const bookData = {
       speechBubbles: [],
       panImage: "images/halaman-16/wajan.webp",
       plateImage: "images/halaman-16/talenan.webp",
+      bottleImage: "images/halaman-16/botol.webp",
       styles: {
         drawingArea: "width: 36%",
+        bottle: "position: absolute; left: -10%; top: -5%; width: 150px; z-index: 5;",
         pan: "width: 180%; left: -7%; top: 0%;",
         canvas: "clip-path: circle(28% at 65% 45%); -webkit-clip-path: circle(28% at 65% 45%);",
         plateArea: "",

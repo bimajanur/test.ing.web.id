@@ -448,6 +448,7 @@ function renderDrawingGameSpread(spread) {
           <div class="drawing-game-layout">
             <!-- Left: Drawing Area (Pan) -->
             <div class="drawing-area-container" style="${spread.styles?.drawingArea || ''}">
+              ${spread.bottleImage ? `<img src="${spread.bottleImage}" class="drawing-bottle" draggable="false" onerror="handleImageError(this, '${spread.bottleImage}')" style="${spread.styles?.bottle || ''}">` : ''}
               <div class="drawing-pan" style="background-image: url('${spread.panImage}'); ${spread.styles?.pan || ''}">
                 <canvas class="drawing-canvas" style="${spread.styles?.canvas || ''}"></canvas>
               </div>

@@ -121,12 +121,12 @@ const bookData = {
           left: "10%"
         },
         {
-          text: "Wah, asyik sekali!",
+          text: "Wah, harta karun apa itu?",
           audio: "audio/halaman-4-2.mp3",
           top: "60%",
           left: "60%",
-          bgColor: "#FFD56B",
-          btnColor: "#FF7B54"
+          // bgColor: "#FFD56B",
+          // btnColor: "#FF7B54"
         }
       ]
     },
@@ -249,8 +249,14 @@ const bookData = {
         {
           text: "Apa ini? Bening, kenyal, dingin!",
           audio: "audio/halaman-6.mp3",
-          top: "80%",
-          left: "10%",
+          top: "10%",
+          left: "3%",
+        },
+        {
+          text: "Ini kolang-kaling. Ayo beri rasa!",
+          audio: "audio/halaman-6.mp3",
+          top: "83%",
+          left: "54%",
         }
       ]
     },
@@ -262,10 +268,16 @@ const bookData = {
       introImage: "images/halaman-7/intro.webp",
       introSpeechBubbles: [
         {
-          text: "Izan siap mencampur sirup!",
+          text: "Siap tuang sirup ke kolang-kaling!",
           audio: "audio/halaman-7-intro.mp3",
-          top: "10%",
-          left: "55%"
+          top: "12%",
+          left: "5%"
+        },
+        {
+          text: "Semangat!",
+          audio: "audio/halaman-7-intro.mp3",
+          top: "33%",
+          left: "60%"
         }
       ],
       title: "Bantu Izan Teteskan Sirup, Yuk!",

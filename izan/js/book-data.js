@@ -321,12 +321,33 @@ const bookData = {
       feedbackIncorrect: "Warna sirup tidak cocok, coba lagi!"
     },
 
-    // halaman 8: Manis, legit, lengket sekali!
+    // // halaman 8: Manis, legit, lengket sekali!
+    // {
+    //   type: "full-image",
+    //   bgColor: "#FFFDF7",
+    //   image: "images/halaman-8/cerita.webp",
+    //   speechBubbles: [
+    //     {
+    //       text: "Ini kue wajik namanya.",
+    //       audio: "audio/halaman-8.mp3",
+    //       top: "9%",
+    //       left: "5%",
+    //     },
+    //     {
+    //       text: "Manis, legit, dan lengket sekali!",
+    //       audio: "audio/halaman-8.mp3",
+    //       top: "14%",
+    //       left: "55%",
+    //     }
+    //   ]
+    // },
+
+    // halaman 9: GAME 3 - Pindahkan wajik!
     {
-      type: "full-image",
+      type: "drag-drop-game",
       bgColor: "#FFFDF7",
-      image: "images/halaman-8/cerita.webp",
-      speechBubbles: [
+      introImage: "images/halaman-9/intro.webp",
+      introSpeechBubbles: [
         {
           text: "Ini kue wajik namanya.",
           audio: "audio/halaman-8.mp3",
@@ -338,21 +359,6 @@ const bookData = {
           audio: "audio/halaman-8.mp3",
           top: "14%",
           left: "55%",
-        }
-      ]
-    },
-
-    // halaman 9: GAME 3 - Pindahkan wajik!
-    {
-      type: "drag-drop-game",
-      bgColor: "#FFFDF7",
-      introImage: "images/halaman-9/intro.webp",
-      introSpeechBubbles: [
-        {
-          text: "Cari yang bentuknya sama yuk!",
-          audio: "audio/halaman-9-intro.mp3",
-          top: "61%",
-          left: "2%"
         }
       ],
       title: "Cari yang bentuknya sama, yuk!",
@@ -430,7 +436,7 @@ const bookData = {
     {
       type: "drag-drop-game",
       bgColor: "#FFFDF7",
-      introImage: "images/halaman-11/intro.jpg",
+      introImage: "images/halaman-11/intro.png",
       introSpeechBubbles: [
         {
           text: "Bantu ibu susun lapisan kue lapis ya",

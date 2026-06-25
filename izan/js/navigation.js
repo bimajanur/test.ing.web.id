@@ -166,3 +166,94 @@ function goToFirstPage() {
   sounds.playPop();
 }
 
+let isDraggingProgress = false;
+
+function initProgressDrag() {
+  const track = elements.progressTrack;
+  const character = elements.progressCharacter;
+
+  if (!track || !character) return;
+
+  function calculatePageFromEvent(e) {
+    const rect = track.getBoundingClientRect();
+    let clientX = (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
+    let percentage = (clientX - rect.left) / rect.width;
+    
+    if (percentage < 0) percentage = 0;
+    if (percentage > 1) percentage = 1;
+
+    const totalReadableSpreads = state.totalSpreads - 1;
+    const maxIndex = totalReadableSpreads - 1;
+    let pageIndex = Math.round(percentage * maxIndex);
+    
+    // Safety bounds
+    if (pageIndex < 0) pageIndex = 0;
+    if (pageIndex > maxIndex) pageIndex = maxIndex;
+    
+    return pageIndex;
+  }
+
+  function handleDragStart(e) {
+    if (state.isTransitioning) return;
+    isDraggingProgress = true;
+    character.style.transition = 'none'; // Disable transition for smooth dragging
+    elements.progressFill.style.transition = 'none';
+  }
+
+  function handleDragMove(e) {
+    if (!isDraggingProgress) return;
+    e.preventDefault(); // Prevent scrolling while dragging on touch devices
+    
+    const rect = track.getBoundingClientRect();
+    let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    let percentage = ((clientX - rect.left) / rect.width) * 100;
+    
+    if (percentage < 0) percentage = 0;
+    if (percentage > 100) percentage = 100;
+
+    character.style.left = `${percentage}%`;
+    elements.progressFill.style.width = `${percentage}%`;
+  }
+
+  function handleDragEnd(e) {
+    if (!isDraggingProgress) return;
+    isDraggingProgress = false;
+    
+    character.style.transition = ''; // Restore CSS transitions
+    elements.progressFill.style.transition = '';
+
+    const touchOrMouse = e.changedTouches ? e.changedTouches[0] : e;
+    const newPageIndex = calculatePageFromEvent(touchOrMouse);
+    
+    if (newPageIndex !== state.currentSpreadIndex) {
+      sounds.playSwoosh();
+      jumpToSpread(newPageIndex);
+      // jumpToSpread calls updateProgress internally but let's make sure
+      updateProgress(newPageIndex);
+    } else {
+      // Snap back if didn't change
+      updateProgress(state.currentSpreadIndex);
+    }
+  }
+
+  // Mouse Events
+  character.addEventListener('mousedown', handleDragStart);
+  window.addEventListener('mousemove', handleDragMove);
+  window.addEventListener('mouseup', handleDragEnd);
+
+  // Touch Events
+  character.addEventListener('touchstart', handleDragStart, { passive: false });
+  window.addEventListener('touchmove', handleDragMove, { passive: false });
+  window.addEventListener('touchend', handleDragEnd);
+  
+  // Click on track to jump directly
+  track.addEventListener('click', (e) => {
+    if (state.isTransitioning || isDraggingProgress) return;
+    const newPageIndex = calculatePageFromEvent(e);
+    if (newPageIndex !== state.currentSpreadIndex) {
+      sounds.playSwoosh();
+      jumpToSpread(newPageIndex);
+      updateProgress(newPageIndex);
+    }
+  });
+}

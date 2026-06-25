@@ -17,5 +17,6 @@ const elements = {
   pageNumberDisplay: document.getElementById('page-number-display'),
   progressFill: document.getElementById('progress-fill'),
   progressCharacter: document.getElementById('progress-character'),
+  progressTrack: document.getElementById('progress-track'),
   book: document.getElementById('book')
 };

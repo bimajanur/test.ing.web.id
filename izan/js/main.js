@@ -19,6 +19,7 @@ function handleSoundToggle() {
 // Initialize Event Listeners
 function initEvents() {
   window.addEventListener('resize', handleResize);
+  initProgressDrag();
 
   elements.btnNext.addEventListener('click', () => {
     navigateNext();

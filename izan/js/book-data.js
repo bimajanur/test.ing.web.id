@@ -536,8 +536,18 @@ const bookData = {
       titleAudio: "audio/halaman-16-title.mp3",
       subtitle: "",
       speechBubbles: [],
-      panImage: "images/halaman-16/wajan.png",
-      plateImage: "images/halaman-16/piring.png",
+      panImage: "images/halaman-16/wajan.webp",
+      plateImage: "images/halaman-16/talenan.webp",
+      styles: {
+        drawingArea: "width: 36%",
+        pan: "width: 180%; left: -7%; top: 0%;",
+        canvas: "clip-path: circle(28% at 65% 45%); -webkit-clip-path: circle(28% at 65% 45%);",
+        plateArea: "",
+        plate: "",
+        plateStack: "width: 350px; height: 310px;",
+        pancake: "top: 50%; left: 50%; transform: translate(-50%, -50%) scale(.8);",
+        finishBtn: ""
+      },
       maxDraws: 5,
       drawColors: [
         "#F3C550",

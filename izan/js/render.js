@@ -447,19 +447,19 @@ function renderDrawingGameSpread(spread) {
           
           <div class="drawing-game-layout">
             <!-- Left: Drawing Area (Pan) -->
-            <div class="drawing-area-container">
-              <div class="drawing-pan" style="background-image: url('${spread.panImage}');">
-                <canvas class="drawing-canvas"></canvas>
+            <div class="drawing-area-container" style="${spread.styles?.drawingArea || ''}">
+              <div class="drawing-pan" style="background-image: url('${spread.panImage}'); ${spread.styles?.pan || ''}">
+                <canvas class="drawing-canvas" style="${spread.styles?.canvas || ''}"></canvas>
               </div>
             </div>
             
             <!-- Right: Plate Area -->
-            <div class="plate-area-container">
+            <div class="plate-area-container" style="${spread.styles?.plateArea || ''}">
               <div style="position: relative;">
-                <img src="${spread.plateImage}" class="drawing-plate" onerror="handleImageError(this, '${spread.plateImage}')">
-                <div class="plate-stack"></div>
+                <img src="${spread.plateImage}" class="drawing-plate" draggable="false" onerror="handleImageError(this, '${spread.plateImage}')" style="${spread.styles?.plate || ''}">
+                <div class="plate-stack" style="${spread.styles?.plateStack || ''}"></div>
               </div>
-              <button class="drawing-btn-finish bouncy-btn hidden">Pindahkan ke Piring ➔</button>
+              <button class="drawing-btn-finish bouncy-btn hidden" style="${spread.styles?.finishBtn || ''}">Pindahkan ke Talenan ➔</button>
             </div>
           </div>
           

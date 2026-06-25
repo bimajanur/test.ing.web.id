@@ -14,6 +14,14 @@ window.initDrawingGame = function (container, config) {
   const maxDraws = config.maxDraws || 3;
   let hasDrawnCurrent = false;
   let points = [];
+  let bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+
+  function updateBounds(p) {
+    if (p.x < bounds.minX) bounds.minX = p.x;
+    if (p.x > bounds.maxX) bounds.maxX = p.x;
+    if (p.y < bounds.minY) bounds.minY = p.y;
+    if (p.y > bounds.maxY) bounds.maxY = p.y;
+  }
 
   // Gunakan offscreen canvas untuk snapshot hardware-accelerated
   let offscreenCanvas = document.createElement('canvas');
@@ -52,8 +60,8 @@ window.initDrawingGame = function (container, config) {
   function setupContext() {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    // Buat ketebalan garis relatif terhadap ukuran layar/kanvas (sekitar 1.5% dari lebar wajan)
-    ctx.lineWidth = Math.max(3, canvas.width * 0.02);
+    // Gunakan perhitungan relatif agar proporsional dengan wajan
+    ctx.lineWidth = config.lineWidth || Math.max(3, canvas.width * 0.02);
 
     const colors = config.drawColors || ['#F3C550'];
     const currentColor = colors[drawCount % colors.length];
@@ -98,7 +106,9 @@ window.initDrawingGame = function (container, config) {
     hasDrawnCurrent = true;
     btnFinish.classList.remove('hidden');
 
-    points = [getMousePos(e)];
+    const p = getMousePos(e);
+    points = [p];
+    updateBounds(p);
 
     // Simpan status canvas (snapshot) ke offscreen canvas dengan cepat
     offCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
@@ -109,7 +119,9 @@ window.initDrawingGame = function (container, config) {
     e.preventDefault();
     if (!isDrawing) return;
 
-    points.push(getMousePos(e));
+    const p = getMousePos(e);
+    points.push(p);
+    updateBounds(p);
 
     // Bersihkan canvas dan kembalikan ke snapshot dengan drawImage
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -160,26 +172,61 @@ window.initDrawingGame = function (container, config) {
 
     if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();
 
-    // 1. Ambil gambar dari canvas
-    const dataUrl = canvas.toDataURL('image/png');
+    // 1. Ambil gambar dari canvas yang sudah di-crop ke bounding box-nya
+    const pad = ctx.lineWidth ? ctx.lineWidth * 1.5 : 20;
+    let cropX = Math.max(0, bounds.minX - pad);
+    let cropY = Math.max(0, bounds.minY - pad);
+    let cropW = Math.min(canvas.width - cropX, bounds.maxX - bounds.minX + pad * 2);
+    let cropH = Math.min(canvas.height - cropY, bounds.maxY - bounds.minY + pad * 2);
+
+    if (cropW <= 0 || cropH <= 0 || bounds.minX === Infinity) {
+      cropX = 0; cropY = 0; cropW = canvas.width; cropH = canvas.height;
+    }
+
+    let cropCanvas = document.createElement('canvas');
+    cropCanvas.width = cropW;
+    cropCanvas.height = cropH;
+    cropCanvas.getContext('2d').drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+    const dataUrl = cropCanvas.toDataURL('image/png');
 
     // 2. Buat elemen gambar baru
     const img = document.createElement('img');
     img.src = dataUrl;
     img.className = 'stacked-pancake';
 
+    // // Atur ukuran kue di piring agar proporsional dengan ukuran asli di wajan
+    // // Ini memastikan ketebalan garis tetap konsisten, baik menggambar besar atau kecil
+    // const widthRatio = cropW / canvas.width;
+    // img.style.width = (widthRatio * 100) + '%';
+    // img.style.height = 'auto'; // Mencegah rasio gambar rusak
+
+    // if (config.pancakeStyle) {
+    //   // Tambahkan style dari config (misal top, left, transform) tanpa menimpa width
+    //   img.style.cssText += ';' + config.pancakeStyle;
+    // }
+
+    if (config.styles?.pancake) {
+      // Kita set style dasar dari config
+      img.setAttribute('style', config.styles.pancake);
+    }
+
     // Beri sedikit rotasi acak dan pergeseran agar terlihat natural bertumpuk
     const randomRotation = (Math.random() - 0.5) * 30; // -15 deg sampai +15 deg
     const randomX = (Math.random() - 0.5) * 20;
     const randomY = (Math.random() - 0.5) * 20;
-    img.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg) translate(${randomX}px, ${randomY}px)`;
+
+    // Simpan transform awal jika ada dari config (misalnya scale atau translate khusus)
+    const baseTransform = img.style.transform ? img.style.transform + ' ' : 'translate(-50%, -50%) ';
+    img.style.transform = baseTransform + `rotate(${randomRotation}deg) translate(${randomX}px, ${randomY}px)`;
 
     // 3. Masukkan ke tumpukan piring
     plateStack.appendChild(img);
 
-    // 4. Bersihkan canvas
+    // 4. Bersihkan canvas dan reset state
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     hasDrawnCurrent = false;
+    bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
     btnFinish.classList.add('hidden');
 
     // 5. Tambah counter

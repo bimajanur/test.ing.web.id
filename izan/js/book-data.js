@@ -325,13 +325,19 @@ const bookData = {
     {
       type: "full-image",
       bgColor: "#FFFDF7",
-      image: "images/halaman-8/cerita.jpg",
+      image: "images/halaman-8/cerita.webp",
       speechBubbles: [
         {
-          text: "Manis, legit, lengket sekali!",
+          text: "Ini kue wajik namanya.",
           audio: "audio/halaman-8.mp3",
-          top: "80%",
-          left: "10%",
+          top: "9%",
+          left: "5%",
+        },
+        {
+          text: "Manis, legit, dan lengket sekali!",
+          audio: "audio/halaman-8.mp3",
+          top: "14%",
+          left: "55%",
         }
       ]
     },
@@ -340,13 +346,13 @@ const bookData = {
     {
       type: "drag-drop-game",
       bgColor: "#FFFDF7",
-      introImage: "images/halaman-9/intro.jpg",
+      introImage: "images/halaman-9/intro.webp",
       introSpeechBubbles: [
         {
-          text: "pindahkan wajik sesuai bentuknya",
+          text: "Cari yang bentuknya sama yuk!",
           audio: "audio/halaman-9-intro.mp3",
-          top: "10%",
-          left: "10%"
+          top: "61%",
+          left: "2%"
         }
       ],
       title: "Cari yang bentuknya sama, yuk!",

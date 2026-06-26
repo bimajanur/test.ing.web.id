@@ -511,20 +511,20 @@ const bookData = {
         {
           text: "Mirip jaring laba-laba.",
           audio: "audio/halaman-11-1.mp3",
-          top: "80%",
-          left: "10%",
+          top: "14%",
+          left: "49%",
         },
         {
           text: "Ini namanya roti jala.",
           audio: "audio/halaman-11-2.mp3",
-          top: "60%",
-          left: "52%",
+          top: "30%",
+          left: "10%",
         },
         {
           text: "Izan mau tahu cara buatnya?",
           audio: "audio/halaman-11-3.mp3",
-          top: "70%",
-          left: "52%",
+          top: "84%",
+          left: "2%",
         }
       ],
       title: "Putar-putar, coret-coret!",

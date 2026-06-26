@@ -8,6 +8,11 @@ window.initDrawingGame = function (container, config) {
 
   if (!canvas || !pan) return;
 
+  if (feedback && config.startInstruction) {
+    const text = config.startInstruction;
+    window.showGameFeedback(feedback, `<span style="color:var(--color-wood-dark)">${text}</span>`, text, config.startAudio, config.hideStartSpeechBtn);
+  }
+
   const ctx = canvas.getContext('2d');
   let isDrawing = false;
   let drawCount = 0;

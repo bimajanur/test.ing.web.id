@@ -484,19 +484,19 @@ const bookData = {
       introSpeechBubbles: [
         {
           text: "Hijau daunnya, ikat talinya.",
-          audio: "audio/halaman-10-intro.mp3",
+          audio: "audio/halaman-10-1.mp3",
           top: "10%",
           left: "10%"
         },
         {
           text: "Izan, burasa terbuat dari beras.",
-          audio: "audio/halaman-10-intro2.mp3",
+          audio: "audio/halaman-10-2.mp3",
           top: "25%",
           left: "10%"
         }
       ],
       title: "Pasangkan Kue",
-      titleAudio: "audio/halaman-10-title.mp3",
+      titleAudio: "audio/halaman-10-3.mp3",
       subtitle: "",
       speechBubbles: [],
       draggables: [],
@@ -525,14 +525,16 @@ const bookData = {
         },
         {
           text: "Izan mau tahu cara buatnya?",
-          audio: "audio/halaman-11-2.mp3",
+          audio: "audio/halaman-11-3.mp3",
           top: "70%",
           left: "52%",
         }
       ],
-      title: "Lukis Kue Jala",
-      titleAudio: "audio/halaman-11-title.mp3",
+      title: "Putar-putar, coret-coret!",
+      titleAudio: "audio/halaman-11-4.mp3",
       subtitle: "",
+      startInstruction: "Lukis roti jala di atas loyang.",
+      startAudio: "audio/halaman-11-5.mp3",
       speechBubbles: [],
       panImage: "images/halaman-11/wajan.webp",
       plateImage: "images/halaman-11/talenan.webp",

@@ -549,29 +549,38 @@ const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" heigh
 const STOP_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M6 6h12v12H6z"/></svg>`;
 
 // 9. Play Speech Text Function
-window.playSpeechText = function (text, audioSrc, btnElement) {
-  // Selalu hentikan suara synthesis yang sedang berjalan
+window.stopSpeech = function() {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
   }
 
-  // Jika ada audio MP3 yang sedang berjalan, hentikan
   if (currentPlayingAudio) {
     currentPlayingAudio.pause();
     currentPlayingAudio.currentTime = 0;
   }
 
-  // Kembalikan tombol sebelumnya ke icon play dan aktifkan navigasi
   if (currentPlayingBtn) {
     currentPlayingBtn.innerHTML = PLAY_ICON;
     elements.btnPrev.disabled = state.currentSpreadIndex === 0;
     elements.btnNext.disabled = state.currentSpreadIndex === state.totalSpreads - 1;
   }
 
-  // Jika user menekan tombol yang sama yang sedang berjalan (untuk stop), langsung keluar
+  currentPlayingAudio = null;
+  currentPlayingBtn = null;
+};
+
+window.playSpeechText = function (text, audioSrc, btnElement) {
+  // Jika user menekan tombol yang sama yang sedang berjalan (untuk stop), langsung hentikan dan keluar
   if (currentPlayingBtn === btnElement) {
-    currentPlayingAudio = null;
-    currentPlayingBtn = null;
+    window.stopSpeech();
+    return;
+  }
+
+  // Selalu hentikan suara yang sedang berjalan sebelumnya
+  window.stopSpeech();
+
+  // Mute Check: Jangan mainkan jika global sound di-mute
+  if (typeof sounds !== 'undefined' && sounds.muted) {
     return;
   }
 

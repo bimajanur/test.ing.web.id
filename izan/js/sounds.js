@@ -1,10 +1,18 @@
 const sounds = {
   ctx: null,
   muted: true, // Default to muted until user turns on sound or clicks Start
+  bgMusic: null,
 
   init() {
     if (this.ctx) return;
     this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+  },
+
+  initBgMusic() {
+    if (this.bgMusic) return;
+    this.bgMusic = new Audio('audio/music/bg-1.mp3');
+    this.bgMusic.loop = true;
+    this.bgMusic.volume = 0.3; // Give it a background volume level
   },
 
   toggleMute() {
@@ -16,6 +24,15 @@ const sounds = {
     }
 
     this.muted = !this.muted;
+
+    this.initBgMusic();
+    if (this.muted) {
+      this.bgMusic.pause();
+      if (typeof window.stopSpeech === 'function') window.stopSpeech();
+    } else {
+      this.bgMusic.play().catch(e => console.log('BGM play prevented:', e));
+    }
+
     return this.muted;
   },
 

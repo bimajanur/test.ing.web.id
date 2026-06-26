@@ -406,14 +406,14 @@ const bookData = {
         {
           text: "Coklat, emas, coklat, emas.",
           audio: "audio/halaman-9-1.mp3",
-          top: "15%",
-          left: "4%"
+          top: "23%",
+          left: "11%"
         },
         {
           text: "Buat menara lapis legit yuk!",
           audio: "audio/halaman-9-2.mp3",
-          top: "35%",
-          left: "60%"
+          top: "32%",
+          left: "67%"
         }
       ],
       title: "Bantu susun lapisan kue yuk.",
@@ -483,14 +483,14 @@ const bookData = {
         {
           text: "Hijau daunnya, ikat talinya.",
           audio: "audio/halaman-10-1.mp3",
-          top: "10%",
+          top: "25%",
           left: "10%"
         },
         {
           text: "Izan, burasa terbuat dari beras.",
           audio: "audio/halaman-10-2.mp3",
-          top: "25%",
-          left: "10%"
+          top: "30%",
+          left: "65%"
         }
       ],
       title: "Pasangkan Kue",

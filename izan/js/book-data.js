@@ -275,29 +275,23 @@ const bookData = {
       introSpeechBubbles: [
         {
           text: "Siap tuang sirup ke kolang-kaling!",
-          audio: "audio/halaman-7-intro.mp3",
+          audio: "audio/halaman-7-1.mp3",
           top: "12%",
           left: "5%"
         },
         {
           text: "Semangat!",
-          audio: "audio/halaman-7-intro.mp3",
+          audio: "audio/halaman-7-2.mp3",
           top: "33%",
           left: "60%"
         }
       ],
-      title: "Bantu Izan Teteskan Sirup, Yuk!",
-      titleAudio: "audio/halaman-7-title.mp3",
-      subtitle: "Tuang Botol Sirup Sesuai Warna Mangkok Kolang-Kaling",
-      speechBubbles: [
-        {
-          text: "Tuang Botol Sirup Sesuai Warna Mangkok 🔴🟢🟡",
-          audio: "audio/halaman-7.mp3",
-          top: "14%",
-          left: "74%",
-          hideText: true
-        }
-      ],
+      title: "Bantu Izan menuang sirup, yuk!",
+      titleAudio: "audio/halaman-7-3.mp3",
+      subtitle: "",
+      startInstruction: "Tuang botol sirup sesuai warna mangkok kolang kaling.",
+      startAudio: "audio/halaman-7-4.mp3",
+      speechBubbles: [],
       draggables: [
         { id: "botol-merah", src: "images/halaman-7/botol-merah.webp", target: "merah" },
         { id: "botol-kuning", src: "images/halaman-7/botol-kuning.webp", target: "kuning" },

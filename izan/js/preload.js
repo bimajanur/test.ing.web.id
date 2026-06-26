@@ -23,6 +23,9 @@ function preloadAudio() {
   const audioRegex = /\.(mp3|wav|ogg|m4a)$/i;
   const audioToLoad = extractAssets(bookData.spreads, audioRegex);
   
+  // Tambahkan musik latar secara manual karena tidak ada di dalam bookData.spreads
+  audioToLoad.push('audio/music/bg-1.mp3');
+
   const uniqueAudio = [...new Set(audioToLoad.filter(Boolean))];
 
   uniqueAudio.forEach(src => {

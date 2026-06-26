@@ -15,6 +15,16 @@ const sounds = {
     this.bgMusic.volume = 0.3; // Give it a background volume level
   },
 
+  updateBgMusicState(pageIndex) {
+    if (!this.bgMusic) return;
+    
+    if (pageIndex === 0 && !this.muted) {
+      this.bgMusic.play().catch(e => console.log('BGM play prevented:', e));
+    } else {
+      this.bgMusic.pause();
+    }
+  },
+
   toggleMute() {
     this.init();
 
@@ -30,7 +40,9 @@ const sounds = {
       this.bgMusic.pause();
       if (typeof window.stopSpeech === 'function') window.stopSpeech();
     } else {
-      this.bgMusic.play().catch(e => console.log('BGM play prevented:', e));
+      if (typeof state !== 'undefined' && state.currentSpreadIndex === 0) {
+        this.bgMusic.play().catch(e => console.log('BGM play prevented:', e));
+      }
     }
 
     return this.muted;

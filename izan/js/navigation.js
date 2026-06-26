@@ -15,6 +15,10 @@ function handleResize() {
 
 // Update Progress Bar & Page Number Indicator
 function updateProgress(index) {
+  if (typeof sounds !== 'undefined' && sounds.updateBgMusicState) {
+    sounds.updateBgMusicState(index);
+  }
+
   const isLastPage = index === state.totalSpreads - 1;
   const totalReadableSpreads = state.totalSpreads - 1;
 

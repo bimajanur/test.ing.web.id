@@ -237,13 +237,13 @@ function renderGameSpread(spread) {
       positionStyle = `position: ${dz.position || 'absolute'}; top: ${dz.top || 'auto'}; left: ${dz.left || 'auto'}; right: ${dz.right || 'auto'}; bottom: ${dz.bottom || 'auto'}; z-index: ${dz.zIndex || 5};`;
     }
     return `
-    <div class="drop-zone-container drop-zone-item" style="${positionStyle} ${dz.style || ''}" data-target="${dz.id}">
+    <div class="drop-zone-container drop-zone-item" style="${positionStyle} ${dz.style || ''}" data-target="${dz.target || dz.id}" data-dynamic-src="${dz.dynamicSrc || false}">
       ${dz.decoration ? `<img src="${dz.decoration.src}" class="${dz.decoration.className || ''}" style="${dz.decoration.style || ''}" onerror="handleImageError(this, '${dz.decoration.src}')">` : ''}
       <img src="${dz.startSrc}" class="drop-zone-img" data-done-src="${dz.doneSrc}" onerror="handleImageError(this, '${dz.startSrc}')" style="${dz.imgStyle || ''}">
     </div>
   `;
   }).join('') : `
-    <div class="drop-zone-container drop-zone-item" style="${spread.dropZone.style || ''}">
+    <div class="drop-zone-container drop-zone-item" style="${spread.dropZone.style || ''}" data-target="${spread.dropZone.target || spread.dropZone.id || ''}" data-dynamic-src="${spread.dropZone.dynamicSrc || false}">
       ${spread.dropZone.decoration ? `<img src="${spread.dropZone.decoration.src}" class="${spread.dropZone.decoration.className || ''}" style="${spread.dropZone.decoration.style || ''}" onerror="handleImageError(this, '${spread.dropZone.decoration.src}')">` : ''}
       <img src="${spread.dropZone.startSrc}" class="drop-zone-img" data-done-src="${spread.dropZone.doneSrc}" onerror="handleImageError(this, '${spread.dropZone.startSrc}')" style="${spread.dropZone.imgStyle || ''}">
     </div>
@@ -509,8 +509,8 @@ function renderSpreadHTML(spread, index) {
     return renderFullImageSpread(spread);
   }
 
-  // 4. Halaman Game Drag Drop
-  if (spread.type === 'drag-drop-game') {
+  // 4. Halaman Game Drag Drop / Susun Kue
+  if (spread.type === 'drag-drop-game' || spread.type === 'susun-kue-game') {
     return renderGameSpread(spread);
   }
 
@@ -636,6 +636,8 @@ window.initActiveGame = function (spread, container) {
 
   if (spread.type === 'drag-drop-game') {
     if (window.initDragDrop) window.initDragDrop(container);
+  } else if (spread.type === 'susun-kue-game') {
+    if (window.initSusunKue) window.initSusunKue(container);
   } else if (spread.type === 'drawing-game') {
     if (window.initDrawingGame) window.initDrawingGame(container, spread);
   } else if (spread.type === 'box-opening-game') {

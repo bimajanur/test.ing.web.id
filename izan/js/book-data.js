@@ -152,7 +152,7 @@ const bookData = {
       ],
       title: "Keluarkan kuenya, yuk!",
       titleAudio: "audio/halaman-5-3.mp3",
-      subtitle: "Geser panah ke kanan!",
+      subtitle: "",
       speechBubbles: [],
       mainBox: {
         image: "images/halaman-5/kardus-buka-atas.webp",
@@ -254,13 +254,13 @@ const bookData = {
       speechBubbles: [
         {
           text: "Apa ini? Bening, kenyal, dingin!",
-          audio: "audio/halaman-6.mp3",
+          audio: "audio/halaman-6-1.mp3",
           top: "10%",
           left: "3%",
         },
         {
           text: "Ini kolang-kaling. Ayo beri rasa!",
-          audio: "audio/halaman-6.mp3",
+          audio: "audio/halaman-6-2.mp3",
           top: "83%",
           left: "54%",
         }

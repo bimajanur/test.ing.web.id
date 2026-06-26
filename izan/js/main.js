@@ -99,12 +99,36 @@ document.addEventListener('DOMContentLoaded', startApp);
 // Preload functions have been moved to preload.js
 // Drag and Drop logic has been moved to drag-drop.js
 
-window.triggerGameWinCelebration = function (feedbackElement, feedbackText) {
+window.showGameFeedback = function (feedbackElement, htmlContent, cleanText, audioSrc, forceHideBtn = false) {
+  if (!feedbackElement) return;
+
+  feedbackElement.innerHTML = htmlContent;
+
+  const hideBtn = forceHideBtn || feedbackElement.dataset.hideSpeechBtn === 'true';
+
+  if (!hideBtn && (cleanText || audioSrc)) {
+    const btn = document.createElement('button');
+    btn.className = 'speech-play-btn feedback-speech-btn';
+    btn.style.position = 'absolute';
+    btn.style.top = '-15px';
+    btn.style.right = '-15px';
+    btn.style.zIndex = '50';
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>`;
+    
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      playSpeechText(cleanText || '', audioSrc || '', btn);
+    };
+    feedbackElement.appendChild(btn);
+  }
+
+  feedbackElement.classList.remove('hidden');
+};
+
+window.triggerGameWinCelebration = function (feedbackElement, feedbackText, forceHideBtn = false) {
   if (feedbackElement) {
-    feedbackElement.innerHTML = `
-      <div style="color: var(--color-grass-dark); animation: bounce 1s infinite alternate;">🎉 ${feedbackText}</div>
-    `;
-    feedbackElement.classList.remove('hidden');
+    const html = `<div style="color: var(--color-grass-dark); animation: bounce 1s infinite alternate;">🎉 ${feedbackText}</div>`;
+    window.showGameFeedback(feedbackElement, html, feedbackText, feedbackElement.dataset.correctAudio, forceHideBtn);
     feedbackElement.classList.add('feedback-celebration-anim');
   }
 

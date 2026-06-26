@@ -139,20 +139,20 @@ const bookData = {
       introSpeechBubbles: [
         {
           text: "Buka! Buka! Buka!",
-          audio: "audio/halaman-5-intro.mp3",
+          audio: "audio/halaman-5-1.mp3",
           top: "7%",
           left: "3%"
         },
         {
-          text: "ayo keluarkan kuenya, nak",
-          audio: "audio/halaman-5-intro2.mp3",
+          text: "Ayo, keluarkan harta karunnya!",
+          audio: "audio/halaman-5-2.mp3",
           top: "30%",
           left: "78%"
         }
       ],
-      title: "Keluarkan kuenya yuk!",
-      titleAudio: "audio/halaman-5-title.mp3",
-      subtitle: "",
+      title: "Keluarkan kuenya, yuk!",
+      titleAudio: "audio/halaman-5-3.mp3",
+      subtitle: "Geser panah ke kanan!",
       speechBubbles: [],
       mainBox: {
         image: "images/halaman-5/kardus-buka-atas.webp",
@@ -233,11 +233,17 @@ const bookData = {
           zIndex: 1
         }
       ],
-      startInstruction: "Geser panah ke kanan!",
       itemScale: 0.8,
-      dragInstruction: "Keluarkan oleh-oleh ke nampah!",
+      startInstruction: "Geser panah ke kanan!",
+      startAudio: "audio/halaman-5-3.mp3",
+      dragInstruction: "Ayo, pindahkan kuenya ke tampah!",
+      dragAudio: "audio/halaman-5-4.mp3",
       feedbackCorrect: "Hore selesai! Klik oleh-oleh untuk melihatnya.",
+      // feedbackCorrectAudio: "audio/halaman-5-benar.mp3",
+      hideCorrectSpeechBtn: true,
       feedbackIncorrect: "Geser panah ke kiri sampai ujung!",
+      // feedbackIncorrectAudio: "audio/halaman-5-salah.mp3",
+      hideIncorrectSpeechBtn: true
     },
 
     // halaman 6: bening kenyal dingin!
@@ -318,7 +324,9 @@ const bookData = {
         }
       ],
       feedbackCorrect: "Benar sekali!",
-      feedbackIncorrect: "Warna sirup tidak cocok, coba lagi!"
+      feedbackCorrectAudio: "audio/benar.mp3",
+      feedbackIncorrect: "Warna sirup tidak cocok, coba lagi!",
+      feedbackIncorrectAudio: "audio/salah.mp3"
     },
 
     // halaman 8: GAME 3 - Pindahkan wajik!
@@ -474,7 +482,7 @@ const bookData = {
 
     // halaman 10: GAME 5 - Selalu berdua!
     {
-      type: "pasang-ikat-game",
+      type: "drag-drop-game",
       bgColor: "#FFFDF7",
       introImage: "images/halaman-10/intro.webp",
       introSpeechBubbles: [

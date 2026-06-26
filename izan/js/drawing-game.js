@@ -250,11 +250,11 @@ window.initDrawingGame = function (container, config) {
     btnNext.classList.remove('hidden');
 
     if (window.triggerGameWinCelebration) {
-      window.triggerGameWinCelebration(feedback, feedback.getAttribute('data-correct-text'));
+      window.triggerGameWinCelebration(feedback, feedback.getAttribute('data-correct-text'), spread.hideCorrectSpeechBtn);
     } else {
       // Tampilkan feedback benar
-      feedback.textContent = feedback.getAttribute('data-correct-text');
-      feedback.classList.remove('hidden');
+      const text = feedback.getAttribute('data-correct-text');
+      window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.getAttribute('data-correct-audio'), spread.hideCorrectSpeechBtn);
       feedback.classList.add('feedback-correct');
 
       // Mainkan suara sukses

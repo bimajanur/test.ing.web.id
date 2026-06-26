@@ -1,4 +1,4 @@
-window.initDragDrop = function (container) {
+window.initDragDrop = function (container, spread = {}) {
   const draggables = container.querySelectorAll('.draggable-item');
   const dropZones = container.querySelectorAll('.drop-zone-container');
   const feedback = container.querySelector('.drag-feedback');
@@ -124,8 +124,8 @@ window.initDragDrop = function (container) {
 
           if (feedback) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
-            feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
-            feedback.classList.remove('hidden');
+            const text = feedback.dataset.correctText;
+            window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.dataset.correctAudio, spread.hideCorrectSpeechBtn);
             feedbackTimeout = setTimeout(() => {
               feedback.classList.add('hidden');
             }, 2000);
@@ -137,10 +137,10 @@ window.initDragDrop = function (container) {
                nextBtn.classList.remove('hidden');
              }
              if (window.triggerGameWinCelebration) {
-               window.triggerGameWinCelebration(feedback, "Semua sudah sesuai! Hebat!");
+               window.triggerGameWinCelebration(feedback, "Semua sudah sesuai! Hebat!", spread.hideCorrectSpeechBtn);
              } else if (feedback) {
-                feedback.innerHTML = `<span style="color:var(--color-grass-dark)">Semua warna sudah sesuai! Hebat!</span>`;
-                feedback.classList.remove('hidden');
+                const text = "Semua warna sudah sesuai! Hebat!";
+                window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.dataset.correctAudio, spread.hideCorrectSpeechBtn);
              }
           }
 
@@ -154,8 +154,8 @@ window.initDragDrop = function (container) {
 
           if (feedback) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
-            feedback.innerHTML = `<span style="color:#C0392B">${feedback.dataset.incorrectText}</span>`;
-            feedback.classList.remove('hidden');
+            const text = feedback.dataset.incorrectText;
+            window.showGameFeedback(feedback, `<span style="color:#C0392B">${text}</span>`, text, feedback.dataset.incorrectAudio, spread.hideIncorrectSpeechBtn);
             feedbackTimeout = setTimeout(() => {
               feedback.classList.add('hidden');
             }, 3000);

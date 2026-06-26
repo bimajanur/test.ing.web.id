@@ -15,8 +15,8 @@ window.initBoxOpeningGame = function (container, spread = {}) {
   if (!tapeContainer || !track) return;
 
   if (feedback && spread.startInstruction) {
-    feedback.innerHTML = `<span style="color:var(--color-wood-dark)">${spread.startInstruction}</span>`;
-    feedback.classList.remove('hidden');
+    const text = spread.startInstruction;
+    window.showGameFeedback(feedback, `<span style="color:var(--color-wood-dark)">${text}</span>`, text, spread.startAudio, spread.hideStartSpeechBtn);
   }
 
   let isDragging = false;
@@ -136,8 +136,8 @@ window.initBoxOpeningGame = function (container, spread = {}) {
 
   const initDragItems = () => {
     if (feedback) {
-      feedback.innerHTML = `<span style="color:var(--color-wood-dark)">${feedback.dataset.dragInstruction || 'Keluarkan oleh-oleh ke nampah'}</span>`;
-      feedback.classList.remove('hidden');
+      const text = feedback.dataset.dragInstruction || 'Keluarkan oleh-oleh ke nampah';
+      window.showGameFeedback(feedback, `<span style="color:var(--color-wood-dark)">${text}</span>`, text, spread.dragAudio, spread.hideDragSpeechBtn);
     }
 
     let droppedCount = 0;
@@ -243,12 +243,12 @@ window.initBoxOpeningGame = function (container, spread = {}) {
               nextBtn.classList.remove('hidden');
             }
             if (window.triggerGameWinCelebration) {
-              window.triggerGameWinCelebration(feedback, feedback.dataset.correctText);
+              window.triggerGameWinCelebration(feedback, feedback.dataset.correctText, spread.hideCorrectSpeechBtn);
             } else {
               if (feedback) {
-                feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText}</span>`;
-              }
-              if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+                const text = feedback.dataset.correctText;
+                window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.dataset.correctAudio, spread.hideCorrectSpeechBtn);
+              } if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
             }
           }
         } else {

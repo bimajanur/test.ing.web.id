@@ -1,4 +1,4 @@
-window.initSusunKue = function (container) {
+window.initSusunKue = function (container, spread = {}) {
   const draggables = container.querySelectorAll('.draggable-item');
   const dropZones = container.querySelectorAll('.drop-zone-container');
   const feedback = container.querySelector('.drag-feedback');
@@ -127,22 +127,22 @@ window.initSusunKue = function (container) {
 
           if (feedback) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
-            feedback.innerHTML = `<span style="color:var(--color-grass-dark)">${feedback.dataset.correctText || 'Bagus!'}</span>`;
-            feedback.classList.remove('hidden');
+            const text = feedback.dataset.correctText || 'Bagus!';
+            window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.dataset.correctAudio, spread.hideCorrectSpeechBtn);
             feedbackTimeout = setTimeout(() => {
               feedback.classList.add('hidden');
             }, 2000);
           }
 
           if (completedZones >= totalZones) {
-             if (nextBtn) {
-               nextBtn.classList.remove('hidden');
-             }
+             const nextBtn = feedback?.closest('.game-popup-content')?.querySelector('.next-level-btn');
+             if (nextBtn) nextBtn.classList.remove('hidden');
+
              if (window.triggerGameWinCelebration) {
-               window.triggerGameWinCelebration(feedback, "Semua sudah sesuai! Hebat!");
+               window.triggerGameWinCelebration(feedback, "Semua sudah sesuai! Hebat!", spread.hideCorrectSpeechBtn);
              } else if (feedback) {
-                feedback.innerHTML = `<span style="color:var(--color-grass-dark)">Semua warna sudah sesuai! Hebat!</span>`;
-                feedback.classList.remove('hidden');
+                const text = "Semua warna sudah sesuai! Hebat!";
+                window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.dataset.correctAudio, spread.hideCorrectSpeechBtn);
              }
           }
 
@@ -156,8 +156,8 @@ window.initSusunKue = function (container) {
 
           if (feedback) {
             if (feedbackTimeout) clearTimeout(feedbackTimeout);
-            feedback.innerHTML = `<span style="color:#C0392B">${feedback.dataset.incorrectText || 'Coba lagi!'}</span>`;
-            feedback.classList.remove('hidden');
+            const text = feedback.dataset.incorrectText || 'Coba lagi!';
+            window.showGameFeedback(feedback, `<span style="color:#C0392B">${text}</span>`, text, feedback.dataset.incorrectAudio, spread.hideIncorrectSpeechBtn);
             feedbackTimeout = setTimeout(() => {
               feedback.classList.add('hidden');
             }, 3000);

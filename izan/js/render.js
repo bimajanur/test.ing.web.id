@@ -279,7 +279,7 @@ function renderGameSpread(spread) {
               ${dropZonesHtml}
             </div>
           </div>
-          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-correct-audio="${spread.feedbackCorrectAudio || ''}" data-incorrect-audio="${spread.feedbackIncorrectAudio || ''}" data-hide-speech-btn="${spread.hideFeedbackSpeechBtn === true ? 'true' : 'false'}"></div>
           
           <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
@@ -386,7 +386,7 @@ function renderBoxOpeningGameSpread(spread) {
             </div>
           </div>
           
-          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-drag-instruction="${spread.dragInstruction || ''}"></div>
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-correct-audio="${spread.feedbackCorrectAudio || ''}" data-incorrect-audio="${spread.feedbackIncorrectAudio || ''}" data-drag-instruction="${spread.dragInstruction || ''}" data-hide-speech-btn="${spread.hideFeedbackSpeechBtn === true ? 'true' : 'false'}"></div>
           
           <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
@@ -464,7 +464,7 @@ function renderDrawingGameSpread(spread) {
             </div>
           </div>
           
-          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}"></div>
+          <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-correct-audio="${spread.feedbackCorrectAudio || ''}" data-incorrect-audio="${spread.feedbackIncorrectAudio || ''}" data-hide-speech-btn="${spread.hideFeedbackSpeechBtn === true ? 'true' : 'false'}"></div>
           
           <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
@@ -635,9 +635,9 @@ window.initActiveGame = function (spread, container) {
   if (!spread || !container) return;
 
   if (spread.type === 'drag-drop-game') {
-    if (window.initDragDrop) window.initDragDrop(container);
+    if (window.initDragDrop) window.initDragDrop(container, spread);
   } else if (spread.type === 'susun-kue-game') {
-    if (window.initSusunKue) window.initSusunKue(container);
+    if (window.initSusunKue) window.initSusunKue(container, spread);
   } else if (spread.type === 'drawing-game') {
     if (window.initDrawingGame) window.initDrawingGame(container, spread);
   } else if (spread.type === 'box-opening-game') {

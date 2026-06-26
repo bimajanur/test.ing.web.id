@@ -6,24 +6,26 @@
   font-display: swap;
   src: url('../fonts/fredoka-one.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Quicksand';
+  font-family: 'Fredoka';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('../fonts/quicksand-500.ttf') format('truetype');
+  src: url('../fonts/Fredoka-Light.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Quicksand';
+  font-family: 'Fredoka';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('../fonts/quicksand-700.ttf') format('truetype');
+  src: url('../fonts/Fredoka-Medium.ttf') format('truetype');
 }
 
 :root {
   --font-title: 'Fredoka One', 'Chalkboard SE', 'Comic Sans MS', cursive;
-  --font-body: 'Quicksand', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
+  --font-body: 'Fredoka', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
 
   /* Color Palette - Magic Forest Theme */
   --bg-sky: #E8F9FD;
@@ -562,6 +564,7 @@ li .icon-btn svg {
   cursor: grab;
   touch-action: none;
 }
+
 #progress-character:active {
   cursor: grabbing;
 }

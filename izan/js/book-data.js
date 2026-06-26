@@ -331,19 +331,19 @@ const bookData = {
       introSpeechBubbles: [
         {
           text: "Ini kue wajik namanya.",
-          audio: "audio/halaman-8.mp3",
+          audio: "audio/halaman-8-1.mp3",
           top: "9%",
           left: "5%",
         },
         {
           text: "Manis, legit, dan lengket sekali!",
-          audio: "audio/halaman-8.mp3",
+          audio: "audio/halaman-8-2.mp3",
           top: "14%",
           left: "55%",
         }
       ],
       title: "Cari yang bentuknya sama, yuk!",
-      titleAudio: "audio/halaman-8-title.mp3",
+      titleAudio: "audio/halaman-8-3.mp3",
       subtitle: "Pindahkan wajik dari kiri ke kanan",
       speechBubbles: [],
       layoutBgImage: "images/halaman-8/kotak-makan.webp",
@@ -406,20 +406,22 @@ const bookData = {
       introSpeechBubbles: [
         {
           text: "Coklat, emas, coklat, emas.",
-          audio: "audio/halaman-9-intro.mp3",
-          top: "10%",
-          left: "10%"
+          audio: "audio/halaman-9-1.mp3",
+          top: "15%",
+          left: "4%"
         },
         {
           text: "Buat menara lapis legit yuk!",
-          audio: "audio/halaman-9-intro2.mp3",
-          top: "30%",
-          left: "30%"
+          audio: "audio/halaman-9-2.mp3",
+          top: "35%",
+          left: "60%"
         }
       ],
       title: "Bantu susun lapisan kue yuk.",
-      titleAudio: "audio/halaman-9-title.mp3",
-      subtitle: "Tumpuk lapis legit, tinggi sekali!",
+      titleAudio: "audio/halaman-9-3.mp3",
+      subtitle: "",
+      startInstruction: "Tumpuk lapis legit, tinggi sekali!",
+      startAudio: "audio/halaman-9-4.mp3",
       speechBubbles: [],
       draggables: [
         { id: "brown1", src: "images/halaman-9/lapis-coklat.webp", target: "stack", correct: true, hideOnDrop: true, top: "25%", left: "7%", style: "width: 130px; height: auto;" },

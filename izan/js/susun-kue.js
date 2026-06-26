@@ -6,6 +6,11 @@ window.initSusunKue = function (container, spread = {}) {
 
   if (!draggables.length || !dropZones.length) return;
 
+  if (feedback && spread.startInstruction) {
+    const text = spread.startInstruction;
+    window.showGameFeedback(feedback, `<span style="color:var(--color-wood-dark)">${text}</span>`, text, spread.startAudio, spread.hideStartSpeechBtn);
+  }
+
   let feedbackTimeout = null;
   let completedZones = 0;
   // Calculate total zones dynamically (excluding dummy zones)

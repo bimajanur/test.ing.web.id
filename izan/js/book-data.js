@@ -458,8 +458,8 @@ const bookData = {
           startSrc: "images/halaman-9/lapis-legit-awal.webp",
           imgStyle: "width: 180px; object-fit: contain; position: absolute; bottom: 40px; left: 110px; z-index: 2;",
           style: "width: 400px; height: 300px; z-index: 1;",
-          top: "40%",
-          left: "52%",
+          top: "31.7%",
+          left: "50.7%",
           decoration: { src: "images/halaman-9/piring-akhir.webp", style: "width: 400px; position: absolute; bottom: 0; left: 0;" }
         },
         // Active stacking zones (bottom to top)
@@ -493,7 +493,7 @@ const bookData = {
           left: "65%"
         }
       ],
-      title: "Pasangkan Kue",
+      title: "Bantu pasangkan, yuk!",
       titleAudio: "audio/halaman-10-3.mp3",
       speechBubbles: [],
       draggables: [],
@@ -535,7 +535,7 @@ const bookData = {
       speechBubbles: [],
       panImage: "images/halaman-11/wajan.webp",
       plateImage: "images/halaman-11/talenan.webp",
-      bottleImage: "images/halaman-11/botol.webp",
+      // bottleImage: "images/halaman-11/botol.webp",
       styles: {
         drawingArea: "width: 36%",
         bottle: "position: absolute; left: -10%; top: -5%; width: 150px; z-index: 5;",
@@ -566,10 +566,16 @@ const bookData = {
       image: "images/halaman-12/cerita.webp",
       speechBubbles: [
         {
-          text: "Wah, semua sudah siap!",
-          audio: "audio/halaman-12.mp3",
-          top: "80%",
+          text: "Lipat-lipat, gulung, gulung, gulung!",
+          audio: "audio/halaman-12-1.mp3",
+          top: "30%",
           left: "10%",
+        },
+        {
+          text: "Izan hebat buat roti jalanya!",
+          audio: "audio/halaman-12-2.mp3",
+          top: "50%",
+          left: "40%",
         }
       ]
     },
@@ -581,8 +587,8 @@ const bookData = {
       image: "images/halaman-13/cerita.webp",
       speechBubbles: [
         {
-          text: "Wah, semua sudah siap!",
-          audio: "audio/halaman-13.mp3",
+          text: "Kuenya banyak dan sudah siap!",
+          audio: "audio/halaman-13-1.mp3",
           top: "80%",
           left: "10%",
         }
@@ -596,8 +602,8 @@ const bookData = {
       image: "images/halaman-14/cerita.webp",
       speechBubbles: [
         {
-          text: "Nyam-nyam, izan suka semua kue!",
-          audio: "audio/halaman-14.mp3",
+          text: "Izan suka semua kue Indonesia!",
+          audio: "audio/halaman-14-1.mp3",
           top: "80%",
           left: "10%",
         }
@@ -611,21 +617,15 @@ const bookData = {
       image: "images/halaman-15/cerita.webp",
       speechBubbles: [
         {
-          text: "Misi Rahasia Hari Raya, Berhasil!",
-          audio: "audio/halaman-15.mp3",
+          text: "Misi Rahasia Hari Raya, berhasil!",
+          audio: "audio/halaman-15-1.mp3",
           top: "20%",
           left: "45%",
         },
         {
-          text: "Besok kita coba cari makanan tradisional asli di pasar, ya!",
-          audio: "audio/halaman-15-1.mp3",
-          top: "50%",
-          left: "10%",
-        },
-        {
-          text: "Aku mau bagi kuenya juga ke teman-teman di sekolah nanti ibu",
+          text: "Besok, kue apa lagi, ya?",
           audio: "audio/halaman-15-2.mp3",
-          top: "70%",
+          top: "50%",
           left: "10%",
         }
       ]
@@ -638,7 +638,7 @@ const bookData = {
       left: {
         type: "back-cover",
         title: "MISI SELESAI 🎉",
-        message: "Terima kasih sudah membantu Izan menyelesaikan Misi Rahasia Hari Raya! Sampai jumpa lagi!"
+        message: "Terima kasih sudah membantu Izan! Sampai jumpa lagi!"
       }
     }
   ]

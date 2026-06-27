@@ -518,13 +518,14 @@ const bookData = {
           text: "Ini namanya roti jala.",
           audio: "audio/halaman-11-2.mp3",
           top: "30%",
-          left: "10%",
+          left: "8%",
         },
         {
           text: "Izan mau tahu cara buatnya?",
           audio: "audio/halaman-11-3.mp3",
-          top: "84%",
-          left: "2%",
+          top: "55%",
+          left: "5%",
+          width: "29%"
         }
       ],
       title: "Putar-putar, coret-coret!",

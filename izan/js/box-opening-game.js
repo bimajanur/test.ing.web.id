@@ -22,7 +22,6 @@ window.initBoxOpeningGame = function (container, spread = {}) {
   let isDragging = false;
   let startX = 0;
   let currentX = 0;
-  // Use a smaller ratio to make it easier to reach the end
   let maxX = track.offsetWidth * 0.8; // require 80% drag
   let isOpened = false;
 

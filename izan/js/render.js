@@ -25,7 +25,7 @@ window.handleImageError = function (imgElement, src) {
 function renderSpeechBubbles(bubbles) {
   if (!bubbles || bubbles.length === 0) return '';
   return bubbles.map(bubble => {
-    const speechPosition = `top: ${bubble.top || '10%'}; left: ${bubble.left || '5%'}; right: ${bubble.right || 'auto'}; bottom: ${bubble.bottom || 'auto'}; z-index: 50;`;
+    const speechPosition = `top: ${bubble.top || '10%'}; left: ${bubble.left || '5%'}; right: ${bubble.right || 'auto'}; bottom: ${bubble.bottom || 'auto'}; width: ${bubble.width || 'auto'}; z-index: 50;`;
     const balloonStyle = bubble.bgColor ? `background-color: ${bubble.bgColor};` : '';
     const btnStyle = bubble.btnColor ? `background-color: ${bubble.btnColor};` : '';
 
@@ -549,7 +549,7 @@ const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" heigh
 const STOP_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M6 6h12v12H6z"/></svg>`;
 
 // 9. Play Speech Text Function
-window.stopSpeech = function() {
+window.stopSpeech = function () {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
   }

@@ -96,9 +96,6 @@ function startApp() {
 // Start once DOM is ready
 document.addEventListener('DOMContentLoaded', startApp);
 
-// Preload functions have been moved to preload.js
-// Drag and Drop logic has been moved to drag-drop.js
-
 window.showGameFeedback = function (feedbackElement, htmlContent, cleanText, audioSrc, forceHideBtn = false) {
   if (!feedbackElement) return;
 
@@ -114,7 +111,7 @@ window.showGameFeedback = function (feedbackElement, htmlContent, cleanText, aud
     btn.style.right = '-15px';
     btn.style.zIndex = '50';
     btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>`;
-    
+
     btn.onclick = (e) => {
       e.stopPropagation();
       playSpeechText(cleanText || '', audioSrc || '', btn);

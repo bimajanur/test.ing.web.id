@@ -268,7 +268,7 @@ const bookData = {
 
     // halaman 7: GAME 2 - Teteskan sirup!
     {
-      type: "drag-drop-game",
+      type: "warna-kolang-kaling-game",
       bgColor: "#FFFDF7",
       introImage: "images/halaman-7/intro.webp",
       introSpeechBubbles: [
@@ -323,7 +323,7 @@ const bookData = {
 
     // halaman 8: GAME 3 - Pindahkan wajik!
     {
-      type: "drag-drop-game",
+      type: "warna-kolang-kaling-game",
       bgColor: "#FFFDF7",
       introImage: "images/halaman-8/intro.webp",
       introSpeechBubbles: [
@@ -476,7 +476,7 @@ const bookData = {
 
     // halaman 10: GAME 5 - Selalu berdua!
     {
-      type: "drag-drop-game",
+      type: "pasang-burasa-game",
       bgColor: "#FFFDF7",
       introImage: "images/halaman-10/intro.webp",
       introSpeechBubbles: [
@@ -496,8 +496,72 @@ const bookData = {
       title: "Bantu pasangkan, yuk!",
       titleAudio: "audio/halaman-10-3.mp3",
       speechBubbles: [],
-      draggables: [],
-      dropZones: [],
+      draggables: [
+        { id: "b1", src: "images/halaman-10/burasa-atas.webp", target: "burasa", hideOnDrop: true, top: "45%", left: "15%", style: "width: 100px; transform: rotate(10deg);" },
+        { id: "b2", src: "images/halaman-10/burasa-atas.webp", target: "burasa", hideOnDrop: true, top: "50%", left: "25%", style: "width: 100px; transform: rotate(-20deg);" },
+        { id: "b3", src: "images/halaman-10/burasa-atas.webp", target: "burasa", hideOnDrop: true, top: "40%", left: "30%", style: "width: 100px; transform: rotate(35deg);" },
+        { id: "b4", src: "images/halaman-10/burasa-atas.webp", target: "burasa", hideOnDrop: true, top: "55%", left: "12%", style: "width: 100px; transform: rotate(-10deg);" },
+        { id: "b5", src: "images/halaman-10/burasa-atas.webp", target: "burasa", hideOnDrop: true, top: "60%", left: "22%", style: "width: 100px; transform: rotate(15deg);" },
+        { id: "b6", src: "images/halaman-10/burasa-atas.webp", target: "burasa", hideOnDrop: true, top: "52%", left: "32%", style: "width: 100px; transform: rotate(-40deg);" }
+      ],
+      dropZones: [
+        // Dummy zone for Wadah
+        {
+          id: "wadah",
+          target: "dummy",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          imgStyle: "display:none;",
+          style: "width: 400px; height: 300px; z-index: 1;",
+          top: "40%",
+          left: "5%",
+          decoration: { src: "images/halaman-10/wadah.webp", style: "width: 100%; position: absolute; bottom: 0; left: 0;" }
+        },
+        // Plate 1 (1 burasa)
+        {
+          id: "piring1",
+          target: "dummy",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          imgStyle: "display:none;",
+          style: "width: 200px; height: 100px; z-index: 1;",
+          top: "15%",
+          left: "70%",
+          decoration: { src: "images/halaman-10/piring-1.webp", style: "width: 100%; position: absolute; bottom: 0; left: 0;" }
+        },
+        // Plate 2 (2 burasa)
+        {
+          id: "piring2",
+          target: "dummy",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          imgStyle: "display:none;",
+          style: "width: 250px; height: 120px; z-index: 1;",
+          top: "38%",
+          left: "62%",
+          decoration: { src: "images/halaman-10/piring-2.webp", style: "width: 100%; position: absolute; bottom: 0; left: 0;" }
+        },
+        // Plate 3 (3 burasa)
+        {
+          id: "piring3",
+          target: "dummy",
+          startSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          imgStyle: "display:none;",
+          style: "width: 320px; height: 140px; z-index: 1;",
+          top: "65%",
+          left: "53%",
+          decoration: { src: "images/halaman-10/piring-3.webp", style: "width: 100%; position: absolute; bottom: 0; left: 0;" }
+        },
+
+        // Active Drop Zones for Plate 1 (1 items)
+        { id: "dz1", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 5;", top: "16%", left: "72.5%" },
+
+        // Active Drop Zones for Plate 2 (2 items)
+        { id: "dz2", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 5;", top: "37%", left: "64%" },
+        { id: "dz3", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 6;", top: "46%", left: "72%" },
+
+        // Active Drop Zones for Plate 3 (3 items)
+        { id: "dz4", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 5;", top: "66%", left: "55%" },
+        { id: "dz5", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 6;", top: "72%", left: "64%" },
+        { id: "dz6", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 7;", top: "78%", left: "72%" }
+      ],
       feedbackCorrect: "Bagus!",
       feedbackIncorrect: "Coba lagi!"
     },

@@ -509,8 +509,8 @@ function renderSpreadHTML(spread, index) {
     return renderFullImageSpread(spread);
   }
 
-  // 4. Halaman Game Drag Drop / Susun Kue
-  if (spread.type === 'drag-drop-game' || spread.type === 'susun-kue-game') {
+  // 4. Halaman Game Drag Drop / Susun Kue / Pasang Burasa
+  if (spread.type === 'warna-kolang-kaling-game' || spread.type === 'susun-kue-game' || spread.type === 'pasang-burasa-game') {
     return renderGameSpread(spread);
   }
 
@@ -643,10 +643,12 @@ function fallbackToSpeechSynthesis(text, onEndCallback) {
 window.initActiveGame = function (spread, container) {
   if (!spread || !container) return;
 
-  if (spread.type === 'drag-drop-game') {
+  if (spread.type === 'warna-kolang-kaling-game') {
     if (window.initDragDrop) window.initDragDrop(container, spread);
   } else if (spread.type === 'susun-kue-game') {
     if (window.initSusunKue) window.initSusunKue(container, spread);
+  } else if (spread.type === 'pasang-burasa-game') {
+    if (window.initPasangBurasaGame) window.initPasangBurasaGame(container, spread);
   } else if (spread.type === 'drawing-game') {
     if (window.initDrawingGame) window.initDrawingGame(container, spread);
   } else if (spread.type === 'box-opening-game') {

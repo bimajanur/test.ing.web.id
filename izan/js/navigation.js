@@ -50,6 +50,9 @@ function navigateNext() {
     return;
 
   state.isTransitioning = true;
+  if (typeof window.destroyActiveGame === "function") {
+    window.destroyActiveGame();
+  }
   sounds.playSwoosh();
   triggerCharacterBounce();
 
@@ -108,6 +111,9 @@ function navigatePrev() {
   if (state.isTransitioning || state.currentSpreadIndex <= 0) return;
 
   state.isTransitioning = true;
+  if (typeof window.destroyActiveGame === "function") {
+    window.destroyActiveGame();
+  }
   sounds.playSwoosh();
   triggerCharacterBounce();
 
@@ -162,6 +168,9 @@ function navigatePrev() {
 }
 
 function jumpToSpread(spreadIndex) {
+  if (typeof window.destroyActiveGame === "function") {
+    window.destroyActiveGame();
+  }
   state.currentSpreadIndex = spreadIndex;
   renderStaticSpread(spreadIndex);
 }

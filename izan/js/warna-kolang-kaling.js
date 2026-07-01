@@ -21,15 +21,25 @@ window.initDragDrop = function (container, spread = {}) {
   let completedZones = 0;
   const totalZones = dropZones.length;
 
+  const cleanups = [];
+  if (window.activeGameCleanup) {
+    window.activeGameCleanup();
+  }
+  window.activeGameCleanup = () => {
+    cleanups.forEach((cb) => cb());
+  };
+
   draggables.forEach((item) => {
     let isDragging = false;
     let startX, startY;
     let currentX = 0;
     let currentY = 0;
     let hasSuccessfullyDropped = false;
+    let dragScale = 1;
+    let activeDragCleanup = null;
 
     const handleStart = (e) => {
-      if (hasSuccessfullyDropped && item.dataset.target === "") return; // Disable if already successfully used (unless it's a multi-use or single target missing)
+      if (hasSuccessfullyDropped && item.dataset.target === "") return;
       isDragging = true;
       const clientX = e.type.includes("mouse")
         ? e.clientX
@@ -37,23 +47,37 @@ window.initDragDrop = function (container, spread = {}) {
       const clientY = e.type.includes("mouse")
         ? e.clientY
         : e.touches[0].clientY;
-      const scale =
+      dragScale =
         Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      startX = clientX - currentX * scale;
-      startY = clientY - currentY * scale;
+      startX = clientX - currentX * dragScale;
+      startY = clientY - currentY * dragScale;
 
       item.style.zIndex = 1000;
-      item.style.transition = "none"; // remove transition while dragging
+      item.style.transition = "none";
       item.style.willChange = "transform";
       item.style.pointerEvents = "none";
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
       item.style.cursor = "grabbing";
+
+      activeDragCleanup = () => {
+        isDragging = false;
+        document.removeEventListener("mousemove", handleMove);
+        document.removeEventListener("mouseup", handleEnd);
+        document.removeEventListener("touchmove", handleMove);
+        document.removeEventListener("touchend", handleEnd);
+        activeDragCleanup = null;
+      };
+
+      document.addEventListener("mousemove", handleMove, { passive: false });
+      document.addEventListener("mouseup", handleEnd);
+      document.addEventListener("touchmove", handleMove, { passive: false });
+      document.addEventListener("touchend", handleEnd);
     };
 
     const handleMove = (e) => {
       if (!isDragging) return;
-      e.preventDefault(); // prevent scrolling
+      e.preventDefault();
 
       const clientX = e.type.includes("mouse")
         ? e.clientX
@@ -61,18 +85,16 @@ window.initDragDrop = function (container, spread = {}) {
       const clientY = e.type.includes("mouse")
         ? e.clientY
         : e.touches[0].clientY;
-      const scale =
-        Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      currentX = (clientX - startX) / scale;
-      currentY = (clientY - startY) / scale;
+      currentX = (clientX - startX) / dragScale;
+      currentY = (clientY - startY) / dragScale;
 
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
     };
 
     const handleEnd = (e) => {
       if (!isDragging) return;
-      isDragging = false;
+      if (activeDragCleanup) activeDragCleanup();
 
       item.style.transition = "transform 0.3s ease";
       item.style.willChange = "auto";
@@ -80,9 +102,7 @@ window.initDragDrop = function (container, spread = {}) {
       item.style.zIndex = 10;
       item.style.cursor = "grab";
 
-      // Check collision with any drop zone
       const itemRect = item.getBoundingClientRect();
-      // Define collision area as the top-right quadrant of the item (the nozzle/tip of the bottle)
       const itemColLeft = itemRect.left + itemRect.width * 0.5;
       const itemColRight = itemRect.right;
       const itemColTop = itemRect.top;
@@ -93,7 +113,6 @@ window.initDragDrop = function (container, spread = {}) {
 
       for (const dropZone of dropZones) {
         const dropRect = dropZone.getBoundingClientRect();
-        // Expand drop zone slightly for easier drop
         const isColliding = !(
           itemColRight < dropRect.left - 20 ||
           itemColLeft > dropRect.right + 20 ||
@@ -102,7 +121,7 @@ window.initDragDrop = function (container, spread = {}) {
         );
 
         if (isColliding) {
-          if (!collidedZone) collidedZone = dropZone; // keep the first one as fallback
+          if (!collidedZone) collidedZone = dropZone;
 
           if (
             (item.dataset.target &&
@@ -115,11 +134,9 @@ window.initDragDrop = function (container, spread = {}) {
         }
       }
 
-      // Prioritize the matching zone if overlapping multiple, otherwise just use the first collided zone to trigger the 'incorrect' feedback
       collidedZone = matchingCollidedZone || collidedZone;
 
       if (collidedZone) {
-        // Validation check
         const isCorrectTarget =
           item.dataset.target &&
           item.dataset.target === collidedZone.dataset.target;
@@ -127,12 +144,10 @@ window.initDragDrop = function (container, spread = {}) {
           !item.dataset.target && item.dataset.correct === "true";
 
         if (isCorrectTarget || isLegacyCorrect) {
-          // Success
           currentX = 0;
           currentY = 0;
           item.style.transform = `translate(0px, 0px) scale(1)`;
 
-          // Mark specific bottle as used
           hasSuccessfullyDropped = true;
 
           const dropZoneImg =
@@ -167,7 +182,6 @@ window.initDragDrop = function (container, spread = {}) {
             }, 2000);
           }
 
-          // Check if all zones completed
           if (completedZones >= totalZones) {
             if (nextBtn) {
               nextBtn.classList.remove("hidden");
@@ -190,7 +204,6 @@ window.initDragDrop = function (container, spread = {}) {
             }
           }
         } else {
-          // Incorrect
           currentX = 0;
           currentY = 0;
           item.style.transform = `translate(0px, 0px) scale(1)`;
@@ -214,7 +227,6 @@ window.initDragDrop = function (container, spread = {}) {
           }
         }
       } else {
-        // Snap back
         currentX = 0;
         currentY = 0;
         item.style.transform = `translate(0px, 0px) scale(1) rotate(0deg)`;
@@ -222,11 +234,16 @@ window.initDragDrop = function (container, spread = {}) {
     };
 
     item.addEventListener("mousedown", handleStart);
-    document.addEventListener("mousemove", handleMove, { passive: false });
-    document.addEventListener("mouseup", handleEnd);
-
     item.addEventListener("touchstart", handleStart, { passive: false });
-    document.addEventListener("touchmove", handleMove, { passive: false });
-    document.addEventListener("touchend", handleEnd);
+
+    cleanups.push(() => {
+      item.removeEventListener("mousedown", handleStart);
+      item.removeEventListener("touchstart", handleStart);
+      if (activeDragCleanup) activeDragCleanup();
+    });
+  });
+
+  cleanups.push(() => {
+    if (feedbackTimeout) clearTimeout(feedbackTimeout);
   });
 };

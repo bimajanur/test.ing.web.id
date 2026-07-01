@@ -23,12 +23,21 @@ window.initSusunKue = function (container, spread = {}) {
     (dz) => dz.dataset.target !== "dummy",
   ).length;
 
+  const cleanups = [];
+  if (window.activeGameCleanup) {
+    window.activeGameCleanup();
+  }
+  window.activeGameCleanup = () => {
+    cleanups.forEach((cb) => cb());
+  };
+
   draggables.forEach((item) => {
     let isDragging = false;
     let startX, startY;
     let currentX = 0;
     let currentY = 0;
     let hasSuccessfullyDropped = false;
+    let dragScale = 1;
 
     const handleStart = (e) => {
       if (hasSuccessfullyDropped && item.dataset.target === "") return;
@@ -39,11 +48,11 @@ window.initSusunKue = function (container, spread = {}) {
       const clientY = e.type.includes("mouse")
         ? e.clientY
         : e.touches[0].clientY;
-      const scale =
+      dragScale =
         Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      startX = clientX - currentX * scale;
-      startY = clientY - currentY * scale;
+      startX = clientX - currentX * dragScale;
+      startY = clientY - currentY * dragScale;
 
       item.style.zIndex = 1000;
       item.style.transition = "none";
@@ -51,6 +60,11 @@ window.initSusunKue = function (container, spread = {}) {
       item.style.pointerEvents = "none";
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
       item.style.cursor = "grabbing";
+
+      document.addEventListener("mousemove", handleMove, { passive: false });
+      document.addEventListener("mouseup", handleEnd);
+      document.addEventListener("touchmove", handleMove, { passive: false });
+      document.addEventListener("touchend", handleEnd);
     };
 
     const handleMove = (e) => {
@@ -63,11 +77,9 @@ window.initSusunKue = function (container, spread = {}) {
       const clientY = e.type.includes("mouse")
         ? e.clientY
         : e.touches[0].clientY;
-      const scale =
-        Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      currentX = (clientX - startX) / scale;
-      currentY = (clientY - startY) / scale;
+      currentX = (clientX - startX) / dragScale;
+      currentY = (clientY - startY) / dragScale;
 
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
     };
@@ -75,6 +87,11 @@ window.initSusunKue = function (container, spread = {}) {
     const handleEnd = (e) => {
       if (!isDragging) return;
       isDragging = false;
+
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseup", handleEnd);
+      document.removeEventListener("touchmove", handleMove);
+      document.removeEventListener("touchend", handleEnd);
 
       item.style.transition = "transform 0.3s ease";
       item.style.willChange = "auto";
@@ -229,11 +246,19 @@ window.initSusunKue = function (container, spread = {}) {
     };
 
     item.addEventListener("mousedown", handleStart);
-    document.addEventListener("mousemove", handleMove, { passive: false });
-    document.addEventListener("mouseup", handleEnd);
-
     item.addEventListener("touchstart", handleStart, { passive: false });
-    document.addEventListener("touchmove", handleMove, { passive: false });
-    document.addEventListener("touchend", handleEnd);
+
+    cleanups.push(() => {
+      item.removeEventListener("mousedown", handleStart);
+      item.removeEventListener("touchstart", handleStart);
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseup", handleEnd);
+      document.removeEventListener("touchmove", handleMove);
+      document.removeEventListener("touchend", handleEnd);
+    });
+  });
+
+  cleanups.push(() => {
+    if (feedbackTimeout) clearTimeout(feedbackTimeout);
   });
 };

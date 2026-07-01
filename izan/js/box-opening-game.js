@@ -25,11 +25,20 @@ window.initBoxOpeningGame = function (container, spread = {}) {
     );
   }
 
+  const cleanups = [];
+  if (window.activeGameCleanup) {
+    window.activeGameCleanup();
+  }
+  window.activeGameCleanup = () => {
+    cleanups.forEach((cb) => cb());
+  };
+
   let isDragging = false;
   let startX = 0;
   let currentX = 0;
   let maxX = track.offsetWidth * 0.8; // require 80% drag
   let isOpened = false;
+  let activeTapeDragCleanup = null;
 
   const arrow = container.querySelector("#box-slider-arrow");
   if (arrow) {
@@ -48,6 +57,20 @@ window.initBoxOpeningGame = function (container, spread = {}) {
 
     track.style.transition = "none";
     maxX = track.offsetWidth * 0.8; // require 80% drag
+
+    activeTapeDragCleanup = () => {
+      isDragging = false;
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("touchmove", handleMove);
+      document.removeEventListener("mouseup", handleEnd);
+      document.removeEventListener("touchend", handleEnd);
+      activeTapeDragCleanup = null;
+    };
+
+    document.addEventListener("mousemove", handleMove, { passive: false });
+    document.addEventListener("touchmove", handleMove, { passive: false });
+    document.addEventListener("mouseup", handleEnd);
+    document.addEventListener("touchend", handleEnd);
   };
 
   const handleMove = (e) => {
@@ -66,13 +89,14 @@ window.initBoxOpeningGame = function (container, spread = {}) {
 
     // Check if reached the end
     if (currentX >= maxX) {
+      if (activeTapeDragCleanup) activeTapeDragCleanup();
       openBox();
     }
   };
 
   const handleEnd = (e) => {
     if (!isDragging || isOpened) return;
-    isDragging = false;
+    if (activeTapeDragCleanup) activeTapeDragCleanup();
 
     if (currentX < maxX) {
       // Snap back if not fully dragged
@@ -173,6 +197,7 @@ window.initBoxOpeningGame = function (container, spread = {}) {
       let currentX = 0,
         currentY = 0;
       let isDropped = false;
+      let activeItemDragCleanup = null;
 
       const onStart = (e) => {
         if (isDropped || e.target !== item) return;
@@ -197,6 +222,20 @@ window.initBoxOpeningGame = function (container, spread = {}) {
         item.style.pointerEvents = "none";
         item.style.cursor = "grabbing";
         item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(10deg)`;
+
+        activeItemDragCleanup = () => {
+          isItemDragging = false;
+          document.removeEventListener("mousemove", onMove);
+          document.removeEventListener("touchmove", onMove);
+          document.removeEventListener("mouseup", onEnd);
+          document.removeEventListener("touchend", onEnd);
+          activeItemDragCleanup = null;
+        };
+
+        document.addEventListener("mousemove", onMove, { passive: false });
+        document.addEventListener("touchmove", onMove, { passive: false });
+        document.addEventListener("mouseup", onEnd);
+        document.addEventListener("touchend", onEnd);
       };
 
       const onMove = (e) => {
@@ -220,7 +259,8 @@ window.initBoxOpeningGame = function (container, spread = {}) {
 
       const onEnd = (e) => {
         if (!isItemDragging) return;
-        isItemDragging = false;
+        if (activeItemDragCleanup) activeItemDragCleanup();
+
         item.style.transition = "transform 0.3s ease";
         item.style.willChange = "auto";
         item.style.pointerEvents = "auto";
@@ -319,18 +359,20 @@ window.initBoxOpeningGame = function (container, spread = {}) {
       item.addEventListener("mousedown", onStart);
       item.addEventListener("touchstart", onStart, { passive: false });
 
-      document.addEventListener("mousemove", onMove, { passive: false });
-      document.addEventListener("touchmove", onMove, { passive: false });
-
-      document.addEventListener("mouseup", onEnd);
-      document.addEventListener("touchend", onEnd);
+      cleanups.push(() => {
+        item.removeEventListener("mousedown", onStart);
+        item.removeEventListener("touchstart", onStart);
+        if (activeItemDragCleanup) activeItemDragCleanup();
+      });
     });
   };
 
   tapeContainer.addEventListener("mousedown", handleStart);
   tapeContainer.addEventListener("touchstart", handleStart, { passive: false });
-  document.addEventListener("mousemove", handleMove, { passive: false });
-  document.addEventListener("touchmove", handleMove, { passive: false });
-  document.addEventListener("mouseup", handleEnd);
-  document.addEventListener("touchend", handleEnd);
+
+  cleanups.push(() => {
+    tapeContainer.removeEventListener("mousedown", handleStart);
+    tapeContainer.removeEventListener("touchstart", handleStart);
+    if (activeTapeDragCleanup) activeTapeDragCleanup();
+  });
 };

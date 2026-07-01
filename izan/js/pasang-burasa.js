@@ -32,6 +32,14 @@ window.initPasangBurasaGame = function (container, spread = {}) {
   let currentTyingStep = 0;
   let tyingSteps = spread.tyingSteps || [];
 
+  const cleanups = [];
+  if (window.activeGameCleanup) {
+    window.activeGameCleanup();
+  }
+  window.activeGameCleanup = () => {
+    cleanups.forEach((cb) => cb());
+  };
+
   function initTyingPhase() {
     if (!tyingOverlay || tyingSteps.length === 0) {
       finishGame();
@@ -102,6 +110,7 @@ window.initPasangBurasaGame = function (container, spread = {}) {
     knob.style.transform = "translate(-50%, -50%) scale(1)";
 
     let isDraggingKnob = false;
+    let activeTyingDragCleanup = null;
 
     const tyingContainer = tyingOverlay.querySelector(".tying-container");
     const containerRect = tyingContainer.getBoundingClientRect();
@@ -116,57 +125,73 @@ window.initPasangBurasaGame = function (container, spread = {}) {
       isDraggingKnob = true;
       knob.style.animation = "none"; // Stop pulse
       knob.style.transform = "translate(-50%, -50%) scale(1.2)";
-    };
 
-    const handleKnobMove = (e) => {
-      if (!isDraggingKnob) return;
-      e.preventDefault();
-
-      const clientX = e.type.includes("mouse")
-        ? e.clientX
-        : e.touches[0].clientX;
-      const clientY = e.type.includes("mouse")
-        ? e.clientY
-        : e.touches[0].clientY;
-
+      // Cache rect on start to avoid layout trashing
       const rect = tyingContainer.getBoundingClientRect();
-      let x = clientX - rect.left;
-      let y = clientY - rect.top;
 
-      // Constrain within container
-      x = Math.max(0, Math.min(x, rect.width));
-      y = Math.max(0, Math.min(y, rect.height));
+      const handleKnobMove = (e) => {
+        if (!isDraggingKnob) return;
+        e.preventDefault();
 
-      knob.style.left = `${x}px`;
-      knob.style.top = `${y}px`;
+        const clientX = e.type.includes("mouse")
+          ? e.clientX
+          : e.touches[0].clientX;
+        const clientY = e.type.includes("mouse")
+          ? e.clientY
+          : e.touches[0].clientY;
 
-      // Check distance to end target
-      const dist = Math.hypot(x - endX_px, y - endY_px);
-      if (dist < threshold) {
-        // Success for this step!
+        let x = clientX - rect.left;
+        let y = clientY - rect.top;
+
+        // Constrain within container
+        x = Math.max(0, Math.min(x, rect.width));
+        y = Math.max(0, Math.min(y, rect.height));
+
+        knob.style.left = `${x}px`;
+        knob.style.top = `${y}px`;
+
+        // Check distance to end target
+        const dist = Math.hypot(x - endX_px, y - endY_px);
+        if (dist < threshold) {
+          if (activeTyingDragCleanup) activeTyingDragCleanup();
+          completeTyingStep();
+        }
+      };
+
+      const handleKnobEnd = (e) => {
+        if (!isDraggingKnob) return;
+        if (activeTyingDragCleanup) activeTyingDragCleanup();
+
+        // If released but not close enough, snap back to start
+        knob.style.animation = "pulse-knob 1.5s infinite";
+        knob.style.left = step.startX;
+        knob.style.top = step.startY;
+        knob.style.transform = "translate(-50%, -50%) scale(1)";
+      };
+
+      activeTyingDragCleanup = () => {
         isDraggingKnob = false;
-        completeTyingStep();
-      }
-    };
+        document.removeEventListener("mousemove", handleKnobMove);
+        document.removeEventListener("mouseup", handleKnobEnd);
+        document.removeEventListener("touchmove", handleKnobMove);
+        document.removeEventListener("touchend", handleKnobEnd);
+        activeTyingDragCleanup = null;
+      };
 
-    const handleKnobEnd = (e) => {
-      if (!isDraggingKnob) return;
-      isDraggingKnob = false;
-
-      // If released but not close enough, snap back to start
-      knob.style.animation = "pulse-knob 1.5s infinite";
-      knob.style.left = step.startX;
-      knob.style.top = step.startY;
-      knob.style.transform = "translate(-50%, -50%) scale(1)";
+      document.addEventListener("mousemove", handleKnobMove, { passive: false });
+      document.addEventListener("mouseup", handleKnobEnd);
+      document.addEventListener("touchmove", handleKnobMove, { passive: false });
+      document.addEventListener("touchend", handleKnobEnd);
     };
 
     knob.addEventListener("mousedown", handleKnobStart);
-    document.addEventListener("mousemove", handleKnobMove, { passive: false });
-    document.addEventListener("mouseup", handleKnobEnd);
-
     knob.addEventListener("touchstart", handleKnobStart, { passive: false });
-    document.addEventListener("touchmove", handleKnobMove, { passive: false });
-    document.addEventListener("touchend", handleKnobEnd);
+
+    cleanups.push(() => {
+      knob.removeEventListener("mousedown", handleKnobStart);
+      knob.removeEventListener("touchstart", handleKnobStart);
+      if (activeTyingDragCleanup) activeTyingDragCleanup();
+    });
   }
 
   function completeTyingStep() {
@@ -209,6 +234,8 @@ window.initPasangBurasaGame = function (container, spread = {}) {
     let currentX = 0;
     let currentY = 0;
     let hasSuccessfullyDropped = false;
+    let dragScale = 1;
+    let activeDragCleanup = null;
 
     const handleStart = (e) => {
       if (hasSuccessfullyDropped && item.dataset.target === "") return;
@@ -219,11 +246,11 @@ window.initPasangBurasaGame = function (container, spread = {}) {
       const clientY = e.type.includes("mouse")
         ? e.clientY
         : e.touches[0].clientY;
-      const scale =
+      dragScale =
         Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      startX = clientX - currentX * scale;
-      startY = clientY - currentY * scale;
+      startX = clientX - currentX * dragScale;
+      startY = clientY - currentY * dragScale;
 
       item.style.zIndex = 1000;
       item.style.transition = "none";
@@ -231,6 +258,20 @@ window.initPasangBurasaGame = function (container, spread = {}) {
       item.style.pointerEvents = "none";
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
       item.style.cursor = "grabbing";
+
+      activeDragCleanup = () => {
+        isDragging = false;
+        document.removeEventListener("mousemove", handleMove);
+        document.removeEventListener("mouseup", handleEnd);
+        document.removeEventListener("touchmove", handleMove);
+        document.removeEventListener("touchend", handleEnd);
+        activeDragCleanup = null;
+      };
+
+      document.addEventListener("mousemove", handleMove, { passive: false });
+      document.addEventListener("mouseup", handleEnd);
+      document.addEventListener("touchmove", handleMove, { passive: false });
+      document.addEventListener("touchend", handleEnd);
     };
 
     const handleMove = (e) => {
@@ -243,18 +284,16 @@ window.initPasangBurasaGame = function (container, spread = {}) {
       const clientY = e.type.includes("mouse")
         ? e.clientY
         : e.touches[0].clientY;
-      const scale =
-        Math.min(window.innerWidth / 1280, window.innerHeight / 720) || 1;
 
-      currentX = (clientX - startX) / scale;
-      currentY = (clientY - startY) / scale;
+      currentX = (clientX - startX) / dragScale;
+      currentY = (clientY - startY) / dragScale;
 
       item.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1) rotate(35deg)`;
     };
 
     const handleEnd = (e) => {
       if (!isDragging) return;
-      isDragging = false;
+      if (activeDragCleanup) activeDragCleanup();
 
       item.style.transition = "transform 0.3s ease";
       item.style.willChange = "auto";
@@ -263,10 +302,10 @@ window.initPasangBurasaGame = function (container, spread = {}) {
       item.style.cursor = "grab";
 
       const itemRect = item.getBoundingClientRect();
-      const itemColLeft = itemRect.left + itemRect.width * 0.5;
+      const itemColLeft = itemRect.left;
       const itemColRight = itemRect.right;
       const itemColTop = itemRect.top;
-      const itemColBottom = itemRect.top + itemRect.height * 0.5;
+      const itemColBottom = itemRect.bottom;
 
       let collidedZone = null;
       let matchingCollidedZone = null;
@@ -283,12 +322,14 @@ window.initPasangBurasaGame = function (container, spread = {}) {
         );
 
         if (isColliding) {
-          if (!collidedZone) collidedZone = dropZone;
+          if (!collidedZone && !dropZone.dataset.completed)
+            collidedZone = dropZone;
 
           if (
-            (item.dataset.target &&
+            !dropZone.dataset.completed &&
+            ((item.dataset.target &&
               item.dataset.target === dropZone.dataset.target) ||
-            (!item.dataset.target && item.dataset.correct === "true")
+              (!item.dataset.target && item.dataset.correct === "true"))
           ) {
             matchingCollidedZone = dropZone;
             break;
@@ -316,7 +357,11 @@ window.initPasangBurasaGame = function (container, spread = {}) {
             collidedZone.querySelector(".drop-zone-img") ||
             collidedZone.querySelector("#drop-zone-img");
           if (dropZoneImg && !collidedZone.dataset.completed) {
-            dropZoneImg.src = dropZoneImg.dataset.doneSrc;
+            if (collidedZone.dataset.dynamicSrc === "true") {
+              dropZoneImg.src = item.src;
+            } else {
+              dropZoneImg.src = dropZoneImg.dataset.doneSrc;
+            }
             collidedZone.dataset.completed = "true";
             completedZones++;
 
@@ -326,27 +371,12 @@ window.initPasangBurasaGame = function (container, spread = {}) {
             }
           }
 
-          if (typeof sounds !== "undefined" && sounds.playPop) sounds.playPop();
+          if (typeof sounds !== "undefined" && sounds.playChime)
+            sounds.playChime();
 
           if (completedZones >= totalZones) {
-            // Show feedbackCorrect for Phase 1 completion
-            if (feedback) {
-              const text = spread.feedbackCorrect || "Bagus!";
-              window.showGameFeedback(
-                feedback,
-                `<span style="color:var(--color-grass-dark)">${text}</span>`,
-                text,
-                spread.feedbackCorrectAudio || spread.correctAudio,
-                spread.hideCorrectSpeechBtn,
-              );
-            }
-            if (typeof sounds !== "undefined" && sounds.playSuccess)
-              sounds.playSuccess();
-
-            // Trigger Phase 2 (Tying) after a delay to allow user to read feedback
-            setTimeout(initTyingPhase, 2000);
+            initTyingPhase();
           } else {
-            // Show feedback for every successful drop before completion
             if (feedback) {
               if (feedbackTimeout) clearTimeout(feedbackTimeout);
               const text = spread.feedbackDrop || "Hap!";
@@ -393,11 +423,16 @@ window.initPasangBurasaGame = function (container, spread = {}) {
     };
 
     item.addEventListener("mousedown", handleStart);
-    document.addEventListener("mousemove", handleMove, { passive: false });
-    document.addEventListener("mouseup", handleEnd);
-
     item.addEventListener("touchstart", handleStart, { passive: false });
-    document.addEventListener("touchmove", handleMove, { passive: false });
-    document.addEventListener("touchend", handleEnd);
+
+    cleanups.push(() => {
+      item.removeEventListener("mousedown", handleStart);
+      item.removeEventListener("touchstart", handleStart);
+      if (activeDragCleanup) activeDragCleanup();
+    });
+  });
+
+  cleanups.push(() => {
+    if (feedbackTimeout) clearTimeout(feedbackTimeout);
   });
 };

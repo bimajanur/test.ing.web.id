@@ -742,3 +742,14 @@ window.initActiveGame = function (spread, container) {
     if (window.initBoxOpeningGame) window.initBoxOpeningGame(container, spread);
   }
 };
+
+window.destroyActiveGame = function () {
+  if (typeof window.activeGameCleanup === "function") {
+    try {
+      window.activeGameCleanup();
+    } catch (e) {
+      console.error("Error during active game cleanup:", e);
+    }
+    window.activeGameCleanup = null;
+  }
+};

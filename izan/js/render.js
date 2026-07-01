@@ -278,9 +278,24 @@ function renderGameSpread(spread) {
             <div class="drop-zones-wrapper drop-zones-list" style="${spread.dropZonesStyle || ''}">
               ${dropZonesHtml}
             </div>
+            ${spread.type === 'pasang-burasa-game' && spread.tyingSteps ? `
+            <!-- Tying Phase Container (hidden initially) -->
+            <div id="tying-phase-container" class="hidden" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 100; transition: opacity 0.5s ease; opacity: 0;">
+               <div class="tying-container" style="position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); width: 80%; max-width: 600px; aspect-ratio: 4/3;">
+                   <img src="${spread.tyingBg}" class="tying-bg" draggable="false" style="width:100%; position:absolute; top:0; left:0;" onerror="handleImageError(this, '${spread.tyingBg}')">
+                   <img src="${spread.tyingSteps[0].hintSrc}" class="tying-hint" id="tying-hint" draggable="false" style="width:100%; position:absolute; top:0; left:0; z-index: 2; pointer-events: none;" onerror="handleImageError(this, '${spread.tyingSteps[0].hintSrc}')">
+                   <img src="" class="tying-result" id="tying-result" draggable="false" style="width:100%; position:absolute; top:0; left:0; z-index: 3; pointer-events: none; opacity: 0; transition: opacity 0.3s ease;">
+                   
+                   <!-- Layer to collect result images -->
+                   <div id="tying-results-layer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index: 2; pointer-events: none;"></div>
+
+                   <div class="tying-knob" id="tying-knob" style="position:absolute; width: 50px; height: 50px; background: rgba(255,165,0,0.5); border: 3px solid #ff9800; border-radius: 50%; z-index: 10; cursor: grab; transform: translate(-50%, -50%); top: ${spread.tyingSteps[0].startY}; left: ${spread.tyingSteps[0].startX}; box-shadow: 0 0 10px rgba(255,165,0,0.8); animation: pulse-knob 1.5s infinite;"></div>
+               </div>
+            </div>
+            ` : ''}
           </div>
           <div class="drag-feedback game-feedback hidden" data-correct-text="${spread.feedbackCorrect}" data-incorrect-text="${spread.feedbackIncorrect}" data-correct-audio="${spread.feedbackCorrectAudio || ''}" data-incorrect-audio="${spread.feedbackIncorrectAudio || ''}" data-hide-speech-btn="${spread.hideFeedbackSpeechBtn === true ? 'true' : 'false'}"></div>
-          
+
           <button class="next-level-btn game-btn-next bouncy-btn hidden" onclick="const popup = this.closest('.game-popup-overlay'); popup.remove(); elements.btnNext.click(); if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();">Lanjut ➔</button>
         </div>
       </div>

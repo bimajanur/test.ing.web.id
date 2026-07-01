@@ -565,7 +565,19 @@ const bookData = {
         { id: "dz5", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 6;", top: "72%", left: "64%" },
         { id: "dz6", target: "burasa", startSrc: "images/halaman-10/burasa-bawah.webp", doneSrc: "images/halaman-10/burasa-atas-bawah.webp", imgStyle: "width: 120px; object-fit: contain;", style: "width: 120px; height: 40px; z-index: 7;", top: "78%", left: "72%" }
       ],
+      tyingBg: "images/halaman-10/burasa-sebelum-ikat.webp",
+      tyingSteps: [
+        { hintSrc: "images/halaman-10/burasa-ikat-1.webp", doneSrc: "images/halaman-10/burasa-tali-1.webp", startX: "53%", startY: "90%", endX: "18%", endY: "43%" },
+        { hintSrc: "images/halaman-10/burasa-ikat-2.webp", doneSrc: "images/halaman-10/burasa-tali-2.webp", startX: "17%", startY: "31%", endX: "60%", endY: "68%" },
+        { hintSrc: "images/halaman-10/burasa-ikat-3.webp", doneSrc: "images/halaman-10/burasa-tali-3.webp", startX: "69%", startY: "73%", endX: "37%", endY: "26%" },
+        { hintSrc: "images/halaman-10/burasa-ikat-4.webp", doneSrc: "images/halaman-10/burasa-tali-4.webp", startX: "35%", startY: "11%", endX: "75%", endY: "53%" },
+        { hintSrc: "images/halaman-10/burasa-ikat-5.webp", doneSrc: "images/halaman-10/burasa-tali-5.webp", startX: "93%", startY: "55%", endX: "57%", endY: "11%" }
+      ],
+      tyingInstruction: "Ikuti arah panah",
+      startInstruction: "Pasangkan burasa di atas piring",
       feedbackCorrect: "Bagus!",
+      feedbackDrop: "Hap!",
+      feedbackTyingDone: "Wah hebat, semua burasa sudah diikat!",
       feedbackIncorrect: "Coba lagi!"
     },
 

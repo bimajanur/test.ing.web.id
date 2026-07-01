@@ -9,5 +9,5 @@ const state = {
 
   getSpreadAt(index) {
     return bookData.spreads[index];
-  }
+  },
 };

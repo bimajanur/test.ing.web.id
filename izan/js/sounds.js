@@ -10,16 +10,16 @@ const sounds = {
 
   initBgMusic() {
     if (this.bgMusic) return;
-    this.bgMusic = new Audio('audio/music/bg-1.mp3');
+    this.bgMusic = new Audio("audio/music/bg-1.mp3");
     this.bgMusic.loop = true;
     this.bgMusic.volume = 0.3; // Give it a background volume level
   },
 
   updateBgMusicState(pageIndex) {
     if (!this.bgMusic) return;
-    
+
     if (pageIndex === 0 && !this.muted) {
-      this.bgMusic.play().catch(e => console.log('BGM play prevented:', e));
+      this.bgMusic.play().catch((e) => console.log("BGM play prevented:", e));
     } else {
       this.bgMusic.pause();
     }
@@ -29,7 +29,7 @@ const sounds = {
     this.init();
 
     // Resume AudioContext if suspended (browser security)
-    if (this.ctx && this.ctx.state === 'suspended') {
+    if (this.ctx && this.ctx.state === "suspended") {
       this.ctx.resume();
     }
 
@@ -38,10 +38,10 @@ const sounds = {
     this.initBgMusic();
     if (this.muted) {
       this.bgMusic.pause();
-      if (typeof window.stopSpeech === 'function') window.stopSpeech();
+      if (typeof window.stopSpeech === "function") window.stopSpeech();
     } else {
-      if (typeof state !== 'undefined' && state.currentSpreadIndex === 0) {
-        this.bgMusic.play().catch(e => console.log('BGM play prevented:', e));
+      if (typeof state !== "undefined" && state.currentSpreadIndex === 0) {
+        this.bgMusic.play().catch((e) => console.log("BGM play prevented:", e));
       }
     }
 
@@ -51,14 +51,17 @@ const sounds = {
   playPop() {
     if (this.muted) return;
     this.init();
-    if (this.ctx.state === 'suspended') this.ctx.resume();
+    if (this.ctx.state === "suspended") this.ctx.resume();
 
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'triangle';
+    osc.type = "triangle";
     osc.frequency.setValueAtTime(280, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(650, this.ctx.currentTime + 0.08);
+    osc.frequency.exponentialRampToValueAtTime(
+      650,
+      this.ctx.currentTime + 0.08,
+    );
 
     gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
@@ -73,7 +76,7 @@ const sounds = {
   playSwoosh() {
     if (this.muted) return;
     this.init();
-    if (this.ctx.state === 'suspended') this.ctx.resume();
+    if (this.ctx.state === "suspended") this.ctx.resume();
 
     const duration = 0.5;
     const bufferSize = this.ctx.sampleRate * duration;
@@ -90,13 +93,19 @@ const sounds = {
 
     // Sweeping lowpass filter
     const filter = this.ctx.createBiquadFilter();
-    filter.type = 'lowpass';
+    filter.type = "lowpass";
     filter.frequency.setValueAtTime(2200, this.ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + duration);
+    filter.frequency.exponentialRampToValueAtTime(
+      150,
+      this.ctx.currentTime + duration,
+    );
 
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      this.ctx.currentTime + duration,
+    );
 
     noiseNode.connect(filter);
     filter.connect(gain);
@@ -109,12 +118,12 @@ const sounds = {
   playWrong() {
     if (this.muted) return;
     this.init();
-    if (this.ctx.state === 'suspended') this.ctx.resume();
+    if (this.ctx.state === "suspended") this.ctx.resume();
 
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'sawtooth'; // soft buzz sound
+    osc.type = "sawtooth"; // soft buzz sound
     osc.frequency.setValueAtTime(220, this.ctx.currentTime);
     osc.frequency.linearRampToValueAtTime(110, this.ctx.currentTime + 0.15);
 
@@ -131,10 +140,10 @@ const sounds = {
   playChime() {
     if (this.muted) return;
     this.init();
-    if (this.ctx.state === 'suspended') this.ctx.resume();
+    if (this.ctx.state === "suspended") this.ctx.resume();
 
     // Pentatonic arpeggio for celebration: C5, E5, G5, C6
-    const notes = [523.25, 659.25, 783.99, 1046.50];
+    const notes = [523.25, 659.25, 783.99, 1046.5];
     const delay = 0.08;
     const now = this.ctx.currentTime;
 
@@ -142,7 +151,7 @@ const sounds = {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
-      osc.type = 'sine';
+      osc.type = "sine";
       osc.frequency.setValueAtTime(freq, now + index * delay);
 
       gain.gain.setValueAtTime(0, now + index * delay);
@@ -155,5 +164,5 @@ const sounds = {
       osc.start(now + index * delay);
       osc.stop(now + index * delay + 0.35);
     });
-  }
+  },
 };

@@ -1,72 +1,72 @@
 function handleSoundToggle() {
   const isMuted = sounds.toggleMute();
 
-  const soundOnIcon = elements.btnSound.querySelector('.sound-on-icon');
-  const soundOffIcon = elements.btnSound.querySelector('.sound-off-icon');
+  const soundOnIcon = elements.btnSound.querySelector(".sound-on-icon");
+  const soundOffIcon = elements.btnSound.querySelector(".sound-off-icon");
 
   if (isMuted) {
-    soundOnIcon.classList.add('hidden');
-    soundOffIcon.classList.remove('hidden');
-    elements.btnSound.setAttribute('aria-label', 'Aktifkan Suara');
+    soundOnIcon.classList.add("hidden");
+    soundOffIcon.classList.remove("hidden");
+    elements.btnSound.setAttribute("aria-label", "Aktifkan Suara");
   } else {
-    soundOnIcon.classList.remove('hidden');
-    soundOffIcon.classList.add('hidden');
-    elements.btnSound.setAttribute('aria-label', 'Matikan Suara');
+    soundOnIcon.classList.remove("hidden");
+    soundOffIcon.classList.add("hidden");
+    elements.btnSound.setAttribute("aria-label", "Matikan Suara");
     sounds.playPop();
   }
 }
 
 // Initialize Event Listeners
 function initEvents() {
-  window.addEventListener('resize', handleResize);
+  window.addEventListener("resize", handleResize);
   initProgressDrag();
 
-  elements.btnNext.addEventListener('click', () => {
+  elements.btnNext.addEventListener("click", () => {
     navigateNext();
   });
-  elements.btnPrev.addEventListener('click', () => {
+  elements.btnPrev.addEventListener("click", () => {
     navigatePrev();
   });
 
-  elements.btnSound.addEventListener('click', () => {
+  elements.btnSound.addEventListener("click", () => {
     handleSoundToggle();
   });
 
-  elements.btnInfo.addEventListener('click', () => {
+  elements.btnInfo.addEventListener("click", () => {
     sounds.playPop();
-    elements.infoOverlay.classList.remove('hidden');
+    elements.infoOverlay.classList.remove("hidden");
   });
 
-  elements.btnCloseInfo.addEventListener('click', () => {
+  elements.btnCloseInfo.addEventListener("click", () => {
     sounds.playPop();
-    elements.infoOverlay.classList.add('hidden');
+    elements.infoOverlay.classList.add("hidden");
   });
 
   // Welcome screen Start button
-  elements.btnStart.addEventListener('click', () => {
+  elements.btnStart.addEventListener("click", () => {
     // Initialize audio context & enable sound by default
     sounds.init();
     sounds.toggleMute(); // Will unmute and set muted = false
 
     // Update toolbar icons
-    const soundOnIcon = elements.btnSound.querySelector('.sound-on-icon');
-    const soundOffIcon = elements.btnSound.querySelector('.sound-off-icon');
-    soundOnIcon.classList.remove('hidden');
-    soundOffIcon.classList.add('hidden');
-    elements.btnSound.setAttribute('aria-label', 'Matikan Suara');
+    const soundOnIcon = elements.btnSound.querySelector(".sound-on-icon");
+    const soundOffIcon = elements.btnSound.querySelector(".sound-off-icon");
+    soundOnIcon.classList.remove("hidden");
+    soundOffIcon.classList.add("hidden");
+    elements.btnSound.setAttribute("aria-label", "Matikan Suara");
 
     sounds.playChime();
 
-    elements.welcomeOverlay.classList.add('hidden');
+    elements.welcomeOverlay.classList.add("hidden");
   });
 
   // Support Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (!elements.welcomeOverlay.classList.contains('hidden')) return;
+  document.addEventListener("keydown", (e) => {
+    if (!elements.welcomeOverlay.classList.contains("hidden")) return;
 
-    if (e.key === 'ArrowRight' || e.key === ' ') {
+    if (e.key === "ArrowRight" || e.key === " ") {
       navigateNext();
-    } else if (e.key === 'ArrowLeft') {
+    } else if (e.key === "ArrowLeft") {
       navigatePrev();
     }
   });
@@ -74,13 +74,11 @@ function initEvents() {
 
 // Set Title dynamically from data
 function initTitle() {
-  const titleDisplay = document.getElementById('book-title-display');
+  const titleDisplay = document.getElementById("book-title-display");
   if (titleDisplay) titleDisplay.textContent = bookData.title;
 
-  const welcomeTitle = document.querySelector('.welcome-card h2');
+  const welcomeTitle = document.querySelector(".welcome-card h2");
   if (welcomeTitle) welcomeTitle.textContent = bookData.title;
-
-
 }
 
 // Start Application
@@ -94,48 +92,65 @@ function startApp() {
 }
 
 // Start once DOM is ready
-document.addEventListener('DOMContentLoaded', startApp);
+document.addEventListener("DOMContentLoaded", startApp);
 
-window.showGameFeedback = function (feedbackElement, htmlContent, cleanText, audioSrc, forceHideBtn = false) {
+window.showGameFeedback = function (
+  feedbackElement,
+  htmlContent,
+  cleanText,
+  audioSrc,
+  forceHideBtn = false,
+) {
   if (!feedbackElement) return;
 
   feedbackElement.innerHTML = htmlContent;
 
-  const hideBtn = forceHideBtn || feedbackElement.dataset.hideSpeechBtn === 'true';
+  const hideBtn =
+    forceHideBtn || feedbackElement.dataset.hideSpeechBtn === "true";
 
   if (!hideBtn && (cleanText || audioSrc)) {
-    const btn = document.createElement('button');
-    btn.className = 'speech-play-btn feedback-speech-btn';
-    btn.style.position = 'absolute';
-    btn.style.top = '-15px';
-    btn.style.right = '-15px';
-    btn.style.zIndex = '50';
+    const btn = document.createElement("button");
+    btn.className = "speech-play-btn feedback-speech-btn";
+    btn.style.position = "absolute";
+    btn.style.top = "-15px";
+    btn.style.right = "-15px";
+    btn.style.zIndex = "50";
     btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>`;
 
     btn.onclick = (e) => {
       e.stopPropagation();
-      playSpeechText(cleanText || '', audioSrc || '', btn);
+      playSpeechText(cleanText || "", audioSrc || "", btn);
     };
     feedbackElement.appendChild(btn);
   }
 
-  feedbackElement.classList.remove('hidden');
+  feedbackElement.classList.remove("hidden");
 };
 
-window.triggerGameWinCelebration = function (feedbackElement, feedbackText, forceHideBtn = false) {
+window.triggerGameWinCelebration = function (
+  feedbackElement,
+  feedbackText,
+  forceHideBtn = false,
+) {
   if (feedbackElement) {
     const html = `<div style="color: var(--color-grass-dark); animation: bounce 1s infinite alternate;">🎉 ${feedbackText}</div>`;
-    window.showGameFeedback(feedbackElement, html, feedbackText, feedbackElement.dataset.correctAudio, forceHideBtn);
-    feedbackElement.classList.add('feedback-celebration-anim');
+    window.showGameFeedback(
+      feedbackElement,
+      html,
+      feedbackText,
+      feedbackElement.dataset.correctAudio,
+      forceHideBtn,
+    );
+    feedbackElement.classList.add("feedback-celebration-anim");
   }
 
-  if (typeof sounds !== 'undefined' && sounds.playChime) {
+  if (typeof sounds !== "undefined" && sounds.playChime) {
     sounds.playChime();
-  } else if (typeof sounds !== 'undefined' && sounds.playSuccess) {
+  } else if (typeof sounds !== "undefined" && sounds.playSuccess) {
     sounds.playSuccess();
   }
 
-  if (typeof confetti === 'function') {
+  if (typeof confetti === "function") {
     var duration = 4 * 1000;
     var end = Date.now() + duration;
 
@@ -145,19 +160,19 @@ window.triggerGameWinCelebration = function (feedbackElement, feedbackText, forc
         angle: 60,
         spread: 55,
         origin: { x: 0 },
-        colors: ['#4E9F3D', '#FFD700', '#FF8E8E', '#83BD75']
+        colors: ["#4E9F3D", "#FFD700", "#FF8E8E", "#83BD75"],
       });
       confetti({
         particleCount: 5,
         angle: 120,
         spread: 55,
         origin: { x: 1 },
-        colors: ['#4E9F3D', '#FFD700', '#FF8E8E', '#83BD75']
+        colors: ["#4E9F3D", "#FFD700", "#FF8E8E", "#83BD75"],
       });
 
       if (Date.now() < end) {
         requestAnimationFrame(frame);
       }
-    }());
+    })();
   }
 };

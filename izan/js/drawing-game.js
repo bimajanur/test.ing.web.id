@@ -1,25 +1,36 @@
 window.initDrawingGame = function (container, config) {
-  const canvas = container.querySelector('.drawing-canvas');
-  const pan = container.querySelector('.drawing-pan');
-  const btnFinish = container.querySelector('.drawing-btn-finish');
-  const plateStack = container.querySelector('.plate-stack');
-  const btnNext = container.querySelector('.game-btn-next');
-  const feedback = container.querySelector('.game-feedback');
+  const canvas = container.querySelector(".drawing-canvas");
+  const pan = container.querySelector(".drawing-pan");
+  const btnFinish = container.querySelector(".drawing-btn-finish");
+  const plateStack = container.querySelector(".plate-stack");
+  const btnNext = container.querySelector(".game-btn-next");
+  const feedback = container.querySelector(".game-feedback");
 
   if (!canvas || !pan) return;
 
   if (feedback && config.startInstruction) {
     const text = config.startInstruction;
-    window.showGameFeedback(feedback, `<span style="color:var(--color-wood-dark)">${text}</span>`, text, config.startAudio, config.hideStartSpeechBtn);
+    window.showGameFeedback(
+      feedback,
+      `<span style="color:var(--color-wood-dark)">${text}</span>`,
+      text,
+      config.startAudio,
+      config.hideStartSpeechBtn,
+    );
   }
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let isDrawing = false;
   let drawCount = 0;
   const maxDraws = config.maxDraws || 3;
   let hasDrawnCurrent = false;
   let points = [];
-  let bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+  let bounds = {
+    minX: Infinity,
+    minY: Infinity,
+    maxX: -Infinity,
+    maxY: -Infinity,
+  };
 
   function updateBounds(p) {
     if (p.x < bounds.minX) bounds.minX = p.x;
@@ -29,8 +40,8 @@ window.initDrawingGame = function (container, config) {
   }
 
   // Gunakan offscreen canvas untuk snapshot hardware-accelerated
-  let offscreenCanvas = document.createElement('canvas');
-  let offCtx = offscreenCanvas.getContext('2d');
+  let offscreenCanvas = document.createElement("canvas");
+  let offCtx = offscreenCanvas.getContext("2d");
 
   // Fungsi untuk menyesuaikan ukuran canvas dengan container (pan)
   function resizeCanvas() {
@@ -63,17 +74,17 @@ window.initDrawingGame = function (container, config) {
   }
 
   function setupContext() {
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     // Gunakan perhitungan relatif agar proporsional dengan wajan
     ctx.lineWidth = config.lineWidth || Math.max(3, canvas.width * 0.02);
 
-    const colors = config.drawColors || ['#F3C550'];
+    const colors = config.drawColors || ["#F3C550"];
     const currentColor = colors[drawCount % colors.length];
 
     ctx.strokeStyle = currentColor;
     ctx.shadowBlur = 4;
-    ctx.shadowColor = 'rgba(0,0,0,0.2)';
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
   }
 
   // Gunakan ResizeObserver agar ukuran canvas otomatis benar saat popup muncul
@@ -94,12 +105,12 @@ window.initDrawingGame = function (container, config) {
       clientY = e.clientY;
     }
 
-    const scaleX = rect.width ? (canvas.width / rect.width) : 1;
-    const scaleY = rect.height ? (canvas.height / rect.height) : 1;
+    const scaleX = rect.width ? canvas.width / rect.width : 1;
+    const scaleY = rect.height ? canvas.height / rect.height : 1;
 
     return {
       x: (clientX - rect.left) * scaleX,
-      y: (clientY - rect.top) * scaleY
+      y: (clientY - rect.top) * scaleY,
     };
   }
 
@@ -109,7 +120,7 @@ window.initDrawingGame = function (container, config) {
 
     isDrawing = true;
     hasDrawnCurrent = true;
-    btnFinish.classList.remove('hidden');
+    btnFinish.classList.remove("hidden");
 
     const p = getMousePos(e);
     points = [p];
@@ -150,7 +161,12 @@ window.initDrawingGame = function (container, config) {
       ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
     }
     // Kurva untuk dua titik terakhir
-    ctx.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+    ctx.quadraticCurveTo(
+      points[i].x,
+      points[i].y,
+      points[i + 1].x,
+      points[i + 1].y,
+    );
     ctx.stroke();
   }
 
@@ -160,45 +176,56 @@ window.initDrawingGame = function (container, config) {
   }
 
   // Event Listeners (Mouse)
-  canvas.addEventListener('mousedown', startDrawing);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', stopDrawing);
-  canvas.addEventListener('mouseout', stopDrawing);
+  canvas.addEventListener("mousedown", startDrawing);
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("mouseup", stopDrawing);
+  canvas.addEventListener("mouseout", stopDrawing);
 
   // Event Listeners (Touch)
-  canvas.addEventListener('touchstart', startDrawing, { passive: false });
-  canvas.addEventListener('touchmove', draw, { passive: false });
-  canvas.addEventListener('touchend', stopDrawing);
-  canvas.addEventListener('touchcancel', stopDrawing);
+  canvas.addEventListener("touchstart", startDrawing, { passive: false });
+  canvas.addEventListener("touchmove", draw, { passive: false });
+  canvas.addEventListener("touchend", stopDrawing);
+  canvas.addEventListener("touchcancel", stopDrawing);
 
   // Handler Tombol Selesai (Pindahkan ke Piring)
-  btnFinish.addEventListener('click', () => {
+  btnFinish.addEventListener("click", () => {
     if (!hasDrawnCurrent) return; // Jangan pindahkan jika masih kosong
 
-    if (typeof sounds !== 'undefined' && sounds.playPop) sounds.playPop();
+    if (typeof sounds !== "undefined" && sounds.playPop) sounds.playPop();
 
     // 1. Ambil gambar dari canvas yang sudah di-crop ke bounding box-nya
     const pad = ctx.lineWidth ? ctx.lineWidth * 1.5 : 20;
     let cropX = Math.max(0, bounds.minX - pad);
     let cropY = Math.max(0, bounds.minY - pad);
-    let cropW = Math.min(canvas.width - cropX, bounds.maxX - bounds.minX + pad * 2);
-    let cropH = Math.min(canvas.height - cropY, bounds.maxY - bounds.minY + pad * 2);
+    let cropW = Math.min(
+      canvas.width - cropX,
+      bounds.maxX - bounds.minX + pad * 2,
+    );
+    let cropH = Math.min(
+      canvas.height - cropY,
+      bounds.maxY - bounds.minY + pad * 2,
+    );
 
     if (cropW <= 0 || cropH <= 0 || bounds.minX === Infinity) {
-      cropX = 0; cropY = 0; cropW = canvas.width; cropH = canvas.height;
+      cropX = 0;
+      cropY = 0;
+      cropW = canvas.width;
+      cropH = canvas.height;
     }
 
-    let cropCanvas = document.createElement('canvas');
+    let cropCanvas = document.createElement("canvas");
     cropCanvas.width = cropW;
     cropCanvas.height = cropH;
-    cropCanvas.getContext('2d').drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+    cropCanvas
+      .getContext("2d")
+      .drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
 
-    const dataUrl = cropCanvas.toDataURL('image/png');
+    const dataUrl = cropCanvas.toDataURL("image/png");
 
     // 2. Buat elemen gambar baru
-    const img = document.createElement('img');
+    const img = document.createElement("img");
     img.src = dataUrl;
-    img.className = 'stacked-pancake';
+    img.className = "stacked-pancake";
 
     // // Atur ukuran kue di piring agar proporsional dengan ukuran asli di wajan
     // // Ini memastikan ketebalan garis tetap konsisten, baik menggambar besar atau kecil
@@ -213,7 +240,7 @@ window.initDrawingGame = function (container, config) {
 
     if (config.styles?.pancake) {
       // Kita set style dasar dari config
-      img.setAttribute('style', config.styles.pancake);
+      img.setAttribute("style", config.styles.pancake);
     }
 
     // Beri sedikit rotasi acak dan pergeseran agar terlihat natural bertumpuk
@@ -222,8 +249,12 @@ window.initDrawingGame = function (container, config) {
     const randomY = (Math.random() - 0.5) * 20;
 
     // Simpan transform awal jika ada dari config (misalnya scale atau translate khusus)
-    const baseTransform = img.style.transform ? img.style.transform + ' ' : 'translate(-50%, -50%) ';
-    img.style.transform = baseTransform + `rotate(${randomRotation}deg) translate(${randomX}px, ${randomY}px)`;
+    const baseTransform = img.style.transform
+      ? img.style.transform + " "
+      : "translate(-50%, -50%) ";
+    img.style.transform =
+      baseTransform +
+      `rotate(${randomRotation}deg) translate(${randomX}px, ${randomY}px)`;
 
     // 3. Masukkan ke tumpukan piring
     plateStack.appendChild(img);
@@ -231,8 +262,13 @@ window.initDrawingGame = function (container, config) {
     // 4. Bersihkan canvas dan reset state
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     hasDrawnCurrent = false;
-    bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
-    btnFinish.classList.add('hidden');
+    bounds = {
+      minX: Infinity,
+      minY: Infinity,
+      maxX: -Infinity,
+      maxY: -Infinity,
+    };
+    btnFinish.classList.add("hidden");
 
     // 5. Tambah counter
     drawCount++;
@@ -248,22 +284,33 @@ window.initDrawingGame = function (container, config) {
 
   function endGame() {
     // Sembunyikan pan dan tombol selesai
-    pan.style.opacity = '0.5';
-    pan.style.pointerEvents = 'none'; // Matikan interaksi canvas
+    pan.style.opacity = "0.5";
+    pan.style.pointerEvents = "none"; // Matikan interaksi canvas
 
     // Tampilkan tombol lanjut
-    btnNext.classList.remove('hidden');
+    btnNext.classList.remove("hidden");
 
     if (window.triggerGameWinCelebration) {
-      window.triggerGameWinCelebration(feedback, feedback.getAttribute('data-correct-text'), spread.hideCorrectSpeechBtn);
+      window.triggerGameWinCelebration(
+        feedback,
+        feedback.getAttribute("data-correct-text"),
+        config.hideCorrectSpeechBtn,
+      );
     } else {
       // Tampilkan feedback benar
-      const text = feedback.getAttribute('data-correct-text');
-      window.showGameFeedback(feedback, `<span style="color:var(--color-grass-dark)">${text}</span>`, text, feedback.getAttribute('data-correct-audio'), spread.hideCorrectSpeechBtn);
-      feedback.classList.add('feedback-correct');
+      const text = feedback.getAttribute("data-correct-text");
+      window.showGameFeedback(
+        feedback,
+        `<span style="color:var(--color-grass-dark)">${text}</span>`,
+        text,
+        feedback.getAttribute("data-correct-audio"),
+        config.hideCorrectSpeechBtn,
+      );
+      feedback.classList.add("feedback-correct");
 
       // Mainkan suara sukses
-      if (typeof sounds !== 'undefined' && sounds.playSuccess) sounds.playSuccess();
+      if (typeof sounds !== "undefined" && sounds.playSuccess)
+        sounds.playSuccess();
     }
   }
 };

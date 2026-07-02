@@ -1612,14 +1612,14 @@ li .icon-btn svg {
 }
 
 .box-move-left {
-  transform: translate(calc(-50% - 16vw), -50%) scale(0.85) !important;
+  transform: translate(calc(-50% - 205px), -50%) scale(0.85) !important;
 }
 
 .nampah-container {
   position: absolute;
   left: 76%;
   /* Start outside the right edge */
-  transform: translate(calc(-50% + 50vw), -50%) scale(0.75);
+  transform: translate(calc(-50% + 640px), -50%) scale(0.75);
   object-fit: contain;
   transition: transform 1.6s ease-in-out;
   z-index: 0;

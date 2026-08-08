@@ -1573,13 +1573,12 @@ li .icon-btn svg {
   position: absolute;
   top: 45%;
   left: 40%;
-  font-size: 4rem;
-  color: var(--color-grass);
-  font-weight: bold;
+  width: 100px;
+  height: 100px;
   z-index: 50;
   pointer-events: none;
   animation: slide-arrow 1.5s infinite ease-in-out;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
 }
 
 @keyframes slide-arrow {

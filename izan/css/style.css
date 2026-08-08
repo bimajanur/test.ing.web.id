@@ -1583,7 +1583,8 @@ li .icon-btn svg {
   width: 100px;
   height: 100px;
   z-index: 50;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   animation: slide-arrow 1.5s infinite ease-in-out;
   filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
 }

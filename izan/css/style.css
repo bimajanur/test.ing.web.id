@@ -1117,7 +1117,7 @@ li .icon-btn svg {
 }
 
 .box-flap {
-  sizing: border-box;
+  box-sizing: border-box;
 }
 
 .spread-waving-bg {

@@ -429,8 +429,8 @@ li .icon-btn svg {
 .back-cover-title {
   font-family: var(--font-title);
   font-size: 3.2rem;
-  color: #FFFFFF;
-  text-shadow: 0 5px 0px var(--color-wood);
+  color: var(--color-wood);
+  text-shadow: 0 5px 0px var(--color-page);
   margin: 0 0 15px 0;
   animation: pulse-title 2s ease-in-out infinite alternate;
 }

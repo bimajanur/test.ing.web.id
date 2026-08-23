@@ -1914,3 +1914,20 @@ li .icon-btn svg {
   transform: translateY(4px);
   box-shadow: 0 2px 0 var(--color-wood);
 }
+
+@keyframes tap-instruction {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(0.9) rotate(-15deg); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.tap-instruction-anim {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: auto;
+  pointer-events: none;
+  z-index: 9999;
+  animation: tap-instruction 1s ease-in-out infinite;
+}
